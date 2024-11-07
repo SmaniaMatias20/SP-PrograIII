@@ -1,74 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:300,400,700,900");
 
 
-/**/
-
-
-
-/* Diseño responsivo: adaptado para pantallas pequeñas */
-@media (max-width: 768px) {}
-
-
-
-
-/**/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.contenedor-paginacion {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.boton-paginacion {
-  background-color: transparent;
-  border: 1px solid #ccc;
-  color: #333;
-  cursor: pointer;
-  padding: 0.4rem 0.8rem;
-  border-radius: 50%;
-  font-size: 1.25rem;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-}
-
-.boton-paginacion:hover {
-  background-color: #f7f7f7;
-  border-color: #999;
-}
-
-.boton-paginacion:disabled {
-  color: #bbb;
-  cursor: not-allowed;
-  border-color: #eee;
-}
-
-.boton-paginacion i {
-  pointer-events: none;
-}
 
 :root {
   --gris-oscuro: #3498db;
@@ -304,6 +236,8 @@ h4 {
   cursor: pointer;
 }
 
+
+/*********************************************************************************DARKMODER************************************************************************************/
 .darkMode {
   background-color: #1a1a1a;
 }
@@ -359,80 +293,6 @@ h4 {
   color: var(--blanco);
 }
 
-.header {
-  background-color: var(--gris-claro);
-  padding: 1rem 0 3rem;
-}
-
-.header.inicio {
-  background-image: url(../src/header.jpg);
-  background-position: 50%;
-  background-size: cover;
-}
-
-.ubicacion-redes {
-  display: flex;
-  justify-content: space-between;
-}
-
-.ubicacion {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.social-icons {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-}
-
-.social-icons i {
-  font-size: 30px;
-  width: 40px;
-  height: 40px;
-  display: inline-block;
-  color: var(--blanco);
-}
-
-.contenido-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.contenido-header h1 {
-  color: var(--blanco);
-  font-weight: 700;
-  line-height: 2;
-  max-width: 75rem;
-  text-align: left;
-}
-
-.footer {
-  background-color: var(--gris-claro);
-  margin-bottom: 0;
-  padding: 2.5rem;
-}
-
-.footer .contenedor-footer {
-  padding-top: 2.5rem;
-}
-
-.footer .navegacion {
-  height: auto;
-  opacity: 1;
-  visibility: visible;
-}
-
-.copyright {
-  color: var(--blanco);
-  text-align: center;
-}
-
 .derecha {
   align-items: center;
   display: flex;
@@ -449,11 +309,18 @@ h4 {
   cursor: pointer;
 }
 
-.barra {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  padding-top: 3rem;
+/***************************************************************************************************************************************************************************/
+
+/***********************************************************************HEADER**********************************************************************************************/
+.header {
+  background-color: var(--gris-claro);
+  padding: 1rem 0 3rem;
+}
+
+.header.inicio {
+  background-image: url(../src/header.jpg);
+  background-position: 50%;
+  background-size: cover;
 }
 
 .navegacion {
@@ -503,6 +370,100 @@ h4 {
   left: 0;
   /* Alinear a la izquierda */
 }
+
+#boton-logout {
+  background-color: var(--naranja);
+  color: var(--blanco);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+#boton-logout:hover {
+  background-color: var(--gris-oscuro);
+}
+
+
+.contenido-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.contenido-header h1 {
+  color: var(--blanco);
+  font-weight: 700;
+  line-height: 2;
+  max-width: 75rem;
+  text-align: left;
+}
+
+/*********************************************************************************************************************************************************************/
+
+/******************************************************************FOOTER**************************************************************************************/
+.footer {
+  background-color: var(--gris-claro);
+  margin-bottom: 0;
+  padding: 2.5rem;
+}
+
+.footer .contenedor-footer {
+  padding-top: 2.5rem;
+}
+
+.footer .navegacion {
+  height: auto;
+  opacity: 1;
+  visibility: visible;
+}
+
+.copyright {
+  color: var(--blanco);
+  text-align: center;
+}
+
+.ubicacion-redes {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ubicacion {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-icons {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.social-icons i {
+  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  color: var(--blanco);
+}
+
+/****************************************************************************************************************************************************************/
+
+
+
+.barra {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding-top: 3rem;
+}
+
+
 
 .mobile-menu img {
   width: 5rem;
@@ -577,6 +538,102 @@ h4 {
   font-weight: 900;
 }
 
+
+/* Estilos para el contenedor de la paginación */
+.contenedor-paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Estilos para los botones de paginación */
+.pagina-boton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  /* Color suave de borde */
+  background-color: white;
+  /* Fondo blanco */
+  color: #333;
+  /* Texto oscuro */
+  font-size: 14px;
+  /* Tamaño de fuente pequeño */
+  cursor: pointer;
+  border-radius: 4px;
+  /* Bordes redondeados */
+  transition: all 0.2s ease-in-out;
+  font-weight: 600;
+}
+
+/* Estilo para los botones de las páginas activas */
+.pagina-boton.pagina-activa {
+  background-color: var(--naranja);
+  /* Fondo azul claro */
+  color: white;
+  /* Texto blanco */
+  border-color: var(--blanco);
+  /* Borde azul */
+}
+
+/* Efecto hover para los botones */
+.pagina-boton:hover {
+  background-color: #f8f8f8;
+  /* Color suave al pasar el mouse */
+  border-color: #bbb;
+  /* Color de borde más oscuro */
+}
+
+/* Efecto para el botón presionado (active) */
+.pagina-boton:active {
+  background-color: #e8e8e8;
+  /* Fondo ligeramente gris cuando se presiona */
+}
+
+/* Estilos para los botones con flechas */
+.pagina-boton.flecha {
+  padding: 8px;
+  font-size: 18px;
+  /* Tamaño de fuente más grande */
+  font-weight: normal;
+  border: none;
+  background-color: transparent;
+  /* Fondo transparente */
+  color: #333;
+  /* Color oscuro para las flechas */
+}
+
+/* Efectos de hover y active para las flechas */
+.pagina-boton.flecha:hover {
+  background-color: #f0f0f0;
+  /* Fondo suave al pasar el mouse */
+  border-radius: 50%;
+  /* Flechas con bordes redondeados */
+}
+
+.pagina-boton.flecha:active {
+  background-color: #e0e0e0;
+  /* Fondo más oscuro cuando se presiona */
+}
+
+/* Flechas específicas */
+.pagina-boton.flecha-izquierda::before {
+  content: '←';
+  /* Flecha izquierda */
+}
+
+.pagina-boton.flecha-derecha::before {
+  content: '→';
+  /* Flecha derecha */
+}
+
+
+
+/****************************************************************************CONTACTO.HTML*****************************************************************************************/
 .imagen-contacto {
   background-image: url(../src/encuentra.jpg);
   align-items: center;
@@ -728,6 +785,9 @@ h4 {
   color: var(--gris-oscuro);
 }
 
+/*********************************************************************************************************************************************************************************/
+
+/******************************************************************************RESERVAS.HTML**************************************************************************************/
 .favorito-item {
   display: flex;
   justify-content: space-between;
@@ -756,7 +816,6 @@ h4 {
   background-color: var(--rojo);
 }
 
-/*promociones*/
 .promocion-item {
   display: flex;
   flex-direction: column;
@@ -788,19 +847,7 @@ h4 {
   color: #2ecc71;
 }
 
-#boton-logout {
-  background-color: var(--naranja);
-  color: var(--blanco);
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-
-#boton-logout:hover {
-  background-color: var(--gris-oscuro);
-}
+/*********************************************************************************************************************************************************************************/
 
 .carousel {
   position: relative;
@@ -1042,7 +1089,6 @@ h4 {
     padding: 8px;
   }
 
-  /* Ocultar el texto de las cabeceras en dispositivos muy pequeños */
   #tabla-propiedades th {
     display: none;
   }

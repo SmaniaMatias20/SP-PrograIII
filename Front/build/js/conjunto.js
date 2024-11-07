@@ -58,11 +58,11 @@ function crearAnuncio(propiedad, key) {
   const anuncio = document.createElement('div');
   anuncio.classList.add('anuncio');
 
+  // <picture>
+  // <source srcset="${propiedad.imagen}" type="image/jpeg" />
+  // <img src="${propiedad.imagen}" alt="Imagen ${propiedad.titulo}" />
+  // </picture>
   anuncio.innerHTML = `
-    <picture>
-      <source srcset="${propiedad.imagen}" type="image/jpeg" />
-      <img src="${propiedad.imagen}" alt="Imagen ${propiedad.titulo}" />
-    </picture>
     <div class="contenido-anuncios">
       <h3>${propiedad.titulo}</h3>
       <p>${resumirTexto(propiedad.descripcion, 50)}</p>  <!-- Limitar la descripción a 50 caracteres -->
@@ -88,10 +88,12 @@ function crearAnuncio(propiedad, key) {
   return anuncio;
 }
 
-// Función para mostrar todos los anuncios de las propiedades en el contenedor
-async function mostrarPropiedades() {
-  const propiedades = await obtenerPropiedades(); // Obtener las propiedades desde el backend
+let paginaActual = 1; // Página inicial
+const itemsPorPagina = 6; // Número de elementos a mostrar por página
 
+// Función para mostrar una cantidad específica de propiedades con paginación
+async function mostrarPropiedades(cantidad = 7) {
+  const propiedades = await obtenerPropiedades(); // Obtener las propiedades desde el backend
   const contenedor = document.querySelector(".contenedor-anuncios"); // Seleccionar el contenedor de anuncios
 
   // Verificar si el contenedor existe
@@ -102,12 +104,87 @@ async function mostrarPropiedades() {
 
   contenedor.innerHTML = ""; // Limpiar el contenedor antes de agregar los nuevos anuncios
 
-  // Recorrer todas las propiedades y crear un anuncio para cada una
-  propiedades.forEach((propiedad, index) => {
+  // Asegurarse de no exceder la cantidad disponible de propiedades
+  const propiedadesMostrar = propiedades.slice(0, cantidad); // Obtener solo el número deseado de propiedades
+
+  // Calcular el total de páginas
+  const totalPropiedades = propiedadesMostrar.length;
+  const totalPaginas = Math.ceil(totalPropiedades / itemsPorPagina);
+
+  // Verificar los valores de paginación
+  const primerIndice = (paginaActual - 1) * itemsPorPagina;
+  const ultimoIndice = Math.min(primerIndice + itemsPorPagina, totalPropiedades);
+
+  // Mostrar las propiedades de la página actual
+  propiedadesMostrar.slice(primerIndice, ultimoIndice).forEach((propiedad, index) => {
     const anuncio = crearAnuncio(propiedad, index); // Crear un anuncio para cada propiedad
     contenedor.appendChild(anuncio); // Agregar el anuncio al contenedor
   });
+
+  // Mostrar la paginación si es necesario
+  if (totalPaginas > 1) {
+    mostrarPaginacion(totalPaginas);
+  }
 }
+
+// Función para mostrar los botones de paginación con flechas
+function mostrarPaginacion(totalPaginas) {
+  const contenedorPaginacion = document.querySelector(".contenedor-paginacion"); // Suponiendo que hay un contenedor para la paginación
+
+  if (!contenedorPaginacion) return;
+
+  contenedorPaginacion.innerHTML = ""; // Limpiar la paginación previa
+
+  // Botón "Anterior"
+  const botonAnterior = document.createElement("button");
+  botonAnterior.classList.add("pagina-boton", "flecha", "flecha-izquierda");
+  botonAnterior.disabled = paginaActual === 1; // Deshabilitar si estamos en la primera página
+
+  // Agregar evento para ir a la página anterior
+  botonAnterior.addEventListener("click", () => {
+    if (paginaActual > 1) {
+      paginaActual--;
+      mostrarPropiedades();
+    }
+  });
+  contenedorPaginacion.appendChild(botonAnterior);
+
+  // Botones de las páginas
+  for (let i = 1; i <= totalPaginas; i++) {
+    const boton = document.createElement("button");
+    boton.textContent = i;
+    boton.classList.add("pagina-boton");
+
+    // Agregar un evento click para cambiar de página
+    boton.addEventListener("click", () => {
+      paginaActual = i;
+      mostrarPropiedades();
+    });
+
+    // Resaltar la página activa
+    if (paginaActual === i) {
+      boton.classList.add("pagina-activa");
+    }
+
+    contenedorPaginacion.appendChild(boton);
+  }
+
+  // Botón "Siguiente"
+  const botonSiguiente = document.createElement("button");
+  botonSiguiente.classList.add("pagina-boton", "flecha", "flecha-derecha");
+  botonSiguiente.disabled = paginaActual === totalPaginas; // Deshabilitar si estamos en la última página
+
+  // Agregar evento para ir a la siguiente página
+  botonSiguiente.addEventListener("click", () => {
+    if (paginaActual < totalPaginas) {
+      paginaActual++;
+      mostrarPropiedades();
+    }
+  });
+  contenedorPaginacion.appendChild(botonSiguiente);
+}
+
+
 
 
 //#endregion
@@ -164,7 +241,7 @@ const articulos = [
   },
 ];
 
-/* PROPIEDADES */
+// /* PROPIEDADES */
 const propiedades = {
   1: {
     titulo: "Casa de lujo",
@@ -363,107 +440,107 @@ function resumirTexto(texto, longitudMaxima) {
 /// </summary>
 /// <param name="limite">Número máximo de propiedades a cargar.</param>
 
-let paginaActual = 1;
-const itemsPorPagina = 6;
-function cargarPropiedades(limite = Object.keys(propiedades).length) {
-  const contenedor = document.querySelector(".contenedor-anuncios");
+// let paginaActual = 1;
+// const itemsPorPagina = 6;
+// function cargarPropiedades(limite = Object.keys(propiedades).length) {
+//   const contenedor = document.querySelector(".contenedor-anuncios");
 
-  // Verificar si el contenedor existe en el DOM
-  if (!contenedor) {
-    console.error('El contenedor de anuncios no se encontró.');
-    return; // Salir si no existe el contenedor
-  }
+//   // Verificar si el contenedor existe en el DOM
+//   if (!contenedor) {
+//     console.error('El contenedor de anuncios no se encontró.');
+//     return; // Salir si no existe el contenedor
+//   }
 
-  // Verificar si el objeto propiedades está correctamente inicializado
-  if (!propiedades || Object.keys(propiedades).length === 0) {
-    console.error('El objeto "propiedades" está vacío o no definido.');
-    return; // Salir si no hay propiedades
-  }
+//   // Verificar si el objeto propiedades está correctamente inicializado
+//   if (!propiedades || Object.keys(propiedades).length === 0) {
+//     console.error('El objeto "propiedades" está vacío o no definido.');
+//     return; // Salir si no hay propiedades
+//   }
 
-  contenedor.innerHTML = ""; // Limpiar las propiedades anteriores
+//   contenedor.innerHTML = ""; // Limpiar las propiedades anteriores
 
-  const longitudMaximaDescripcion = 50; // Longitud máxima de la descripción
-  const totalPropiedades = Object.keys(propiedades).length;
-  const totalPaginas = Math.ceil(totalPropiedades / itemsPorPagina);
+//   const longitudMaximaDescripcion = 50; // Longitud máxima de la descripción
+//   const totalPropiedades = Object.keys(propiedades).length;
+//   const totalPaginas = Math.ceil(totalPropiedades / itemsPorPagina);
 
-  // Verificar los valores de paginación
-  const primerIndice = (paginaActual - 1) * itemsPorPagina;
-  const ultimoIndice = Math.min(primerIndice + itemsPorPagina, limite);
+//   // Verificar los valores de paginación
+//   const primerIndice = (paginaActual - 1) * itemsPorPagina;
+//   const ultimoIndice = Math.min(primerIndice + itemsPorPagina, limite);
 
-  Object.keys(propiedades).slice(primerIndice, ultimoIndice).forEach(key => {
-    const propiedad = propiedades[key];
-    const anuncio = document.createElement('div');
-    anuncio.classList.add('anuncio');
+//   Object.keys(propiedades).slice(primerIndice, ultimoIndice).forEach(key => {
+//     const propiedad = propiedades[key];
+//     const anuncio = document.createElement('div');
+//     anuncio.classList.add('anuncio');
 
-    anuncio.innerHTML = `
-      <picture>
-        <source srcset="${propiedad.imagen}" type="image/jpeg" />
-        <img src="${propiedad.imagen}" alt="Imagen ${propiedad.titulo}" />
-      </picture>
-      <div class="contenido-anuncios">
-        <h3>${propiedad.titulo}</h3>
-        <p>${resumirTexto(propiedad.descripcion, longitudMaximaDescripcion)}</p>
-        <p class="precio">${propiedad.precio}</p>
-        <ul class="iconos-caracteristicas">
-          <li>
-            <img class="icono" loading="lazy" src="../src/iconos/icono_wc.svg" alt="icono_wc" />
-            <p>${propiedad.sanitarios}</p>
-          </li>
-          <li>
-            <img class="icono" loading="lazy" src="../src/iconos/icono_estacionamiento.svg" alt="icono_estacionamiento" />
-            <p>${propiedad.estacionamientos}</p>
-          </li>
-          <li>
-            <img class="icono" loading="lazy" src="../src/iconos/icono_dormitorio.svg" alt="icono_dormitorio" />
-            <p>${propiedad.dormitorios}</p>
-          </li>
-        </ul>
-        <a href="propiedad.html?id=${key}" class="boton-amarillo-block">Ver Propiedad</a>
-      </div>
-    `;
+//     anuncio.innerHTML = `
+//       <picture>
+//         <source srcset="${propiedad.imagen}" type="image/jpeg" />
+//         <img src="${propiedad.imagen}" alt="Imagen ${propiedad.titulo}" />
+//       </picture>
+//       <div class="contenido-anuncios">
+//         <h3>${propiedad.titulo}</h3>
+//         <p>${resumirTexto(propiedad.descripcion, longitudMaximaDescripcion)}</p>
+//         <p class="precio">${propiedad.precio}</p>
+//         <ul class="iconos-caracteristicas">
+//           <li>
+//             <img class="icono" loading="lazy" src="../src/iconos/icono_wc.svg" alt="icono_wc" />
+//             <p>${propiedad.sanitarios}</p>
+//           </li>
+//           <li>
+//             <img class="icono" loading="lazy" src="../src/iconos/icono_estacionamiento.svg" alt="icono_estacionamiento" />
+//             <p>${propiedad.estacionamientos}</p>
+//           </li>
+//           <li>
+//             <img class="icono" loading="lazy" src="../src/iconos/icono_dormitorio.svg" alt="icono_dormitorio" />
+//             <p>${propiedad.dormitorios}</p>
+//           </li>
+//         </ul>
+//         <a href="propiedad.html?id=${key}" class="boton-amarillo-block">Ver Propiedad</a>
+//       </div>
+//     `;
 
-    contenedor.appendChild(anuncio);
-  });
+//     contenedor.appendChild(anuncio);
+//   });
 
-  mostrarPaginacion(totalPaginas);
-}
+//   mostrarPaginacion(totalPaginas);
+// }
 
-function mostrarPaginacion(totalPaginas) {
-  const paginacionContenedor = document.querySelector(".contenedor-paginacion");
+// function mostrarPaginacion(totalPaginas) {
+//   const paginacionContenedor = document.querySelector(".contenedor-paginacion");
 
-  // Verificar si el contenedor existe antes de intentar manipularlo
-  if (!paginacionContenedor) {
-    return;
-  }
+//   // Verificar si el contenedor existe antes de intentar manipularlo
+//   if (!paginacionContenedor) {
+//     return;
+//   }
 
-  paginacionContenedor.innerHTML = ""; // Limpiar la paginación anterior
+//   paginacionContenedor.innerHTML = ""; // Limpiar la paginación anterior
 
-  // Botón "Anterior" con flecha
-  const botonAnterior = document.createElement("button");
-  botonAnterior.innerHTML = `<i class="bi bi-arrow-left"></i>`; // Ícono de flecha izquierda
-  botonAnterior.classList.add("boton-paginacion");
-  botonAnterior.disabled = (paginaActual === 1); // Deshabilitar si estamos en la primera página
-  botonAnterior.addEventListener("click", () => {
-    if (paginaActual > 1) {
-      paginaActual--;
-      cargarPropiedades(); // Cargar las propiedades de la página anterior
-    }
-  });
-  paginacionContenedor.appendChild(botonAnterior);
+//   // Botón "Anterior" con flecha
+//   const botonAnterior = document.createElement("button");
+//   botonAnterior.innerHTML = `<i class="bi bi-arrow-left"></i>`; // Ícono de flecha izquierda
+//   botonAnterior.classList.add("boton-paginacion");
+//   botonAnterior.disabled = (paginaActual === 1); // Deshabilitar si estamos en la primera página
+//   botonAnterior.addEventListener("click", () => {
+//     if (paginaActual > 1) {
+//       paginaActual--;
+//       cargarPropiedades(); // Cargar las propiedades de la página anterior
+//     }
+//   });
+//   paginacionContenedor.appendChild(botonAnterior);
 
-  // Botón "Siguiente" con flecha
-  const botonSiguiente = document.createElement("button");
-  botonSiguiente.innerHTML = `<i class="bi bi-arrow-right"></i>`; // Ícono de flecha derecha
-  botonSiguiente.classList.add("boton-paginacion");
-  botonSiguiente.disabled = (paginaActual === totalPaginas); // Deshabilitar si estamos en la última página
-  botonSiguiente.addEventListener("click", () => {
-    if (paginaActual < totalPaginas) {
-      paginaActual++;
-      cargarPropiedades(); // Cargar las propiedades de la siguiente página
-    }
-  });
-  paginacionContenedor.appendChild(botonSiguiente);
-}
+//   // Botón "Siguiente" con flecha
+//   const botonSiguiente = document.createElement("button");
+//   botonSiguiente.innerHTML = `<i class="bi bi-arrow-right"></i>`; // Ícono de flecha derecha
+//   botonSiguiente.classList.add("boton-paginacion");
+//   botonSiguiente.disabled = (paginaActual === totalPaginas); // Deshabilitar si estamos en la última página
+//   botonSiguiente.addEventListener("click", () => {
+//     if (paginaActual < totalPaginas) {
+//       paginaActual++;
+//       cargarPropiedades(); // Cargar las propiedades de la siguiente página
+//     }
+//   });
+//   paginacionContenedor.appendChild(botonSiguiente);
+// }
 
 /// <summary>
 /// Carga la propiedad desde los parámetros de la URL y actualiza la interfaz de usuario.
@@ -655,7 +732,8 @@ document.addEventListener('DOMContentLoaded', function () {
     cargarArticulos();
   } else if (window.location.pathname.includes("inicio.html")) {
     cargarArticulos(2);
-    cargarPropiedades(3);
+    //cargarPropiedades(3);
+    mostrarPropiedades(3);
   }
 
   if (isListaPropiedades && window.location.pathname.includes("anuncios.html")) {
