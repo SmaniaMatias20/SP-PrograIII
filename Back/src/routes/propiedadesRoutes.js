@@ -7,7 +7,7 @@ const { verificarToken, tokenAdmin } = require('../middlewares/authMiddleware');
 router.post("/crearPropiedad", verificarToken, tokenAdmin, propiedadesControllers.crearPropiedad);
 
 // Ruta para listar todas las propiedades
-router.get("/obtenerPropiedades", verificarToken, tokenAdmin, propiedadesControllers.obtenerPropiedades);
+router.get("/obtenerPropiedades", propiedadesControllers.obtenerPropiedades);
 
 // Ruta para obtener una propiedad por ID
 router.get("/obtenerPropiedad/:id", verificarToken, tokenAdmin, propiedadesControllers.obtenerPropiedadPorId);
