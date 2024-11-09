@@ -402,6 +402,140 @@ h4 {
 
 /*********************************************************************************************************************************************************************/
 
+/***********************************************************************BLOG.HTML******************************************************************************************/
+
+/* Estilos para el contenedor de la paginación */
+.paginacion-articulos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Estilos para los botones de paginación */
+.pagina-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  /* Color suave de borde */
+  background-color: white;
+  /* Fondo blanco */
+  color: #333;
+  /* Texto oscuro */
+  font-size: 14px;
+  /* Tamaño de fuente pequeño */
+  cursor: pointer;
+  border-radius: 4px;
+  /* Bordes redondeados */
+  transition: all 0.2s ease-in-out;
+  font-weight: 600;
+}
+
+/* Estilo para los botones de las páginas activas */
+.pagina-btn.activo {
+  background-color: var(--naranja);
+  /* Fondo naranja */
+  color: white;
+  /* Texto blanco */
+  border-color: var(--blanco);
+  /* Borde blanco */
+}
+
+/* Efecto hover para los botones */
+.pagina-btn:hover {
+  background-color: #f8f8f8;
+  /* Color suave al pasar el mouse */
+  border-color: #bbb;
+  /* Color de borde más oscuro */
+}
+
+/* Efecto para el botón presionado (active) */
+.pagina-btn:active {
+  background-color: #e8e8e8;
+  /* Fondo ligeramente gris cuando se presiona */
+}
+
+/* Estilos para los botones con flechas */
+.pagina-btn.flecha {
+  padding: 8px;
+  font-size: 18px;
+  /* Tamaño de fuente más grande */
+  font-weight: normal;
+  border: none;
+  background-color: transparent;
+  /* Fondo transparente */
+  color: #333;
+  /* Color oscuro para las flechas */
+}
+
+/* Efectos de hover y active para las flechas */
+.pagina-btn.flecha:hover {
+  background-color: #f0f0f0;
+  /* Fondo suave al pasar el mouse */
+  border-radius: 50%;
+  /* Flechas con bordes redondeados */
+}
+
+.pagina-btn.flecha:active {
+  background-color: #e0e0e0;
+  /* Fondo más oscuro cuando se presiona */
+}
+
+/* Flechas específicas */
+.pagina-btn.flecha-izquierda::before {
+  content: '←';
+  /* Flecha izquierda */
+}
+
+.pagina-btn.flecha-derecha::before {
+  content: '→';
+  /* Flecha derecha */
+}
+
+/* Estilos para los botones con flechas */
+.pagina-btn.flecha {
+  padding: 8px;
+  font-size: 18px;
+  /* Tamaño de fuente más grande */
+  font-weight: normal;
+  border: none;
+  background-color: transparent;
+  /* Fondo transparente */
+  color: #333;
+  /* Color oscuro para las flechas */
+}
+
+/* Efectos de hover y active para las flechas */
+.pagina-btn.flecha:hover {
+  background-color: #f0f0f0;
+  /* Fondo suave al pasar el mouse */
+  border-radius: 50%;
+  /* Flechas con bordes redondeados */
+}
+
+.pagina-btn.flecha:active {
+  background-color: #e0e0e0;
+  /* Fondo más oscuro cuando se presiona */
+}
+
+/* Flechas específicas */
+.pagina-btn.flecha-izquierda::before {
+  content: '←';
+  /* Flecha izquierda */
+}
+
+.pagina-btn.flecha-derecha::before {
+  content: '→';
+  /* Flecha derecha */
+}
+
+
+/*********************************************************************************************************************************************************************/
+
 /******************************************************************FOOTER**************************************************************************************/
 .footer {
   background-color: var(--gris-claro);
@@ -630,7 +764,6 @@ h4 {
   content: '→';
   /* Flecha derecha */
 }
-
 
 
 /****************************************************************************CONTACTO.HTML*****************************************************************************************/

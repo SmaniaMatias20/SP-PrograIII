@@ -182,3 +182,9 @@ function mostrarPaginacion(totalPaginas) {
     });
     contenedorPaginacion.appendChild(botonSiguiente);
 }
+
+function resumirTexto(texto, longitudMaxima) {
+    return texto.length > longitudMaxima
+        ? texto.substring(0, longitudMaxima) + '...'
+        : texto;
+}

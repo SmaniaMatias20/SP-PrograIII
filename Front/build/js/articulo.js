@@ -173,25 +173,57 @@ async function mostrarArticulos(cantidad = 4) {
     }
 }
 
-// Función para mostrar los botones de paginación
+// Función para crear la paginación de artículos
 function mostrarPaginacionArticulos(totalPaginas) {
     const contenedorPaginacion = document.querySelector(".paginacion-articulos");
     contenedorPaginacion.innerHTML = ""; // Limpiar la paginación anterior
 
+    // Crear el botón "Anterior" (flecha izquierda)
+    const botonIzquierda = document.createElement("button");
+    botonIzquierda.classList.add("pagina-btn", "flecha", "flecha-izquierda");
+    botonIzquierda.disabled = paginaActualArticulos === 1; // Desactivar si estamos en la primera página
+    botonIzquierda.addEventListener("click", () => {
+        if (paginaActualArticulos > 1) {
+            paginaActualArticulos--;
+            mostrarArticulos(); // Recargar los artículos
+        }
+    });
+    contenedorPaginacion.appendChild(botonIzquierda);
+
+    // Crear los botones de las páginas
     for (let i = 1; i <= totalPaginas; i++) {
         const botonPagina = document.createElement("button");
         botonPagina.textContent = i;
         botonPagina.classList.add("pagina-btn");
 
+        // Resaltar el botón de la página activa
         if (i === paginaActualArticulos) {
-            botonPagina.classList.add("activo"); // Resaltar la página actual
+            botonPagina.classList.add("activo");
         }
 
         botonPagina.addEventListener("click", () => {
             paginaActualArticulos = i;
-            mostrarArticulos(); // Recargar los artículos con la nueva página
+            mostrarArticulos(); // Recargar los artículos
         });
 
         contenedorPaginacion.appendChild(botonPagina);
     }
+
+    // Crear el botón "Siguiente" (flecha derecha)
+    const botonDerecha = document.createElement("button");
+    botonDerecha.classList.add("pagina-btn", "flecha", "flecha-derecha");
+    botonDerecha.disabled = paginaActualArticulos === totalPaginas; // Desactivar si estamos en la última página
+    botonDerecha.addEventListener("click", () => {
+        if (paginaActualArticulos < totalPaginas) {
+            paginaActualArticulos++;
+            mostrarArticulos(); // Recargar los artículos
+        }
+    });
+    contenedorPaginacion.appendChild(botonDerecha);
+}
+
+function resumirTexto(texto, longitudMaxima) {
+    return texto.length > longitudMaxima
+        ? texto.substring(0, longitudMaxima) + '...'
+        : texto;
 }
