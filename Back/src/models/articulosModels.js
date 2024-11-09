@@ -32,7 +32,7 @@ const Articulo = sequelize.define('articulo', { // Cambiar 'articulos' a 'articu
             }
         }
     },
-    descripcion: {
+    contenido: {
         type: DataTypes.TEXT,
         allowNull: true,
     },

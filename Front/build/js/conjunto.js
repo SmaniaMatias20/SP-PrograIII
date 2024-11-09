@@ -1,245 +1,42 @@
-//#region Fetchs
-
-
-// Función para obtener propiedades desde el backend y devolverlas
-async function obtenerPropiedades() {
-  try {
-    // Realizar la solicitud HTTP usando axios
-    const response = await axios.get('http://localhost:3000/propiedades/obtenerPropiedades', {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token') // Agregar el token de autenticación si es necesario
-      }
-    });
-
-    // Obtener los datos de la respuesta
-    const propiedades = response.data;
-
-    // Retornar las propiedades obtenidas
-    return propiedades;
-
-  } catch (error) {
-    console.error('Error al obtener las propiedades:', error);
-
-    // Si ocurre un error, retornar un arreglo vacío o un mensaje de error según lo que necesites
-    return [];
-  }
-}
-
-// Función para crear la tabla con las propiedades
-function crearTablaPropiedades(propiedades) {
-  // Obtener la referencia a la tabla en el HTML
-  const tablaPropiedades = document.getElementById('tabla-propiedades').getElementsByTagName('tbody')[0];
-
-  // Limpiar la tabla antes de agregar los nuevos datos
-  tablaPropiedades.innerHTML = '';
-
-  // Iterar sobre las propiedades y agregarlas a la tabla
-  propiedades.forEach(propiedad => {
-    // Crear una nueva fila de la tabla
-    const fila = document.createElement('tr');
-
-    // Insertar celdas con la información de cada propiedad
-    fila.innerHTML = `
-      <td>${propiedad.titulo}</td>
-      <td>${propiedad.precio}</td>
-      <td>${propiedad.sanitarios}</td>
-      <td>${propiedad.estacionamiento}</td>
-      <td>${propiedad.dormitorio}</td>
-    `;
-
-    // Agregar la fila a la tabla
-    tablaPropiedades.appendChild(fila);
-  });
-}
-
-
-// Función para crear un anuncio con los datos de una propiedad
-function crearAnuncio(propiedad, key) {
-  const anuncio = document.createElement('div');
-  anuncio.classList.add('anuncio');
-
-  // <picture>
-  // <source srcset="${propiedad.imagen}" type="image/jpeg" />
-  // <img src="${propiedad.imagen}" alt="Imagen ${propiedad.titulo}" />
-  // </picture>
-  anuncio.innerHTML = `
-    <div class="contenido-anuncios">
-      <h3>${propiedad.titulo}</h3>
-      <p>${resumirTexto(propiedad.descripcion, 50)}</p>  <!-- Limitar la descripción a 50 caracteres -->
-      <p class="precio">$${propiedad.precio}</p>
-      <ul class="iconos-caracteristicas">
-        <li>
-          <img class="icono" loading="lazy" src="../src/iconos/icono_wc.svg" alt="icono_wc" />
-          <p>${propiedad.sanitarios}</p>
-        </li>
-        <li>
-          <img class="icono" loading="lazy" src="../src/iconos/icono_estacionamiento.svg" alt="icono_estacionamiento" />
-          <p>${propiedad.estacionamiento}</p>
-        </li>
-        <li>
-          <img class="icono" loading="lazy" src="../src/iconos/icono_dormitorio.svg" alt="icono_dormitorio" />
-          <p>${propiedad.dormitorio}</p>
-        </li>
-      </ul>
-      <a href="propiedad.html?id=${key}" class="boton-amarillo-block">Ver Propiedad</a>
-    </div>
-  `;
-
-  return anuncio;
-}
-
-let paginaActual = 1; // Página inicial
-const itemsPorPagina = 6; // Número de elementos a mostrar por página
-
-// Función para mostrar una cantidad específica de propiedades con paginación
-async function mostrarPropiedades(cantidad = 7) {
-  const propiedades = await obtenerPropiedades(); // Obtener las propiedades desde el backend
-  const contenedor = document.querySelector(".contenedor-anuncios"); // Seleccionar el contenedor de anuncios
-
-  // Verificar si el contenedor existe
-  if (!contenedor) {
-    console.error('El contenedor de anuncios no se encontró.');
-    return;
-  }
-
-  contenedor.innerHTML = ""; // Limpiar el contenedor antes de agregar los nuevos anuncios
-
-  // Asegurarse de no exceder la cantidad disponible de propiedades
-  const propiedadesMostrar = propiedades.slice(0, cantidad); // Obtener solo el número deseado de propiedades
-
-  // Calcular el total de páginas
-  const totalPropiedades = propiedadesMostrar.length;
-  const totalPaginas = Math.ceil(totalPropiedades / itemsPorPagina);
-
-  // Verificar los valores de paginación
-  const primerIndice = (paginaActual - 1) * itemsPorPagina;
-  const ultimoIndice = Math.min(primerIndice + itemsPorPagina, totalPropiedades);
-
-  // Mostrar las propiedades de la página actual
-  propiedadesMostrar.slice(primerIndice, ultimoIndice).forEach((propiedad, index) => {
-    const anuncio = crearAnuncio(propiedad, index); // Crear un anuncio para cada propiedad
-    contenedor.appendChild(anuncio); // Agregar el anuncio al contenedor
-  });
-
-  // Mostrar la paginación si es necesario
-  if (totalPaginas > 1) {
-    mostrarPaginacion(totalPaginas);
-  }
-}
-
-// Función para mostrar los botones de paginación con flechas
-function mostrarPaginacion(totalPaginas) {
-  const contenedorPaginacion = document.querySelector(".contenedor-paginacion"); // Suponiendo que hay un contenedor para la paginación
-
-  if (!contenedorPaginacion) return;
-
-  contenedorPaginacion.innerHTML = ""; // Limpiar la paginación previa
-
-  // Botón "Anterior"
-  const botonAnterior = document.createElement("button");
-  botonAnterior.classList.add("pagina-boton", "flecha", "flecha-izquierda");
-  botonAnterior.disabled = paginaActual === 1; // Deshabilitar si estamos en la primera página
-
-  // Agregar evento para ir a la página anterior
-  botonAnterior.addEventListener("click", () => {
-    if (paginaActual > 1) {
-      paginaActual--;
-      mostrarPropiedades();
-    }
-  });
-  contenedorPaginacion.appendChild(botonAnterior);
-
-  // Botones de las páginas
-  for (let i = 1; i <= totalPaginas; i++) {
-    const boton = document.createElement("button");
-    boton.textContent = i;
-    boton.classList.add("pagina-boton");
-
-    // Agregar un evento click para cambiar de página
-    boton.addEventListener("click", () => {
-      paginaActual = i;
-      mostrarPropiedades();
-    });
-
-    // Resaltar la página activa
-    if (paginaActual === i) {
-      boton.classList.add("pagina-activa");
-    }
-
-    contenedorPaginacion.appendChild(boton);
-  }
-
-  // Botón "Siguiente"
-  const botonSiguiente = document.createElement("button");
-  botonSiguiente.classList.add("pagina-boton", "flecha", "flecha-derecha");
-  botonSiguiente.disabled = paginaActual === totalPaginas; // Deshabilitar si estamos en la última página
-
-  // Agregar evento para ir a la siguiente página
-  botonSiguiente.addEventListener("click", () => {
-    if (paginaActual < totalPaginas) {
-      paginaActual++;
-      mostrarPropiedades();
-    }
-  });
-  contenedorPaginacion.appendChild(botonSiguiente);
-}
-
-
-
-
-//#endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //#region Constantes
 
 /* ARTÍCULOS */
-const articulos = [
-  {
-    id: 1,
-    titulo: 'Ideas para organizar tu hogar en espacios pequeños',
-    fecha: '10/02/2024',
-    autor: 'Tanoni Matias',
-    contenido: 'Descubre cómo aprovechar cada rincón de tu casa con ingeniosas soluciones de almacenamiento y diseño. Desde estanterías flotantes hasta muebles multifuncionales, aprende a maximizar el espacio sin sacrificar estilo.',
-    imagen: '../src/articulos/blog1.jpg',
-  },
-  {
-    id: 2,
-    titulo: 'Colores que serán tendencia en 2024 para tu hogar',
-    fecha: '25/03/2024',
-    autor: 'Palopolo Lujan',
-    contenido: 'Te mostramos los colores que estarán en auge este año y cómo puedes incorporarlos en la decoración de tu hogar. Desde tonos cálidos y acogedores hasta colores fríos que aportan serenidad, descubre cómo elegir la paleta adecuada para cada espacio.',
-    imagen: '../src/articulos/blog2.jpg',
-  },
-  {
-    id: 3,
-    titulo: 'Cómo crear un jardín interior en casa',
-    fecha: '12/07/2024',
-    autor: 'Smania Matias',
-    contenido: 'Aprende a diseñar y mantener un pequeño jardín en el interior de tu hogar. Te enseñaremos sobre las plantas más adecuadas para espacios reducidos, el cuidado que requieren y consejos para la disposición ideal.',
-    imagen: '../src/articulos/blog3.jpg',
-  },
-  {
-    id: 4,
-    titulo: 'Consejos para elegir los mejores muebles para tu sala',
-    fecha: '03/10/2024',
-    autor: 'Peña Enzo',
-    contenido: 'Encuentra los muebles ideales para tu sala de estar con nuestros consejos prácticos. Descubre qué estilos se adaptan mejor a tu espacio y cómo seleccionar muebles que sean funcionales y estéticamente agradables.',
-    imagen: '../src/articulos/blog4.jpg',
-  },
-];
+// const articulos = [
+//   {
+//     id: 1,
+//     titulo: 'Ideas para organizar tu hogar en espacios pequeños',
+//     fecha: '10/02/2024',
+//     autor: 'Tanoni Matias',
+//     contenido: 'Descubre cómo aprovechar cada rincón de tu casa con ingeniosas soluciones de almacenamiento y diseño. Desde estanterías flotantes hasta muebles multifuncionales, aprende a maximizar el espacio sin sacrificar estilo.',
+//     imagen: '../src/articulos/blog1.jpg',
+//   },
+//   {
+//     id: 2,
+//     titulo: 'Colores que serán tendencia en 2024 para tu hogar',
+//     fecha: '25/03/2024',
+//     autor: 'Palopolo Lujan',
+//     contenido: 'Te mostramos los colores que estarán en auge este año y cómo puedes incorporarlos en la decoración de tu hogar. Desde tonos cálidos y acogedores hasta colores fríos que aportan serenidad, descubre cómo elegir la paleta adecuada para cada espacio.',
+//     imagen: '../src/articulos/blog2.jpg',
+//   },
+//   {
+//     id: 3,
+//     titulo: 'Cómo crear un jardín interior en casa',
+//     fecha: '12/07/2024',
+//     autor: 'Smania Matias',
+//     contenido: 'Aprende a diseñar y mantener un pequeño jardín en el interior de tu hogar. Te enseñaremos sobre las plantas más adecuadas para espacios reducidos, el cuidado que requieren y consejos para la disposición ideal.',
+//     imagen: '../src/articulos/blog3.jpg',
+//   },
+//   {
+//     id: 4,
+//     titulo: 'Consejos para elegir los mejores muebles para tu sala',
+//     fecha: '03/10/2024',
+//     autor: 'Peña Enzo',
+//     contenido: 'Encuentra los muebles ideales para tu sala de estar con nuestros consejos prácticos. Descubre qué estilos se adaptan mejor a tu espacio y cómo seleccionar muebles que sean funcionales y estéticamente agradables.',
+//     imagen: '../src/articulos/blog4.jpg',
+//   },
+// ];
 
 // /* PROPIEDADES */
 const propiedades = {
@@ -433,115 +230,6 @@ function resumirTexto(texto, longitudMaxima) {
     : texto;
 }
 
-
-//#region  Propiedades
-/// <summary>
-/// Carga las propiedades en el contenedor especificado.
-/// </summary>
-/// <param name="limite">Número máximo de propiedades a cargar.</param>
-
-// let paginaActual = 1;
-// const itemsPorPagina = 6;
-// function cargarPropiedades(limite = Object.keys(propiedades).length) {
-//   const contenedor = document.querySelector(".contenedor-anuncios");
-
-//   // Verificar si el contenedor existe en el DOM
-//   if (!contenedor) {
-//     console.error('El contenedor de anuncios no se encontró.');
-//     return; // Salir si no existe el contenedor
-//   }
-
-//   // Verificar si el objeto propiedades está correctamente inicializado
-//   if (!propiedades || Object.keys(propiedades).length === 0) {
-//     console.error('El objeto "propiedades" está vacío o no definido.');
-//     return; // Salir si no hay propiedades
-//   }
-
-//   contenedor.innerHTML = ""; // Limpiar las propiedades anteriores
-
-//   const longitudMaximaDescripcion = 50; // Longitud máxima de la descripción
-//   const totalPropiedades = Object.keys(propiedades).length;
-//   const totalPaginas = Math.ceil(totalPropiedades / itemsPorPagina);
-
-//   // Verificar los valores de paginación
-//   const primerIndice = (paginaActual - 1) * itemsPorPagina;
-//   const ultimoIndice = Math.min(primerIndice + itemsPorPagina, limite);
-
-//   Object.keys(propiedades).slice(primerIndice, ultimoIndice).forEach(key => {
-//     const propiedad = propiedades[key];
-//     const anuncio = document.createElement('div');
-//     anuncio.classList.add('anuncio');
-
-//     anuncio.innerHTML = `
-//       <picture>
-//         <source srcset="${propiedad.imagen}" type="image/jpeg" />
-//         <img src="${propiedad.imagen}" alt="Imagen ${propiedad.titulo}" />
-//       </picture>
-//       <div class="contenido-anuncios">
-//         <h3>${propiedad.titulo}</h3>
-//         <p>${resumirTexto(propiedad.descripcion, longitudMaximaDescripcion)}</p>
-//         <p class="precio">${propiedad.precio}</p>
-//         <ul class="iconos-caracteristicas">
-//           <li>
-//             <img class="icono" loading="lazy" src="../src/iconos/icono_wc.svg" alt="icono_wc" />
-//             <p>${propiedad.sanitarios}</p>
-//           </li>
-//           <li>
-//             <img class="icono" loading="lazy" src="../src/iconos/icono_estacionamiento.svg" alt="icono_estacionamiento" />
-//             <p>${propiedad.estacionamientos}</p>
-//           </li>
-//           <li>
-//             <img class="icono" loading="lazy" src="../src/iconos/icono_dormitorio.svg" alt="icono_dormitorio" />
-//             <p>${propiedad.dormitorios}</p>
-//           </li>
-//         </ul>
-//         <a href="propiedad.html?id=${key}" class="boton-amarillo-block">Ver Propiedad</a>
-//       </div>
-//     `;
-
-//     contenedor.appendChild(anuncio);
-//   });
-
-//   mostrarPaginacion(totalPaginas);
-// }
-
-// function mostrarPaginacion(totalPaginas) {
-//   const paginacionContenedor = document.querySelector(".contenedor-paginacion");
-
-//   // Verificar si el contenedor existe antes de intentar manipularlo
-//   if (!paginacionContenedor) {
-//     return;
-//   }
-
-//   paginacionContenedor.innerHTML = ""; // Limpiar la paginación anterior
-
-//   // Botón "Anterior" con flecha
-//   const botonAnterior = document.createElement("button");
-//   botonAnterior.innerHTML = `<i class="bi bi-arrow-left"></i>`; // Ícono de flecha izquierda
-//   botonAnterior.classList.add("boton-paginacion");
-//   botonAnterior.disabled = (paginaActual === 1); // Deshabilitar si estamos en la primera página
-//   botonAnterior.addEventListener("click", () => {
-//     if (paginaActual > 1) {
-//       paginaActual--;
-//       cargarPropiedades(); // Cargar las propiedades de la página anterior
-//     }
-//   });
-//   paginacionContenedor.appendChild(botonAnterior);
-
-//   // Botón "Siguiente" con flecha
-//   const botonSiguiente = document.createElement("button");
-//   botonSiguiente.innerHTML = `<i class="bi bi-arrow-right"></i>`; // Ícono de flecha derecha
-//   botonSiguiente.classList.add("boton-paginacion");
-//   botonSiguiente.disabled = (paginaActual === totalPaginas); // Deshabilitar si estamos en la última página
-//   botonSiguiente.addEventListener("click", () => {
-//     if (paginaActual < totalPaginas) {
-//       paginaActual++;
-//       cargarPropiedades(); // Cargar las propiedades de la siguiente página
-//     }
-//   });
-//   paginacionContenedor.appendChild(botonSiguiente);
-// }
-
 /// <summary>
 /// Carga la propiedad desde los parámetros de la URL y actualiza la interfaz de usuario.
 /// </summary>
@@ -614,47 +302,48 @@ function inicializarMapa(location) {
 /// Carga los artículos en la lista según la página actual.
 /// </summary>
 /// <param name="limite">Número máximo de artículos a cargar.</param>
-function cargarArticulos(limite = articulos.length) {
-  const longitudMaximaDescripcion = 30; // Longitud máxima de la descripción
+// function cargarArticulos(limite = articulos.length) {
+//   const longitudMaximaDescripcion = 30; // Longitud máxima de la descripción
 
-  let contenedor;
-  const enInicio = window.location.pathname.includes("inicio.html");
+//   let contenedor;
+//   const enInicio = window.location.pathname.includes("inicio.html");
 
-  if (window.location.pathname.includes("blog.html")) {
-    contenedor = document.querySelector("main.contenedor");
-  } else if (enInicio) {
-    contenedor = document.querySelector("section.contenedor");
-  }
+//   if (window.location.pathname.includes("blog.html")) {
+//     contenedor = document.querySelector("main.contenedor");
+//   } else if (enInicio) {
+//     contenedor = document.querySelector("section.contenedor");
+//   }
 
-  articulos.slice(0, limite).forEach(articulo => {
-    const article = document.createElement('article');
-    article.classList.add('entrada-blog');
+//   articulos.slice(0, limite).forEach(articulo => {
+//     const article = document.createElement('article');
+//     article.classList.add('entrada-blog');
 
-    const contenidoTexto = enInicio
-      ? resumirTexto(articulo.contenido, longitudMaximaDescripcion)
-      : articulo.contenido;
+//     const contenidoTexto = enInicio
+//       ? resumirTexto(articulo.contenido, longitudMaximaDescripcion)
+//       : articulo.contenido;
 
-    article.innerHTML = `
-      <div class="imagen">
-        <picture>
-          <source srcset="${articulo.imagen}" type="image/jpeg" />
-          <img loading="lazy" src="${articulo.imagen}" alt="Imagen Blog ${articulo.id}" />
-        </picture>
-      </div>
-      <div class="texto-entrada">
-        <a class="enlace-articulo" data-id="${articulo.id}">
-          <h4>${articulo.titulo}</h4>
-          <p>Escrito el: <span>${articulo.fecha}</span> por: <span>${articulo.autor}</span></p>
-          <p>${contenidoTexto}</p>
-        </a>
-      </div>
-    `;
+//     article.innerHTML = `
+//       <div class="imagen">
+//         <picture>
+//           <source srcset="${articulo.imagen}" type="image/jpeg" />
+//           <img loading="lazy" src="${articulo.imagen}" alt="Imagen Blog ${articulo.id}" />
+//         </picture>
+//       </div>
+//       <div class="texto-entrada">
+//         <a class="enlace-articulo" data-id="${articulo.id}">
+//           <h4>${articulo.titulo}</h4>
+//           <p>Escrito el: <span>${articulo.fecha}</span> por: <span>${articulo.autor}</span></p>
+//           <p>${contenidoTexto}</p>
+//         </a>
+//       </div>
+//     `;
 
-    contenedor.appendChild(article);
-  });
-}
+//     contenedor.appendChild(article);
+//   });
+// }
 
-//#region Reservas
+//#region General
+
 document.addEventListener('DOMContentLoaded', function () {
   // Primer bloque (Reserva de propiedad)
   const reservaButton = document.getElementById('btn-reserva');
@@ -729,29 +418,27 @@ document.addEventListener('DOMContentLoaded', function () {
   const isListaPropiedades = document.querySelector(".contenedor-anuncios") && window.location.pathname.includes("anuncios.html");
 
   if (window.location.pathname.includes("blog.html")) {
-    cargarArticulos();
+    mostrarArticulos();
   } else if (window.location.pathname.includes("inicio.html")) {
-    cargarArticulos(2);
-    //cargarPropiedades(3);
+    mostrarArticulos(2);
     mostrarPropiedades(3);
   }
 
   if (isListaPropiedades && window.location.pathname.includes("anuncios.html")) {
-    // cargarPropiedades();
-    mostrarPropiedades(); // Mostrar propiedades cuando la página cargue
+    mostrarPropiedades();
   } else if (window.location.pathname.includes("propiedad.html")) {
     cargarPropiedad();
   }
 
   if (window.location.pathname.includes("panel.html")) {
-    // Obtener las propiedades desde el backend
-    obtenerPropiedades()
-      .then(propiedades => {
-        // Llamar a la función para crear la tabla con los datos obtenidos
+    // Obtener propiedades y artículos en paralelo
+    Promise.all([obtenerPropiedades(), obtenerArticulos()])
+      .then(([propiedades, articulos]) => {
         crearTablaPropiedades(propiedades);
+        crearTablaArticulos(articulos);
       })
       .catch(error => {
-        console.error('Error al obtener las propiedades:', error);
+        console.error('Error al obtener los datos:', error);
       });
   }
 
@@ -775,12 +462,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const userRole = decodedToken.rol;
 
     if (userRole === 'admin') {
+      document.getElementById('contacto-link').style.display = 'none';
+      document.getElementById('reservas-link').style.display = 'none';
       document.getElementById('panel-de-control-link').style.display = 'inline-block';
     } else {
       document.getElementById('panel-de-control-link').style.display = 'none';
     }
   } else {
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
   }
 });
 

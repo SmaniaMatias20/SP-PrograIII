@@ -928,8 +928,9 @@ h4 {
 
 /*PANEL.HTML*/
 
-/* Estilo general de la tabla */
-#tabla-propiedades {
+/* Estilo general para ambas tablas */
+#tabla-propiedades,
+#tabla-articulos {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
@@ -938,47 +939,41 @@ h4 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo de las celdas de la tabla */
+/* Estilo de las celdas de las tablas */
 #tabla-propiedades th,
-#tabla-propiedades td {
+#tabla-articulos th,
+#tabla-propiedades td,
+#tabla-articulos td {
   padding: 12px 15px;
-  text-align: center;
+  text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-/* Estilo de las cabeceras */
-#tabla-propiedades th {
+/* Estilo de las cabeceras de las tablas */
+#tabla-propiedades th,
+#tabla-articulos th {
   background-color: var(--naranja);
   color: white;
   font-size: 16px;
   font-weight: bold;
 }
 
-/* Estilo de las filas */
-#tabla-propiedades tr:nth-child(even) {
+/* Estilo para las filas de las tablas */
+#tabla-propiedades tr:nth-child(even),
+#tabla-articulos tr:nth-child(even) {
   background-color: var(--blanco);
 }
 
-/* Efecto de hover en las filas */
-#tabla-propiedades tr:hover {
+/* Efecto de hover en las filas de ambas tablas */
+#tabla-propiedades tr:hover,
+#tabla-articulos tr:hover {
   background-color: #f1f1f1;
   cursor: pointer;
 }
 
-/* Estilo de las celdas de la tabla */
-#tabla-propiedades td {
-  font-size: 14px;
-  color: #333;
-}
-
-/* Estilo para los bordes */
-#tabla-propiedades th,
-#tabla-propiedades td {
-  border: 1px solid #ddd;
-}
-
-/* Estilo para el borde inferior de la tabla */
-#tabla-propiedades {
+/* Estilo para el borde inferior de las tablas */
+#tabla-propiedades,
+#tabla-articulos {
   border: 2px solid var(--naranja);
   border-radius: 8px;
   overflow: hidden;
@@ -1078,39 +1073,5 @@ h4 {
 
   .ubicacion {
     width: 100%;
-  }
-
-  #tabla-propiedades {
-    font-size: 12px;
-  }
-
-  #tabla-propiedades th,
-  #tabla-propiedades td {
-    padding: 8px;
-  }
-
-  #tabla-propiedades th {
-    display: none;
-  }
-
-  #tabla-propiedades td {
-    display: block;
-    width: 100%;
-    text-align: right;
-    padding-left: 50%;
-    position: relative;
-  }
-
-  #tabla-propiedades td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-weight: bold;
-    color: var(--naranja);
-  }
-
-  #tabla-propiedades td:first-child {
-    padding-left: 0;
   }
 }
