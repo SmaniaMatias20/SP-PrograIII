@@ -1,4 +1,4 @@
-const Articulo = require('../models/articulosModels'); // Asegúrate de que esta ruta coincida con la ubicación de tu modelo
+const Articulo = require('../models/articuloModel'); // Asegúrate de que esta ruta coincida con la ubicación de tu modelo
 
 // Crear un nuevo artículo
 async function crearArticulo(req, res) {

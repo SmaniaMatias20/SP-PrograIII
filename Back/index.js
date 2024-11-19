@@ -1,11 +1,17 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const Routes = require('./src/routes/routes');
 const sequelize = require('./src/config/dbConfig');
 
 // Inicializar Express
 const app = express();
+
+// Middleware para servir imágenes desde la carpeta 'public'
+// Configurar la ruta para servir imágenes desde 'public/anuncios' y 'public/articulos'
+app.use('/images/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
+app.use('/images/articulos', express.static(path.join(__dirname, 'public', 'articulos')));
 
 // Puerto donde se va a correr el server
 const PORT = process.env.PORT || 3000;

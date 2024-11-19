@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const propiedadesControllers = require('../controllers/propiedadesControllers');
+const propiedadesControllers = require('../controllers/propiedadController');
 const { verificarToken, tokenAdmin } = require('../middlewares/authMiddleware');
 
 // Ruta para crear una nueva propiedad

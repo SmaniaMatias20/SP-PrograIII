@@ -1,4 +1,5 @@
-const Propiedad = require('../models/propiedadesModels'); // Asegúrate de que esta ruta coincida con la ubicación de tu modelo
+const Propiedad = require('../models/propiedadModel'); // Asegúrate de que esta ruta coincida con la ubicación de tu modelo
+const Imagen = require('../models/imagenModel');
 
 // Crear una nueva propiedad
 async function crearPropiedad(req, res) {
@@ -10,15 +11,48 @@ async function crearPropiedad(req, res) {
     }
 }
 
-// Obtener todas las propiedades
+// // Obtener todas las propiedades
+// async function obtenerPropiedades(req, res) {
+//     try {
+//         const propiedades = await Propiedad.findAll();
+//         res.status(200).json(propiedades);
+//     } catch (error) {
+//         res.status(500).json({ mensaje: 'Error al obtener las propiedades', error: error.message });
+//     }
+// }
+
 async function obtenerPropiedades(req, res) {
     try {
+        // Obtener todas las propiedades
         const propiedades = await Propiedad.findAll();
-        res.status(200).json(propiedades);
+
+        // Obtener las imágenes relacionadas (por id_propiedad) para cada propiedad
+        const propiedadesConImagen = [];
+
+        for (const propiedad of propiedades) {
+            // Encontrar las imágenes relacionadas con la propiedad, buscando por el id_propiedad
+            const imagenes = await Imagen.findAll({
+                where: { id_propiedad: propiedad.id },
+                attributes: ['url'],
+            });
+
+            // Filtrar solo la imagen 'propiedad.jpg'
+            const imagenPropiedad = imagenes.find(imagen => imagen.url.includes('propiedad.jpg'));
+
+            // Agregar la propiedad con la imagen asociada
+            propiedadesConImagen.push({
+                ...propiedad.toJSON(),
+                imagen: imagenPropiedad ? imagenPropiedad.url : null
+            });
+        }
+
+        res.status(200).json(propiedadesConImagen);
     } catch (error) {
         res.status(500).json({ mensaje: 'Error al obtener las propiedades', error: error.message });
     }
 }
+
+
 
 // Obtener una propiedad por ID
 async function obtenerPropiedadPorId(req, res) {

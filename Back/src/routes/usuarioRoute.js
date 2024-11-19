@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const usuariosControllers = require('../controllers/usuariosControllers');
+const usuariosControllers = require('../controllers/usuarioController');
 const { verificarToken, tokenAdmin } = require('../middlewares/authMiddleware');
 
 // Ruta para iniciar sesión

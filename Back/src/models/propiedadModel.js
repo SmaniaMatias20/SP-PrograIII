@@ -1,22 +1,22 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/dbConfig.js');
+const sequelize = require('../config/dbConfig');
 
-// Define el modelo Propiedad
+// Definición del modelo Propiedad
 const Propiedad = sequelize.define('propiedad', {
     titulo: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true, // Validación para que no esté vacío
+            notEmpty: true,
             isString(value) {
                 if (typeof value !== 'string') {
-                    throw new Error('El campo nombre debe ser una cadena de texto.');
+                    throw new Error('El campo titulo debe ser una cadena de texto.');
                 }
             }
         }
     },
     precio: {
-        type: DataTypes.DECIMAL(10, 2), // Especificar precisión y escala
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
             isDecimal: true,
@@ -54,9 +54,9 @@ const Propiedad = sequelize.define('propiedad', {
     ubicacion: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: '{"lat": 0, "lng": 0}', // Aquí puedes poner el valor por defecto que prefieras
+        defaultValue: '{"lat": 0, "lng": 0}',
         validate: {
-            notEmpty: true, // Validación para que no esté vacío
+            notEmpty: true,
             isString(value) {
                 if (typeof value !== 'string') {
                     throw new Error('El campo ubicacion debe ser una cadena de texto.');
@@ -69,11 +69,11 @@ const Propiedad = sequelize.define('propiedad', {
         allowNull: false,
         defaultValue: false,
     },
-    usuario_id: { // Clave foránea para el usuario que reserva la propiedad
+    usuario_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
-            model: 'usuario', // Nombre de la tabla de usuarios
+            model: 'usuario', // Clave foránea a la tabla de usuarios
             key: 'id'
         },
         validate: {
@@ -82,8 +82,6 @@ const Propiedad = sequelize.define('propiedad', {
         }
     }
 }, {
-    // Si no estás usando un esquema, puedes eliminar esta línea
-    // schema: 'propiedades',
     tableName: 'propiedad',
     timestamps: false
 });

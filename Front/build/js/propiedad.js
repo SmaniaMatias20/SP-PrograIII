@@ -10,6 +10,7 @@ async function obtenerPropiedades() {
 
         // Obtener los datos de la respuesta
         const propiedades = response.data;
+        console.log(propiedades);
 
         // Retornar las propiedades obtenidas
         return propiedades;
@@ -60,6 +61,10 @@ function crearAnuncio(propiedad, key) {
     // <img src="${propiedad.imagen}" alt="Imagen ${propiedad.titulo}" />
     // </picture>
     anuncio.innerHTML = `
+      <picture>
+        <source srcset="${propiedad.imagen}" type="image/jpeg" />
+        <img src="${propiedad.imagen}" alt="Imagen de la propiedad ${propiedad.titulo}" />
+      </picture>
       <div class="contenido-anuncios">
         <h3>${propiedad.titulo}</h3>
         <p>${resumirTexto(propiedad.descripcion, 50)}</p>  <!-- Limitar la descripción a 50 caracteres -->
