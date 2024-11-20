@@ -9,7 +9,8 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
     try {
         // Enviar la solicitud POST al backend para verificar el usuario
-        const response = await axios.post('http://localhost:3000/usuarios/iniciarSesion', { usuario, password });
+        // const response = await axios.post('http://localhost:3000/usuarios/iniciarSesion', { usuario, password });
+        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/iniciarSesion', { usuario, password });
 
         // Si el inicio de sesión es exitoso
         if (response.data.success) {
@@ -44,7 +45,13 @@ async function registerUser(usuario, password, role) {
         }
 
         // Enviar la solicitud POST al backend para registrar un nuevo usuario
-        const response = await axios.post('http://localhost:3000/usuarios/crearUsuario', {
+        // const response = await axios.post('http://localhost:3000/usuarios/crearUsuario', {
+        //     usuario,
+        //     password,
+        //     rol: role
+        // });
+
+        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/crearUsuario', {
             usuario,
             password,
             rol: role
