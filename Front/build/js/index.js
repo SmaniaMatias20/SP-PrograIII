@@ -50,7 +50,6 @@ async function registerUser(usuario, password, role) {
         //     password,
         //     rol: role
         // });
-
         const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/crearUsuario', {
             usuario,
             password,
