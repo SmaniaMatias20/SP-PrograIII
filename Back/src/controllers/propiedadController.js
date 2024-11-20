@@ -1,5 +1,7 @@
 const Propiedad = require('../models/propiedadModel'); // Asegúrate de que esta ruta coincida con la ubicación de tu modelo
 const Imagen = require('../models/imagenModel');
+require('dotenv').config();
+
 
 // Crear una nueva propiedad
 async function crearPropiedad(req, res) {
@@ -13,6 +15,9 @@ async function crearPropiedad(req, res) {
 
 async function obtenerPropiedades(req, res) {
     try {
+        // Base URL para producción
+        const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com'; // Cambia a tu dominio en producción
+
         // Obtener todas las propiedades
         const propiedades = await Propiedad.findAll();
 
@@ -20,19 +25,20 @@ async function obtenerPropiedades(req, res) {
         const propiedadesConImagen = [];
 
         for (const propiedad of propiedades) {
-            // Encontrar las imágenes relacionadas con la propiedad, buscando por el id_propiedad
+            // Encontrar las imágenes relacionadas con la propiedad
             const imagenes = await Imagen.findAll({
                 where: { id_propiedad: propiedad.id },
                 attributes: ['url'],
             });
 
-            console.log(imagenes);
-
-            // Asegúrate de reemplazar las barras invertidas dobles por una sola
+            // Ajustar las rutas de las imágenes
             const imagenesConRutaCorregida = imagenes.map(imagen => {
-                // Aquí se realiza el reemplazo de '\\' a '\'
-                imagen.url = imagen.url.replace(/\\\\/g, '\\');
-                return imagen;
+                // Corrige las barras y reemplaza la ruta base
+                const rutaPublica = imagen.url
+                    .replace(/\\\\/g, '/') // Corrige las barras invertidas
+                    .replace(/^.*?Back\/public\//, `${BASE_URL}/`); // Ajusta la ruta a producción
+
+                return { ...imagen, url: rutaPublica };
             });
 
             // Filtrar solo la imagen 'propiedad.jpg'
@@ -41,7 +47,7 @@ async function obtenerPropiedades(req, res) {
             // Agregar la propiedad con la imagen asociada
             propiedadesConImagen.push({
                 ...propiedad.toJSON(),
-                imagen: imagenPropiedad ? imagenPropiedad.url : null
+                imagen: imagenPropiedad ? imagenPropiedad.url : null,
             });
         }
 
