@@ -14,6 +14,7 @@ async function crearArticulo(req, res) {
 async function obtenerArticulos(req, res) {
     try {
         const articulos = await Articulo.findAll();
+        console.log(articulos);
         res.status(200).json(articulos);
     } catch (error) {
         res.status(500).json({ mensaje: 'Error al obtener los artículos', error: error.message });

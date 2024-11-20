@@ -8,6 +8,8 @@ async function obtenerArticulos() {
             }
         });
 
+        console.log(response);
+
         // Obtener los datos de la respuesta
         const articulos = response.data;
 
@@ -98,7 +100,7 @@ async function cargarArticulos(limite = 4) {
 }
 
 
-// // Función para obtener artículos desde el backend y devolverlos
+// Función para obtener artículos desde el backend y devolverlos
 // async function obtenerArticulos() {
 //     try {
 //         // const response = await axios.get('http://localhost:3000/articulos/obtenerArticulos', {
@@ -113,6 +115,7 @@ async function cargarArticulos(limite = 4) {
 //                 'Authorization': 'Bearer ' + localStorage.getItem('token') // Enviar el token si es necesario
 //             }
 //         });
+//         console.log(response);
 //         return response.data;
 //     } catch (error) {
 //         console.error('Error al obtener los artículos:', error);
