@@ -10,8 +10,9 @@ const app = express();
 
 // Middleware para servir imágenes desde la carpeta 'public'
 // Configurar la ruta para servir imágenes desde 'public/anuncios' y 'public/articulos'
-app.use('/images/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
-app.use('/images/articulos', express.static(path.join(__dirname, 'public', 'articulos')));
+// app.use('/images/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
+// app.use('/images/articulos', express.static(path.join(__dirname, 'public', 'articulos')));
+app.use('/anuncios', express.static(path.join(__dirname, 'Back/public/anuncios')));
 
 // Puerto donde se va a correr el server
 const PORT = process.env.PORT || 3000;
