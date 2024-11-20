@@ -1,4 +1,9 @@
+// Definir la URL base para las API dependiendo del entorno
+const BASE_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:3000' // URL en entorno local
+    : 'https://sp-prograiii-fj7g.onrender.com'; // URL en entorno de producción
 
+console.log('Base URL:', BASE_URL);
 // Función para manejar el inicio de sesión con Axios
 document.getElementById('loginForm').addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -10,7 +15,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     try {
         // Enviar la solicitud POST al backend para verificar el usuario
         // const response = await axios.post('http://localhost:3000/usuarios/iniciarSesion', { usuario, password });
-        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/iniciarSesion', { usuario, password });
+        const response = await axios.post(`${BASE_URL}/usuarios/iniciarSesion`, { usuario, password });
 
         // Si el inicio de sesión es exitoso
         if (response.data.success) {

@@ -2,13 +2,6 @@
 async function obtenerArticulos() {
     try {
         // Realizar la solicitud HTTP usando axios
-        // const response = await axios.get('http://localhost:3000/articulos/obtenerArticulos', {
-        //     headers: {
-        //         'Authorization': 'Bearer ' + localStorage.getItem('token') // Agregar el token de autenticación si es necesario
-        //     }
-        // });
-
-        // Realizar la solicitud HTTP usando axios
         const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/articulos/obtenerArticulos', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token') // Agregar el token de autenticación si es necesario
@@ -105,27 +98,27 @@ async function cargarArticulos(limite = 4) {
 }
 
 
-// Función para obtener artículos desde el backend y devolverlos
-async function obtenerArticulos() {
-    try {
-        // const response = await axios.get('http://localhost:3000/articulos/obtenerArticulos', {
-        //     headers: {
-        //         'Authorization': 'Bearer ' + localStorage.getItem('token')
-        //     }
-        // });
+// // Función para obtener artículos desde el backend y devolverlos
+// async function obtenerArticulos() {
+//     try {
+//         // const response = await axios.get('http://localhost:3000/articulos/obtenerArticulos', {
+//         //     headers: {
+//         //         'Authorization': 'Bearer ' + localStorage.getItem('token')
+//         //     }
+//         // });
 
-        // Realizar la solicitud HTTP usando axios
-        const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/articulos/obtenerArticulos', {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token') // Enviar el token si es necesario
-            }
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error al obtener los artículos:', error);
-        return []; // Retorna un arreglo vacío si ocurre un error
-    }
-}
+//         // Realizar la solicitud HTTP usando axios
+//         const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/articulos/obtenerArticulos', {
+//             headers: {
+//                 'Authorization': 'Bearer ' + localStorage.getItem('token') // Enviar el token si es necesario
+//             }
+//         });
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error al obtener los artículos:', error);
+//         return []; // Retorna un arreglo vacío si ocurre un error
+//     }
+// }
 
 // Paginación: Variables de configuración
 let paginaActualArticulos = 1; // Página inicial para artículos

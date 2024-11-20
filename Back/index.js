@@ -27,6 +27,13 @@ app.use(express.json());
 //Rutas
 app.use('/', Routes);
 
+// Ruta para enviar la URL de la API al frontend
+app.get('/config', (req, res) => {
+    res.json({
+        apiUrl: process.env.API_URL // Esto devolverá la URL según el entorno
+    });
+});
+
 // Probar la conexión
 const testConnection = async () => {
     try {
