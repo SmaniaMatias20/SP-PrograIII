@@ -14,6 +14,7 @@ const obtenerImagenesPorPropiedad = async (req, res) => {
             return res.status(404).json({ error: 'No se encontraron imágenes para esta propiedad' });
         }
 
+
         return res.status(200).json(imagenes);
     } catch (error) {
         console.error('Error al obtener las imágenes:', error);

@@ -11,16 +11,6 @@ async function crearPropiedad(req, res) {
     }
 }
 
-// // Obtener todas las propiedades
-// async function obtenerPropiedades(req, res) {
-//     try {
-//         const propiedades = await Propiedad.findAll();
-//         res.status(200).json(propiedades);
-//     } catch (error) {
-//         res.status(500).json({ mensaje: 'Error al obtener las propiedades', error: error.message });
-//     }
-// }
-
 async function obtenerPropiedades(req, res) {
     try {
         // Obtener todas las propiedades
@@ -36,8 +26,17 @@ async function obtenerPropiedades(req, res) {
                 attributes: ['url'],
             });
 
+            console.log(imagenes);
+
+            // Asegúrate de reemplazar las barras invertidas dobles por una sola
+            const imagenesConRutaCorregida = imagenes.map(imagen => {
+                // Aquí se realiza el reemplazo de '\\' a '\'
+                imagen.url = imagen.url.replace(/\\\\/g, '\\');
+                return imagen;
+            });
+
             // Filtrar solo la imagen 'propiedad.jpg'
-            const imagenPropiedad = imagenes.find(imagen => imagen.url.includes('propiedad.jpg'));
+            const imagenPropiedad = imagenesConRutaCorregida.find(imagen => imagen.url.includes('propiedad.jpg'));
 
             // Agregar la propiedad con la imagen asociada
             propiedadesConImagen.push({
@@ -51,6 +50,7 @@ async function obtenerPropiedades(req, res) {
         res.status(500).json({ mensaje: 'Error al obtener las propiedades', error: error.message });
     }
 }
+
 
 
 
