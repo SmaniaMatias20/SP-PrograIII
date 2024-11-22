@@ -43,12 +43,7 @@ async function registerUser(usuario, password, role) {
             return;
         }
 
-        // Enviar la solicitud POST al backend para registrar un nuevo usuario
         // const response = await axios.post('http://localhost:3000/usuarios/crearUsuario', {
-        //     usuario,
-        //     password,
-        //     rol: role
-        // });
         const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/crearUsuario', {
             usuario,
             password,

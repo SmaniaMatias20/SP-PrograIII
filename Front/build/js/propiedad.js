@@ -2,6 +2,7 @@
 async function obtenerPropiedades() {
     try {
         // Realizar la solicitud HTTP usando axios
+        // const response = await axios.get('http://localhost:3000/propiedades/obtenerPropiedades', {
         const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedades', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token') // Agregar el token de autenticación si es necesario

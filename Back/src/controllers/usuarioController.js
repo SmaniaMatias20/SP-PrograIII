@@ -137,6 +137,7 @@ async function eliminarUsuario(req, res) {
     }
 }
 
+
 // Exporta las funciones en el formato solicitado
 module.exports = {
     iniciarSesion,
