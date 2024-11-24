@@ -227,16 +227,18 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (window.location.pathname.includes("panel.html")) {
-    // Obtener propiedades y artículos en paralelo
-    Promise.all([obtenerPropiedades(), obtenerArticulos()])
-      .then(([propiedades, articulos]) => {
+    // Obtener propiedades, artículos y usuarios en paralelo
+    Promise.all([obtenerPropiedades(), obtenerArticulos(), obtenerUsuarios()])
+      .then(([propiedades, articulos, usuarios]) => {
         crearTablaPropiedades(propiedades);
         crearTablaArticulos(articulos);
+        crearTablaUsuarios(usuarios); // Agregar usuarios a la tabla
       })
       .catch(error => {
         console.error('Error al obtener los datos:', error);
       });
   }
+
 
   // Cuarto bloque (ScrollReveal para animaciones)
   const revealOptions = {

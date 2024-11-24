@@ -88,6 +88,7 @@ async function crearUsuario(req, res) {
 
 // Obtener todos los usuarios
 async function obtenerUsuarios(req, res) {
+    console.log("hola");
     try {
         const usuarios = await Usuario.findAll();
         res.status(200).json(usuarios);
