@@ -85,7 +85,6 @@ async function crearUsuario(req, res) {
 
         // Si es un error de Zod (validación), enviar un mensaje específico
         if (error instanceof z.ZodError) {
-            console.log("error zod");
             return res.status(400).json({
                 mensaje: 'Error de validación',
                 detalles: error.errors, // Los detalles del error de validación de Zod
