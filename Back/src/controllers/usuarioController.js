@@ -1,6 +1,8 @@
 const Usuario = require('../models/usuarioModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { z } = require('zod');
+const { crearUsuarioSchema } = require('../schemas/validacion');
 
 // Clave secreta para firmar el token
 const JWT_SECRET = process.env.JWT_SECRET || 'mi_clave_secreta';
@@ -54,12 +56,12 @@ async function iniciarSesion(req, res) {
 // Crear un nuevo usuario
 async function crearUsuario(req, res) {
     try {
-        // Asegurarse de que todos los campos requeridos estén presentes
-        const { usuario, rol, password } = req.body;
+        // Validar los datos de entrada utilizando el esquema Zod
+        const datosUsuario = req.body;
+        crearUsuarioSchema.parse(datosUsuario); // Lanzará un error si los datos no son válidos
 
-        if (!usuario || !rol || !password) {
-            return res.status(400).json({ mensaje: 'Faltan datos requeridos' });
-        }
+        // Desestructurar los datos del usuario
+        const { usuario, rol, password } = datosUsuario;
 
         // Aquí podrías verificar si el usuario ya existe
         const usuarioExistente = await Usuario.findOne({ where: { usuario } });
@@ -80,15 +82,23 @@ async function crearUsuario(req, res) {
         // Devolver respuesta exitosa
         res.status(201).json({ mensaje: 'Usuario creado exitosamente', nuevoUsuario });
     } catch (error) {
-        // Devolver error si ocurre
-        console.error('Error al crear el usuario:', error);
+
+        // Si es un error de Zod (validación), enviar un mensaje específico
+        if (error instanceof z.ZodError) {
+            console.log("error zod");
+            return res.status(400).json({
+                mensaje: 'Error de validación',
+                detalles: error.errors, // Los detalles del error de validación de Zod
+            });
+        }
+
+        // Si es otro error, devolver un mensaje genérico
         res.status(400).json({ mensaje: 'Error al crear el usuario', error: error.message });
     }
 }
 
 // Obtener todos los usuarios
 async function obtenerUsuarios(req, res) {
-    console.log("hola");
     try {
         const usuarios = await Usuario.findAll();
         res.status(200).json(usuarios);
