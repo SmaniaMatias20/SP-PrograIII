@@ -177,11 +177,28 @@ document.addEventListener('DOMContentLoaded', function () {
         const reservaItem = document.createElement('div');
         reservaItem.classList.add('favorito-item');
         reservaItem.innerHTML = `
-          <p><strong>${item.titulo}</strong> - ${item.dormitorios} Dormitorios</p>
-          <p>Descripción: ${resumirTexto(item.descripcion, longitudMaximaDescripcion)}</p>
-          <p>Precio: ${item.precio}</p>
-          <p>Baños: ${item.sanitarios}, Estacionamientos: ${item.estacionamientos}</p>
-          <button class="boton-rojo eliminar-reserva" data-index="${index}">Eliminar de reservas</button>
+          <div class="contenido-anuncios">
+          <h3>${item.titulo}</h3>
+          <p>${resumirTexto(item.descripcion, longitudMaximaDescripcion)}</p>
+          <p class="precio">${item.precio}</p>
+          <ul class="iconos-caracteristicas">
+            <li>
+              <img class="icono" loading="lazy" src="../src/iconos/icono_wc.svg" alt="icono_wc" />
+              <p>${item.sanitarios}</p>
+            </li>
+            <li>
+              <img class="icono" loading="lazy" src="../src/iconos/icono_estacionamiento.svg" alt="icono_estacionamiento" />
+              <p>${item.estacionamientos}</p>
+            </li>
+            <li>
+              <img class="icono" loading="lazy" src="../src/iconos/icono_dormitorio.svg" alt="icono_dormitorio" />
+              <p>${item.dormitorios}</p>
+            </li>
+          </ul>
+          <a href="contacto.html" class="boton-verde">Contactar</a>
+          <a href="/generar-pdf" class="boton-azul">Descargar Comprobante</a>
+          <button class="boton-rojo eliminar-reserva" data-index="${index}">Eliminar</button>
+        </div>
         `;
 
         listaReservas.appendChild(reservaItem);

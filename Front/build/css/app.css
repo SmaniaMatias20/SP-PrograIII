@@ -220,15 +220,11 @@ h4 {
 
 .boton-verde {
   background-color: var(--verde);
+  color: white;
   border: none;
-  color: var(--blanco);
-  display: inline-block;
-  /* Corregido de 'inlane-block' */
-  font-weight: 700;
-  margin-top: 2.5rem;
-  padding: 1rem 3rem;
-  text-align: center;
-  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .boton-verde:hover {
@@ -934,6 +930,19 @@ h4 {
 
 .favorito-item p {
   margin: 0;
+}
+
+.boton-azul {
+  background-color: var(--gris-oscuro);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.boton-azul:hover {
+  background-color: var(--gris-oscuro);
 }
 
 .boton-rojo {
