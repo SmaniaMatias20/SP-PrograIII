@@ -69,18 +69,6 @@ const Propiedad = sequelize.define('propiedad', {
         allowNull: false,
         defaultValue: false,
     },
-    usuario_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-            model: 'usuario', // Clave foránea a la tabla de usuarios
-            key: 'id'
-        },
-        validate: {
-            isInt: true,
-            min: 0
-        }
-    }
 }, {
     tableName: 'propiedad',
     timestamps: false
