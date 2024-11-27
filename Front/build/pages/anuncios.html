@@ -43,6 +43,34 @@
   </header>
 
   <main class="contenedor seccion">
+    <!-- Formulario de filtros -->
+    <div class="filtros">
+      <label for="banos">Baños:</label>
+      <select id="banos">
+        <option value="">Todos</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3+</option>
+      </select>
+
+      <label for="habitaciones">Habitaciones:</label>
+      <select id="habitaciones">
+        <option value="">Todos</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3+</option>
+      </select>
+
+      <label for="cocheras">Cocheras:</label>
+      <select id="cocheras">
+        <option value="">Todos</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3+</option>
+      </select>
+
+      <button id="filtrar-btn" class="boton-verde">Filtrar</button>
+    </div>
     <h1>Casas y Departamentos en venta</h1>
     <div class="contenedor-anuncios" id="property-list">
       <!-- Anuncios -->

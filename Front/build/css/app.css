@@ -246,9 +246,11 @@ h4 {
 .darkMode h1,
 .darkMode h2,
 .darkMode h3,
-.darkMode h4 {
+.darkMode h4,
+.darkMode label {
   color: var(--blanco);
 }
+
 
 .darkMode .anuncio {
   background-color: var(--gris-claro);
