@@ -68,55 +68,6 @@ function toggleNavigation() {
   document.querySelector(".navegacion").classList.toggle("mostrar");
 }
 
-
-
-
-/// <summary>
-/// Carga la propiedad desde los parámetros de la URL y actualiza la interfaz de usuario.
-/// </summary>
-async function cargarPropiedad() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("id");
-
-  if (propiedades[id]) {
-    const propiedad = propiedades[id];
-
-    // Update property details in the DOM
-    document.getElementById("titulo-propiedad").textContent = propiedad.titulo;
-    document.getElementById("descripcion-propiedad").textContent = propiedad.descripcion;
-    document.getElementById("precio-propiedad").textContent = propiedad.precio;
-    document.getElementById("sanitarios").textContent = propiedad.sanitarios;
-    document.getElementById("estacionamientos").textContent = propiedad.estacionamientos;
-    document.getElementById("dormitorios").textContent = propiedad.dormitorios;
-
-    // Set interior images in the carousel
-    const imagenesInterior = propiedad.imagenesInterior;
-    const carouselInner = document.querySelector('.carousel-inner');
-    carouselInner.innerHTML = ''; // Clear previous content
-
-    imagenesInterior.forEach((imagen, index) => {
-      const item = document.createElement('div');
-      item.className = `carousel-item ${index === 0 ? 'active' : ''}`;
-      const img = document.createElement('img');
-      img.src = imagen;
-      img.alt = `Imagen Interior ${index + 1}`;
-      img.className = 'img-fluid mb-4';
-      item.appendChild(img);
-      carouselInner.appendChild(item);
-    });
-
-    // Initialize the map asynchronously
-    try {
-      await inicializarMapa(propiedad.ubicacion); // Await the asynchronous map initialization
-    } catch (error) {
-      console.error("Error al inicializar el mapa:", error);
-      document.body.innerHTML = "<h1 class='text-center'>Error al cargar el mapa</h1>";
-    }
-  } else {
-    document.body.innerHTML = "<h1 class='text-center'>Propiedad no encontrada</h1>";
-  }
-}
-
 /// <summary>
 /// Inicializa el mapa de Google Maps en la ubicación de la propiedad.
 /// </summary>
@@ -141,89 +92,6 @@ function inicializarMapa(location) {
 //#region General
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Primer bloque (Reserva de propiedad)
-  const reservaButton = document.getElementById('btn-reserva');
-
-  if (reservaButton) {
-    reservaButton.addEventListener('click', function () {
-      const propiedad = {
-        titulo: document.getElementById('titulo-propiedad').textContent,
-        descripcion: document.getElementById('descripcion-propiedad').textContent,
-        precio: document.getElementById('precio-propiedad').textContent,
-        sanitarios: document.getElementById('sanitarios').textContent,
-        estacionamientos: document.getElementById('estacionamientos').textContent,
-        dormitorios: document.getElementById('dormitorios').textContent
-        //usuarioReserva:localStorage.getItem();
-      };
-
-      let reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-
-      reservas.push(propiedad);
-
-      localStorage.setItem('reservas', JSON.stringify(reservas));
-
-      window.location.href = 'reservas.html';
-    });
-  }
-
-  // Segundo bloque (Mostrar reservas)
-  const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-  const longitudMaximaDescripcion = 70;
-  const listaReservas = document.querySelector('.lista-reservas');
-
-  if (listaReservas) {
-    if (reservas.length > 0) {
-      reservas.forEach((item, index) => {
-        const reservaItem = document.createElement('div');
-        reservaItem.classList.add('favorito-item');
-        reservaItem.innerHTML = `
-          <div class="contenido-anuncios">
-          <h3>${item.titulo}</h3>
-          <p>${resumirTexto(item.descripcion, longitudMaximaDescripcion)}</p>
-          <p class="precio">${item.precio}</p>
-          <ul class="iconos-caracteristicas">
-            <li>
-              <img class="icono" loading="lazy" src="../src/iconos/icono_wc.svg" alt="icono_wc" />
-              <p>${item.sanitarios}</p>
-            </li>
-            <li>
-              <img class="icono" loading="lazy" src="../src/iconos/icono_estacionamiento.svg" alt="icono_estacionamiento" />
-              <p>${item.estacionamientos}</p>
-            </li>
-            <li>
-              <img class="icono" loading="lazy" src="../src/iconos/icono_dormitorio.svg" alt="icono_dormitorio" />
-              <p>${item.dormitorios}</p>
-            </li>
-          </ul>
-          <a href="contacto.html" class="boton-verde">Contactar</a>
-          <a href="/generar-pdf" class="boton-azul">Descargar Comprobante</a>
-          <button class="boton-rojo eliminar-reserva" data-index="${index}">Eliminar</button>
-        </div>
-        `;
-
-        listaReservas.appendChild(reservaItem);
-      });
-
-      // Eliminar reserva
-      document.querySelectorAll('.eliminar-reserva').forEach(button => {
-        button.addEventListener('click', function () {
-          const index = this.getAttribute('data-index');
-
-          reservas.splice(index, 1);
-          localStorage.setItem('reservas', JSON.stringify(reservas));
-
-          this.parentElement.remove();
-
-          if (reservas.length === 0) {
-            listaReservas.innerHTML = '<p>No hay ninguna reserva en este momento.</p>';
-          }
-        });
-      });
-    } else {
-      listaReservas.innerHTML = '<p>No hay ninguna reserva en este momento.</p>';
-    }
-  }
-
   // Tercer bloque (Inicialización de otras páginas)
   eventListeners();
   darkMode();
@@ -240,7 +108,17 @@ document.addEventListener('DOMContentLoaded', function () {
   if (isListaPropiedades && window.location.pathname.includes("anuncios.html")) {
     mostrarPropiedades();
   } else if (window.location.pathname.includes("propiedad.html")) {
-    cargarPropiedad();
+    // Obtener el ID de la propiedad del localStorage
+    const propiedadId = localStorage.getItem('propiedadId');
+
+    console.log(propiedadId);
+
+    // Verificar si el ID existe en localStorage
+    if (propiedadId) {
+      cargarPropiedad(propiedadId); // Llamar a la función que carga la propiedad usando el ID
+    } else {
+      console.log("No se encontró el ID de la propiedad.");
+    }
   }
 
   if (window.location.pathname.includes("panel.html")) {

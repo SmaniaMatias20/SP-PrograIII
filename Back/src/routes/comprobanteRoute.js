@@ -4,7 +4,7 @@ const comprobanteControllers = require('../controllers/comprobanteController');
 const { verificarToken, tokenAdmin } = require('../middlewares/authMiddleware');
 
 // Ruta para crear una nueva propiedad
-router.post("/crearComprobante", verificarToken, tokenAdmin, comprobanteControllers.crearComprobante);
+router.post("/crearComprobante", comprobanteControllers.crearComprobante);
 
 // Ruta para listar todas las propiedades
 router.get("/obtenerComprobantes", comprobanteControllers.obtenerComprobantes);
