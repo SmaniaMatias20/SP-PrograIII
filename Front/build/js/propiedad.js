@@ -51,10 +51,10 @@ function crearTablaPropiedades(propiedades) {
 }
 
 
-// Función para crear un anuncio con los datos de una propiedad
 function crearAnuncio(propiedad, key) {
     const anuncio = document.createElement('div');
     anuncio.classList.add('anuncio');
+    console.log("entramos en crear anuncio");
 
     anuncio.innerHTML = `
       <picture>
@@ -85,15 +85,19 @@ function crearAnuncio(propiedad, key) {
 
     // Añadir un event listener al enlace para guardar el ID
     const botonVerPropiedad = anuncio.querySelector('a');
+
     botonVerPropiedad.addEventListener('click', (event) => {
         const propiedadId = event.target.getAttribute('data-id');
         localStorage.setItem('propiedadId', propiedadId); // Guardar el ID en el almacenamiento local
         // Redirigir a la página de detalles de la propiedad
         window.location.href = `propiedad.html?id=${propiedadId}`;
+
     });
+
 
     return anuncio;
 }
+
 
 // Función para obtener una propiedad por su ID
 async function obtenerPropiedadPorId(id) {
@@ -113,54 +117,6 @@ async function obtenerPropiedadPorId(id) {
 
         // Si ocurre un error, retornar null o un objeto vacío dependiendo de lo que necesites
         return null;
-    }
-}
-
-// Función para cargar la propiedad en una página
-async function cargarPropiedad(id) {
-    const propiedad = await obtenerPropiedadPorId(id); // Obtener la propiedad por ID desde el backend
-
-    console.log(propiedad);
-
-    if (!propiedad) {
-        console.error('La propiedad no se encontró.');
-        return;
-    }
-
-    // Establecer el título de la propiedad
-    const tituloPropiedad = document.getElementById('titulo-propiedad');
-    tituloPropiedad.textContent = propiedad.titulo;
-
-    // Añadir las imágenes del carrusel
-    const carouselInner = document.querySelector('.carousel-inner');
-    carouselInner.innerHTML = ''; // Limpiar el contenido anterior
-
-    propiedad.imagenes.forEach((imagen, index) => {
-        const item = document.createElement('div');
-        item.classList.add('carousel-item', index === 0 ? 'active' : ''); // Asegurarse de que la primera imagen esté activa
-
-        const img = document.createElement('img');
-        img.src = imagen;
-        img.alt = `Imagen ${index + 1} de la propiedad ${propiedad.titulo}`;
-        img.classList.add('d-block', 'w-100');
-
-        item.appendChild(img);
-        carouselInner.appendChild(item);
-    });
-
-    // Establecer la descripción, precio, sanitarios, estacionamientos, y dormitorios
-    document.getElementById('descripcion-propiedad').textContent = propiedad.descripcion;
-    document.getElementById('precio-propiedad').textContent = `$${propiedad.precio}`;
-    document.getElementById('sanitarios').textContent = propiedad.sanitarios;
-    document.getElementById('estacionamientos').textContent = propiedad.estacionamiento;
-    document.getElementById('dormitorios').textContent = propiedad.dormitorio;
-
-    // Si deseas incluir un mapa, puedes usar la API de Google Maps para mostrarlo en el contenedor 'map'.
-    if (propiedad.ubicacion) {
-        const map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: propiedad.ubicacion.lat, lng: propiedad.ubicacion.lng },
-            zoom: 14,
-        });
     }
 }
 
@@ -268,3 +224,55 @@ function resumirTexto(texto, longitudMaxima) {
         ? texto.substring(0, longitudMaxima) + '...'
         : texto;
 }
+
+function mostrarPropiedad(propiedad) {
+    // Obtener los elementos del DOM donde se mostrarán los detalles
+    const tituloElement = document.querySelector('#titulo-propiedad');
+    const descripcionElement = document.querySelector('#descripcion-propiedad');
+    const precioElement = document.querySelector('#precio-propiedad');
+    const sanitariosElement = document.querySelector('#sanitarios');
+    const estacionamientoElement = document.querySelector('#estacionamientos');
+    const dormitorioElement = document.querySelector('#dormitorios');
+    const carouselIndicators = document.querySelector('.carousel-indicators');
+    const carouselInner = document.querySelector('.carousel-inner');
+
+    // Rellenar los elementos con los datos de la propiedad
+    tituloElement.textContent = propiedad.titulo;
+    descripcionElement.textContent = propiedad.descripcion;
+    precioElement.textContent = `$${propiedad.precio}`;
+    sanitariosElement.textContent = propiedad.sanitarios;
+    estacionamientoElement.textContent = propiedad.estacionamiento;
+    dormitorioElement.textContent = propiedad.dormitorio;
+
+    // Limpiar los elementos del carrusel antes de agregar las nuevas imágenes
+    carouselIndicators.innerHTML = '';
+    carouselInner.innerHTML = '';
+
+    // Llenar el carrusel con las imágenes de la propiedad
+    propiedad.imagenes.forEach((imagen, index) => {
+        // Crear el indicador del carrusel
+        const indicator = document.createElement('button');
+        indicator.type = 'button';
+        indicator.setAttribute('data-bs-target', '#demo');
+        indicator.setAttribute('data-bs-slide-to', index);
+        indicator.classList.add('active');
+        if (index !== 0) indicator.classList.remove('active');
+        carouselIndicators.appendChild(indicator);
+
+        // Crear el elemento de la imagen en el carrusel
+        const carouselItem = document.createElement('div');
+        carouselItem.classList.add('carousel-item');
+        if (index === 0) carouselItem.classList.add('active'); // Primera imagen como activa
+
+        const imgElement = document.createElement('img');
+        imgElement.src = imagen;
+        imgElement.classList.add('d-block', 'w-100');
+        imgElement.alt = `Imagen de la propiedad ${propiedad.titulo}`;
+        carouselItem.appendChild(imgElement);
+
+        carouselInner.appendChild(carouselItem);
+    });
+}
+
+
+

@@ -73,7 +73,7 @@ function toggleNavigation() {
 /// </summary>
 /// <param name="ubicacion">La ubicación de la propiedad que se mostrará en el mapa.</param>
 /// <returns>Una promesa que se resuelve cuando el mapa ha sido inicializado.</returns>
-function inicializarMapa(location) {
+function initMap(location) {
   return new Promise((resolve, reject) => {
     if (typeof google !== 'undefined' && google.maps) {
 
@@ -91,7 +91,7 @@ function inicializarMapa(location) {
 
 //#region General
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   // Tercer bloque (Inicialización de otras páginas)
   eventListeners();
   darkMode();
@@ -108,18 +108,27 @@ document.addEventListener('DOMContentLoaded', function () {
   if (isListaPropiedades && window.location.pathname.includes("anuncios.html")) {
     mostrarPropiedades();
   } else if (window.location.pathname.includes("propiedad.html")) {
-    // Obtener el ID de la propiedad del localStorage
+    // Recuperar el ID de la propiedad desde el almacenamiento local
     const propiedadId = localStorage.getItem('propiedadId');
 
-    console.log(propiedadId);
-
-    // Verificar si el ID existe en localStorage
     if (propiedadId) {
-      cargarPropiedad(propiedadId); // Llamar a la función que carga la propiedad usando el ID
+      console.log("habemus id", propiedadId);
+      // Obtener los detalles de la propiedad usando su ID
+      const propiedad = await obtenerPropiedadPorId(propiedadId);
+
+      console.log("propiedad", propiedad);
+
+      if (propiedad) {
+        // Llamar a la función para mostrar la propiedad en el HTML
+        mostrarPropiedad(propiedad);
+      } else {
+        console.error('No se pudo obtener la propiedad');
+      }
     } else {
-      console.log("No se encontró el ID de la propiedad.");
+      console.error('ID de propiedad no encontrado en el almacenamiento local');
     }
   }
+
 
   if (window.location.pathname.includes("panel.html")) {
     // Obtener propiedades, artículos y usuarios en paralelo
