@@ -15,6 +15,7 @@ const app = express();
 app.use('/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
 
 
+
 // Puerto donde se va a correr el server
 const PORT = process.env.PORT || 3000;
 
