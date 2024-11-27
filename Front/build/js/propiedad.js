@@ -120,6 +120,30 @@ async function obtenerPropiedadPorId(id) {
     }
 }
 
+function mostrarPropiedadesFiltradas(propiedades) {
+    const contenedor = document.querySelector(".contenedor-anuncios");
+    if (!contenedor) {
+        console.error('El contenedor de anuncios no se encontró.');
+        return;
+    }
+
+    contenedor.innerHTML = "";
+
+    const totalPropiedades = propiedades.length;
+    const totalPaginas = Math.ceil(totalPropiedades / itemsPorPagina);
+
+    const primerIndice = (paginaActual - 1) * itemsPorPagina;
+    const ultimoIndice = Math.min(primerIndice + itemsPorPagina, totalPropiedades);
+
+    propiedades.slice(primerIndice, ultimoIndice).forEach((propiedad, index) => {
+        const anuncio = crearAnuncio(propiedad, index);
+        contenedor.appendChild(anuncio);
+    });
+
+    if (totalPaginas > 1) {
+        mostrarPaginacion(totalPaginas);
+    }
+}
 
 
 
