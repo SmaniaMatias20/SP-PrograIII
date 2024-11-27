@@ -118,6 +118,12 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (propiedad) {
         // Llamar a la función para mostrar la propiedad en el HTML
         mostrarPropiedad(propiedad);
+        document.getElementById('filtrar-btn').addEventListener('click', async () => {
+          const propiedades = await obtenerPropiedades();
+          const propiedadesFiltradas = filtrarPropiedades(propiedades);
+          paginaActual = 1; // Reiniciar a la primera
+          mostrarPropiedadesFiltradas(propiedadesFiltradas);
+        });
       } else {
         console.error('No se pudo obtener la propiedad');
       }
