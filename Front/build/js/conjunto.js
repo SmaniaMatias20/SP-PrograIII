@@ -72,21 +72,21 @@ function toggleNavigation() {
 /// Inicializa el mapa de Google Maps en la ubicación de la propiedad.
 /// </summary>
 /// <param name="ubicacion">La ubicación de la propiedad que se mostrará en el mapa.</param>
-/// <returns>Una promesa que se resuelve cuando el mapa ha sido inicializado.</returns>
-function initMap(location) {
-  return new Promise((resolve, reject) => {
-    if (typeof google !== 'undefined' && google.maps) {
+// /// <returns>Una promesa que se resuelve cuando el mapa ha sido inicializado.</returns>
+// function initMap(location) {
+//   return new Promise((resolve, reject) => {
+//     if (typeof google !== 'undefined' && google.maps) {
 
-      const map = new google.maps.Map(document.getElementById("map"), {
-        center: location,
-        zoom: 15,
-      });
-      resolve(map);
-    } else {
-      reject(new Error("Google Maps API is not loaded"));
-    }
-  });
-}
+//       const map = new google.maps.Map(document.getElementById("map"), {
+//         center: location,
+//         zoom: 15,
+//       });
+//       resolve(map);
+//     } else {
+//       reject(new Error("Google Maps API is not loaded"));
+//     }
+//   });
+// }
 //#endregion
 
 //#region General
@@ -112,11 +112,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     const propiedadId = localStorage.getItem('propiedadId');
 
     if (propiedadId) {
-      console.log("habemus id", propiedadId);
       // Obtener los detalles de la propiedad usando su ID
       const propiedad = await obtenerPropiedadPorId(propiedadId);
-
-      console.log("propiedad", propiedad);
 
       if (propiedad) {
         // Llamar a la función para mostrar la propiedad en el HTML
