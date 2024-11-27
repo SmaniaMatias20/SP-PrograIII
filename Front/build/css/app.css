@@ -1063,7 +1063,8 @@ h4 {
 
 /* Estilo general para ambas tablas */
 #tabla-propiedades,
-#tabla-articulos {
+#tabla-articulos,
+#tabla-usuarios {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
@@ -1073,8 +1074,10 @@ h4 {
 }
 
 /* Estilo de las celdas de las tablas */
+#tabla-usuarios th,
 #tabla-propiedades th,
 #tabla-articulos th,
+#tabla-usuarios td,
 #tabla-propiedades td,
 #tabla-articulos td {
   padding: 12px 15px;
@@ -1083,6 +1086,7 @@ h4 {
 }
 
 /* Estilo de las cabeceras de las tablas */
+#tabla-usuarios th,
 #tabla-propiedades th,
 #tabla-articulos th {
   background-color: var(--naranja);
@@ -1092,12 +1096,14 @@ h4 {
 }
 
 /* Estilo para las filas de las tablas */
+#tabla-usuarios tr:nth-child(even),
 #tabla-propiedades tr:nth-child(even),
 #tabla-articulos tr:nth-child(even) {
   background-color: var(--blanco);
 }
 
 /* Efecto de hover en las filas de ambas tablas */
+#tabla-usuarios tr:hover,
 #tabla-propiedades tr:hover,
 #tabla-articulos tr:hover {
   background-color: #f1f1f1;
@@ -1105,6 +1111,7 @@ h4 {
 }
 
 /* Estilo para el borde inferior de las tablas */
+#tabla-usuarios,
 #tabla-propiedades,
 #tabla-articulos {
   border: 2px solid var(--naranja);

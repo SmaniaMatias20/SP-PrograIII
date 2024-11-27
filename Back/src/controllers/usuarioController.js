@@ -1,9 +1,58 @@
 const Usuario = require('../models/usuarioModel');
+const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { z } = require('zod');
+const { crearUsuarioSchema } = require('../schemas/validacion');
 
 // Clave secreta para firmar el token
 const JWT_SECRET = process.env.JWT_SECRET || 'mi_clave_secreta';
+
+// Configuración de Nodemailer (puedes cambiar el servicio o usar otro proveedor)
+const transporter = nodemailer.createTransport({
+    service: 'gmail', // Usando Gmail, puedes cambiarlo si usas otro proveedor
+    auth: {
+        user: 'tu-email@gmail.com', // Tu dirección de correo de Gmail
+        pass: 'tu-contraseña' // Tu contraseña o contraseña de aplicación de Gmail
+    }
+});
+
+// Función para enviar el mensaje
+async function enviarMensaje(req, res) {
+    try {
+        // Desestructurar los datos del formulario
+        const { nombre, email, telefono, mensaje } = req.body;
+
+        // Validar que todos los campos estén presentes
+        if (!nombre || !email || !telefono || !mensaje) {
+            return res.status(400).json({ success: false, mensaje: 'Todos los campos son requeridos' });
+        }
+
+        // Configuración del correo electrónico
+        const mailOptions = {
+            from: email, // Dirección de correo del remitente (en este caso el usuario)
+            to: 'correo-destino@example.com', // Dirección de correo destino (correo predeterminado)
+            subject: 'Formulario de Contacto - Bienes Raices',
+            text: `
+                Nombre: ${nombre}
+                Email: ${email}
+                Teléfono: ${telefono}
+                Mensaje: ${mensaje}
+            `
+        };
+
+        // Enviar el correo usando el transportador configurado
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return res.status(500).json({ success: false, mensaje: 'Hubo un error al enviar el correo', error });
+            }
+            res.status(200).json({ success: true, mensaje: 'Mensaje enviado exitosamente', info });
+        });
+
+    } catch (error) {
+        res.status(500).json({ success: false, mensaje: 'Error al procesar el mensaje', error: error.message });
+    }
+}
 
 async function iniciarSesion(req, res) {
     try {
@@ -54,12 +103,12 @@ async function iniciarSesion(req, res) {
 // Crear un nuevo usuario
 async function crearUsuario(req, res) {
     try {
-        // Asegurarse de que todos los campos requeridos estén presentes
-        const { usuario, rol, password } = req.body;
+        // Validar los datos de entrada utilizando el esquema Zod
+        const datosUsuario = req.body;
+        crearUsuarioSchema.parse(datosUsuario); // Lanzará un error si los datos no son válidos
 
-        if (!usuario || !rol || !password) {
-            return res.status(400).json({ mensaje: 'Faltan datos requeridos' });
-        }
+        // Desestructurar los datos del usuario
+        const { usuario, rol, password } = datosUsuario;
 
         // Aquí podrías verificar si el usuario ya existe
         const usuarioExistente = await Usuario.findOne({ where: { usuario } });
@@ -80,8 +129,16 @@ async function crearUsuario(req, res) {
         // Devolver respuesta exitosa
         res.status(201).json({ mensaje: 'Usuario creado exitosamente', nuevoUsuario });
     } catch (error) {
-        // Devolver error si ocurre
-        console.error('Error al crear el usuario:', error);
+
+        // Si es un error de Zod (validación), enviar un mensaje específico
+        if (error instanceof z.ZodError) {
+            return res.status(400).json({
+                mensaje: 'Error de validación',
+                detalles: error.errors, // Los detalles del error de validación de Zod
+            });
+        }
+
+        // Si es otro error, devolver un mensaje genérico
         res.status(400).json({ mensaje: 'Error al crear el usuario', error: error.message });
     }
 }
@@ -145,6 +202,7 @@ module.exports = {
     obtenerUsuarios,
     obtenerUsuarioPorId,
     actualizarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    enviarMensaje
 };
 

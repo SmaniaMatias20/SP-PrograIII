@@ -11,7 +11,6 @@ async function obtenerPropiedades() {
 
         // Obtener los datos de la respuesta
         const propiedades = response.data;
-        console.log(propiedades);
 
         // Retornar las propiedades obtenidas
         return propiedades;

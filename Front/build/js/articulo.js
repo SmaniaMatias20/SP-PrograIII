@@ -9,8 +9,6 @@ async function obtenerArticulos() {
             }
         });
 
-        console.log(response);
-
         // Obtener los datos de la respuesta
         const articulos = response.data;
 

@@ -21,4 +21,6 @@ router.put("/actualizarUsuario/:id", verificarToken, tokenAdmin, usuariosControl
 // Ruta para eliminar un usuario por ID (solo admin puede hacerlo)
 router.delete("/eliminarUsuario/:id", verificarToken, tokenAdmin, usuariosControllers.eliminarUsuario);
 
+router.post("/enviarMensaje", usuariosControllers.enviarMensaje);
+
 module.exports = router;
