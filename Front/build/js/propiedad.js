@@ -56,10 +56,6 @@ function crearAnuncio(propiedad, key) {
     const anuncio = document.createElement('div');
     anuncio.classList.add('anuncio');
 
-    // <picture>
-    // <source srcset="${propiedad.imagen}" type="image/jpeg" />
-    // <img src="${propiedad.imagen}" alt="Imagen ${propiedad.titulo}" />
-    // </picture>
     anuncio.innerHTML = `
       <picture>
         <source srcset="${propiedad.imagen}" type="image/jpeg" />
@@ -67,7 +63,7 @@ function crearAnuncio(propiedad, key) {
       </picture>
       <div class="contenido-anuncios">
         <h3>${propiedad.titulo}</h3>
-        <p>${resumirTexto(propiedad.descripcion, 50)}</p>  <!-- Limitar la descripción a 50 caracteres -->
+        <p>${resumirTexto(propiedad.descripcion, 50)}</p>
         <p class="precio">$${propiedad.precio}</p>
         <ul class="iconos-caracteristicas">
           <li>
@@ -83,12 +79,91 @@ function crearAnuncio(propiedad, key) {
             <p>${propiedad.dormitorio}</p>
           </li>
         </ul>
-        <a href="propiedad.html?id=${key}" class="boton-amarillo-block">Ver Propiedad</a>
+        <a href="javascript:void(0);" class="boton-amarillo-block" data-id="${propiedad.id}">Ver Propiedad</a>
       </div>
     `;
 
+    // Añadir un event listener al enlace para guardar el ID
+    const botonVerPropiedad = anuncio.querySelector('a');
+    botonVerPropiedad.addEventListener('click', (event) => {
+        const propiedadId = event.target.getAttribute('data-id');
+        localStorage.setItem('propiedadId', propiedadId); // Guardar el ID en el almacenamiento local
+        // Redirigir a la página de detalles de la propiedad
+        window.location.href = `propiedad.html?id=${propiedadId}`;
+    });
+
     return anuncio;
 }
+
+// Función para obtener una propiedad por su ID
+async function obtenerPropiedadPorId(id) {
+    try {
+        // Realizar la solicitud HTTP usando axios para obtener la propiedad por su ID
+        const response = await axios.get(`http://localhost:3000/propiedades/obtenerPropiedad/${id}`, {
+        });
+
+        // Obtener los datos de la respuesta
+        const propiedad = response.data;
+
+        // Retornar la propiedad obtenida
+        return propiedad;
+
+    } catch (error) {
+        console.error('Error al obtener la propiedad por ID:', error);
+
+        // Si ocurre un error, retornar null o un objeto vacío dependiendo de lo que necesites
+        return null;
+    }
+}
+
+// Función para cargar la propiedad en una página
+async function cargarPropiedad(id) {
+    const propiedad = await obtenerPropiedadPorId(id); // Obtener la propiedad por ID desde el backend
+
+    console.log(propiedad);
+
+    if (!propiedad) {
+        console.error('La propiedad no se encontró.');
+        return;
+    }
+
+    // Establecer el título de la propiedad
+    const tituloPropiedad = document.getElementById('titulo-propiedad');
+    tituloPropiedad.textContent = propiedad.titulo;
+
+    // Añadir las imágenes del carrusel
+    const carouselInner = document.querySelector('.carousel-inner');
+    carouselInner.innerHTML = ''; // Limpiar el contenido anterior
+
+    propiedad.imagenes.forEach((imagen, index) => {
+        const item = document.createElement('div');
+        item.classList.add('carousel-item', index === 0 ? 'active' : ''); // Asegurarse de que la primera imagen esté activa
+
+        const img = document.createElement('img');
+        img.src = imagen;
+        img.alt = `Imagen ${index + 1} de la propiedad ${propiedad.titulo}`;
+        img.classList.add('d-block', 'w-100');
+
+        item.appendChild(img);
+        carouselInner.appendChild(item);
+    });
+
+    // Establecer la descripción, precio, sanitarios, estacionamientos, y dormitorios
+    document.getElementById('descripcion-propiedad').textContent = propiedad.descripcion;
+    document.getElementById('precio-propiedad').textContent = `$${propiedad.precio}`;
+    document.getElementById('sanitarios').textContent = propiedad.sanitarios;
+    document.getElementById('estacionamientos').textContent = propiedad.estacionamiento;
+    document.getElementById('dormitorios').textContent = propiedad.dormitorio;
+
+    // Si deseas incluir un mapa, puedes usar la API de Google Maps para mostrarlo en el contenedor 'map'.
+    if (propiedad.ubicacion) {
+        const map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: propiedad.ubicacion.lat, lng: propiedad.ubicacion.lng },
+            zoom: 14,
+        });
+    }
+}
+
 
 
 
