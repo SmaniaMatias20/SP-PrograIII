@@ -141,6 +141,7 @@ function inicializarMapa(location) {
 //#region General
 
 document.addEventListener('DOMContentLoaded', function () {
+
   // Primer bloque (Reserva de propiedad)
   const reservaButton = document.getElementById('btn-reserva');
 
