@@ -67,27 +67,35 @@ function eventListeners() {
 function toggleNavigation() {
   document.querySelector(".navegacion").classList.toggle("mostrar");
 }
-
-/// <summary>
-/// Inicializa el mapa de Google Maps en la ubicación de la propiedad.
-/// </summary>
-/// <param name="ubicacion">La ubicación de la propiedad que se mostrará en el mapa.</param>
-// /// <returns>Una promesa que se resuelve cuando el mapa ha sido inicializado.</returns>
-// function initMap(location) {
-//   return new Promise((resolve, reject) => {
-//     if (typeof google !== 'undefined' && google.maps) {
-
-//       const map = new google.maps.Map(document.getElementById("map"), {
-//         center: location,
-//         zoom: 15,
-//       });
-//       resolve(map);
-//     } else {
-//       reject(new Error("Google Maps API is not loaded"));
-//     }
-//   });
-// }
 //#endregion
+
+function navbarRender() {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    try {
+      const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decodificar el payload del JWT
+      const userRole = decodedToken.rol;
+
+      // Verificar el rol del usuario
+      if (userRole === 'admin') {
+        // Mostrar el panel de control solo si el rol es admin
+        document.getElementById('contacto-link').style.display = 'none';
+        document.getElementById('reservas-link').style.display = 'none';
+        document.getElementById('panel-de-control-link').style.display = 'inline-block';
+      } else {
+        // Si no es admin, ocultar el panel de control
+        document.getElementById('panel-de-control-link').style.display = 'none';
+      }
+    } catch (error) {
+      console.error("Error al decodificar el token", error);
+      window.location.href = 'index.html'; // Redirigir si ocurre un error en el token
+    }
+  } else {
+    window.location.href = 'index.html'; // Redirigir si no hay token
+  }
+}
+
 
 //#region General
 
@@ -114,6 +122,9 @@ document.addEventListener('DOMContentLoaded', async function () {
       mostrarPropiedadesFiltradas(propiedadesFiltradas);
     });
   } else if (window.location.pathname.includes("propiedad.html")) {
+
+    navbarRender();
+
     // Recuperar el ID de la propiedad desde el almacenamiento local
     const propiedadId = localStorage.getItem('propiedadId');
 
@@ -165,23 +176,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   ScrollReveal().reveal('main', revealOptions);
   ScrollReveal().reveal('section', revealOptions);
 
-  // Quinto bloque (Verificación de token y rol de usuario)
-  const token = localStorage.getItem('token');
-
-  if (token) {
-    const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decodificamos la parte del payload del JWT
-    const userRole = decodedToken.rol;
-
-    if (userRole === 'admin') {
-      document.getElementById('contacto-link').style.display = 'none';
-      document.getElementById('reservas-link').style.display = 'none';
-      document.getElementById('panel-de-control-link').style.display = 'inline-block';
-    } else {
-      document.getElementById('panel-de-control-link').style.display = 'none';
-    }
-  } else {
-    window.location.href = 'index.html';
-  }
+  navbarRender();
 });
 
 //#region Cupones
