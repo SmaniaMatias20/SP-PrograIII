@@ -120,30 +120,6 @@ async function obtenerPropiedadPorId(id) {
     }
 }
 
-function mostrarPropiedadesFiltradas(propiedades) {
-    const contenedor = document.querySelector(".contenedor-anuncios");
-    if (!contenedor) {
-        console.error('El contenedor de anuncios no se encontró.');
-        return;
-    }
-
-    contenedor.innerHTML = "";
-
-    const totalPropiedades = propiedades.length;
-    const totalPaginas = Math.ceil(totalPropiedades / itemsPorPagina);
-
-    const primerIndice = (paginaActual - 1) * itemsPorPagina;
-    const ultimoIndice = Math.min(primerIndice + itemsPorPagina, totalPropiedades);
-
-    propiedades.slice(primerIndice, ultimoIndice).forEach((propiedad, index) => {
-        const anuncio = crearAnuncio(propiedad, index);
-        contenedor.appendChild(anuncio);
-    });
-
-    if (totalPaginas > 1) {
-        mostrarPaginacion(totalPaginas);
-    }
-}
 
 
 
@@ -181,6 +157,31 @@ async function mostrarPropiedades(cantidad = 7) {
     });
 
     // Mostrar la paginación si es necesario
+    if (totalPaginas > 1) {
+        mostrarPaginacion(totalPaginas);
+    }
+}
+
+function mostrarPropiedadesFiltradas(propiedades) {
+    const contenedor = document.querySelector(".contenedor-anuncios");
+    if (!contenedor) {
+        console.error('El contenedor de anuncios no se encontró.');
+        return;
+    }
+
+    contenedor.innerHTML = "";
+
+    const totalPropiedades = propiedades.length;
+    const totalPaginas = Math.ceil(totalPropiedades / itemsPorPagina);
+
+    const primerIndice = (paginaActual - 1) * itemsPorPagina;
+    const ultimoIndice = Math.min(primerIndice + itemsPorPagina, totalPropiedades);
+
+    propiedades.slice(primerIndice, ultimoIndice).forEach((propiedad, index) => {
+        const anuncio = crearAnuncio(propiedad, index);
+        contenedor.appendChild(anuncio);
+    });
+
     if (totalPaginas > 1) {
         mostrarPaginacion(totalPaginas);
     }
@@ -242,6 +243,22 @@ function mostrarPaginacion(totalPaginas) {
     });
     contenedorPaginacion.appendChild(botonSiguiente);
 }
+
+function filtrarPropiedades(propiedades) {
+    const filtroBanos = document.getElementById('banos').value;
+    const filtroHabitaciones = document.getElementById('habitaciones').value;
+    const filtroCocheras = document.getElementById('cocheras').value;
+
+    return propiedades.filter(propiedad => {
+        const cumpleBanos = !filtroBanos || (filtroBanos === '3' ? propiedad.sanitarios >= 3 : propiedad.sanitarios == filtroBanos);
+        const cumpleHabitaciones = !filtroHabitaciones || (filtroHabitaciones === '3' ? propiedad.dormitorio >= 3 : propiedad.dormitorio == filtroHabitaciones);
+        const cumpleCocheras = !filtroCocheras || (filtroCocheras === '3' ? propiedad.estacionamiento >= 3 : propiedad.estacionamiento == filtroCocheras);
+
+        return cumpleBanos && cumpleHabitaciones && cumpleCocheras;
+    });
+}
+
+
 
 function resumirTexto(texto, longitudMaxima) {
     return texto.length > longitudMaxima

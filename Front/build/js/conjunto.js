@@ -107,6 +107,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   if (isListaPropiedades && window.location.pathname.includes("anuncios.html")) {
     mostrarPropiedades();
+    document.getElementById('filtrar-btn').addEventListener('click', async () => {
+      const propiedades = await obtenerPropiedades();
+      const propiedadesFiltradas = filtrarPropiedades(propiedades);
+      paginaActual = 1; // Reiniciar a la primera
+      mostrarPropiedadesFiltradas(propiedadesFiltradas);
+    });
   } else if (window.location.pathname.includes("propiedad.html")) {
     // Recuperar el ID de la propiedad desde el almacenamiento local
     const propiedadId = localStorage.getItem('propiedadId');
