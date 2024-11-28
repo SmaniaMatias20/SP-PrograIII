@@ -45,7 +45,7 @@ El **Panel de Administración** es una nueva sección disponible en el navbar, a
 - **Administrar anuncios**: Crear, editar o eliminar propiedades en venta.
 - **Ver estadísticas**: Revisar visitas y métricas de las propiedades.
 - **Gestionar usuarios**: Administrar los datos de los usuarios registrados.
-  
+
 El panel está protegido por autenticación, garantizando que solo los usuarios con permisos puedan acceder y realizar cambios en el sitio.
 
 ## Backend
@@ -54,11 +54,13 @@ El panel está protegido por autenticación, garantizando que solo los usuarios 
 - **Node.js**: Para el desarrollo del backend.
 - **SQLite**: Base de datos utilizada para almacenar la información de propiedades, usuarios y reservas.
 - **Zod**: Biblioteca para las validaciones de datos en el backend.
-  
+
 ### 2. Funcionalidades del Backend
 - **API RESTful**: Comunicación entre el frontend y el backend para la gestión de propiedades, usuarios y reservas.
 - **Autenticación y Autorización**: Permite gestionar las sesiones de los usuarios, asegurando que solo los administradores puedan acceder al panel de administración.
 - **Validaciones con Zod**: Garantiza la validez de los datos antes de ser procesados.
+- **JWT (JSON Web Tokens)**: Se utiliza para la autenticación de usuarios, garantizando que las sesiones sean seguras.
+- **Bcrypt**: Se implementa para el hash de contraseñas, asegurando que la información de los usuarios se almacene de manera segura.
 
 ## Integrantes
 ![Desarrollador](https://img.icons8.com/color/48/000000/developer.png) Peña Enzo (Desarrollador)  
@@ -71,7 +73,7 @@ El panel está protegido por autenticación, garantizando que solo los usuarios 
 ![JavaScript](https://img.icons8.com/color/48/000000/javascript.png) JavaScript: Para la lógica y funcionalidad de la aplicación.  
 
 **Backend**:  
-![JavaScript](https://img.icons8.com/color/48/000000/javascript.png) JavaScript: Para la lógica y funcionalidad de la aplicación.
+![JavaScript](https://img.icons8.com/color/48/000000/javascript.png) JavaScript: Para la lógica y funcionalidad de la aplicación.  
 ![Database](https://img.icons8.com/color/48/000000/database.png) SQLite: Base de datos utilizada para gestionar la información.  
 ![Zod](https://img.icons8.com/color/48/000000/ok.png) Zod: Para la validación de datos.
 
@@ -89,4 +91,4 @@ Cabe aclarar que existe una **versión alternativa del proyecto** realizada util
 
 En resumen, con SQLite, el sitio web puede ser utilizado directamente desde el enlace proporcionado, sin complicaciones adicionales para los usuarios finales.
 
-
+Además, utilizamos **JWT** y **Bcrypt** para la autenticación de los usuarios, lo que garantiza que las sesiones sean seguras y las contraseñas se gestionen de forma adecuada.
