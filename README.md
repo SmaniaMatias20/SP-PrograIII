@@ -71,11 +71,11 @@ El panel está protegido por autenticación, garantizando que solo los usuarios 
 ![JavaScript](https://img.icons8.com/color/48/000000/javascript.png) JavaScript: Para la lógica y funcionalidad de la aplicación.  
 
 **Backend**:  
-![Node.js](https://img.icons8.com/color/48/000000/nodejs.png) Node.js: Para el desarrollo del servidor backend.  
-![SQLite](https://img.icons8.com/color/48/000000/sqlite.png) SQLite: Base de datos utilizada para gestionar la información.  
-![Zod](https://img.icons8.com/color/48/000000/validation.png) Zod: Para la validación de datos.
+![Database](https://img.icons8.com/color/48/000000/database.png) SQLite: Base de datos utilizada para gestionar la información.  
+![Zod](https://img.icons8.com/color/48/000000/ok.png) Zod: Para la validación de datos.
 
 **Frameworks y API**:  
+![Node.js](https://img.icons8.com/color/48/000000/nodejs.png) Node.js: Para el desarrollo del servidor backend.  
 ![Bootstrap](https://img.icons8.com/color/48/000000/bootstrap.png) Bootstrap: Para un diseño responsivo y componentes estilizados.  
 ![Google Maps](https://img.icons8.com/color/48/000000/google-maps.png) Google Maps API: Para integrar funcionalidades de mapas y geolocalización.
 
