@@ -75,7 +75,6 @@ El panel está protegido por autenticación, garantizando que solo los usuarios 
 **Backend**:  
 ![JavaScript](https://img.icons8.com/color/48/000000/javascript.png) JavaScript: Para la lógica y funcionalidad de la aplicación.  
 ![Database](https://img.icons8.com/color/48/000000/database.png) SQLite: Base de datos utilizada para gestionar la información.  
-![Zod](https://img.icons8.com/color/48/000000/ok.png) Zod: Para la validación de datos.
 
 **Frameworks y API**:  
 ![Node.js](https://img.icons8.com/color/48/000000/nodejs.png) Node.js: Para el desarrollo del servidor backend.  
