@@ -82,25 +82,6 @@ El panel está protegido por autenticación, garantizando que solo los usuarios 
 ## Conclusión
 El desarrollo del sitio web de bienes raíces fue un proceso enfocado en crear una experiencia de usuario intuitiva y funcional. La selección de elementos de diseño y las funcionalidades implementadas se basaron en las necesidades de los usuarios, garantizando que el sitio no solo sea atractivo, sino también útil y accesible.
 
-## Imágenes
-
-### Sección Inicio... ![Inicio](https://img.icons8.com/color/48/000000/home.png)
-![Inicio](https://github.com/SmaniaMatias20/PP-PrograIII/blob/matias/build/src/readme/inicio.png)
-
-### Sección Nosotros... ![Nosotros](https://img.icons8.com/color/48/000000/teamwork.png)
-![Nosotros](https://github.com/SmaniaMatias20/PP-PrograIII/blob/matias/build/src/readme/nosotros.png)
-
-### Sección Anuncios... ![Anuncios](https://img.icons8.com/color/48/000000/sale.png)
-![Anuncios](https://github.com/SmaniaMatias20/PP-PrograIII/blob/matias/build/src/readme/anuncios.png)
-
-### Sección Blog... ![Blog](https://img.icons8.com/color/48/000000/blog.png)
-![Blog](https://github.com/SmaniaMatias20/PP-PrograIII/blob/matias/build/src/readme/blog.png)
-
-### Sección Contacto... ![Contacto](https://img.icons8.com/color/48/000000/email.png)
-![Contacto](https://github.com/SmaniaMatias20/PP-PrograIII/blob/matias/build/src/readme/contacto.png)
-
-
-
 ## Observaciones
 
 Cabe aclarar que existe una **versión alternativa del proyecto** realizada utilizando **MySQL** como base de datos. Sin embargo, decidimos realizar la entrega de este proyecto utilizando **SQLite** debido a que su archivo de base de datos puede ser fácilmente alojado en plataformas como **Render**. Esto nos permite ofrecer la página de forma accesible a través de un enlace de hosting, sin la necesidad de que los usuarios descarguen ningún archivo adicional. Esta característica facilita la implementación y el acceso remoto al proyecto.
