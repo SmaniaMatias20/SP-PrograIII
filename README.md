@@ -91,4 +91,4 @@ Cabe aclarar que existe una **versión alternativa del proyecto** realizada util
 
 En resumen, con SQLite, el sitio web puede ser utilizado directamente desde el enlace proporcionado, sin complicaciones adicionales para los usuarios finales.
 
-Además, utilizamos **JWT** y **Bcrypt** para la autenticación de los usuarios, lo que garantiza que las sesiones sean seguras y las contraseñas se gestionen de forma adecuada.
+
