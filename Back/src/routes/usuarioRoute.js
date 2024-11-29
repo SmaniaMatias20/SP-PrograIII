@@ -10,17 +10,15 @@ router.post("/iniciarSesion", usuariosControllers.iniciarSesion);
 router.post("/crearUsuario", usuariosControllers.crearUsuario);
 
 // Ruta para listar todos los usuarios (solo admin)
-router.get("/obtenerUsuarios", verificarToken, tokenAdmin, usuariosControllers.obtenerUsuarios);
+router.get("/obtenerUsuarios", usuariosControllers.obtenerUsuarios);
 
 // Ruta para obtener un usuario por ID (solo admin puede hacerlo)
-router.get("/obtenerUsuario/:id", verificarToken, tokenAdmin, usuariosControllers.obtenerUsuarioPorId);
+router.get("/obtenerUsuario/:id", usuariosControllers.obtenerUsuarioPorId);
 
 // Ruta para actualizar un usuario por ID (solo admin puede hacerlo)
-router.put("/actualizarUsuario/:id", verificarToken, tokenAdmin, usuariosControllers.actualizarUsuario);
+router.put("/actualizarUsuario/:id", usuariosControllers.actualizarUsuario);
 
 // Ruta para eliminar un usuario por ID (solo admin puede hacerlo)
-router.delete("/eliminarUsuario/:id", verificarToken, tokenAdmin, usuariosControllers.eliminarUsuario);
-
-router.post("/enviarMensaje", usuariosControllers.enviarMensaje);
+router.delete("/eliminarUsuario/:id", usuariosControllers.eliminarUsuario);
 
 module.exports = router;

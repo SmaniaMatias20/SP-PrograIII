@@ -1,5 +1,124 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:300,400,700,900");
 
+/* Estilos para el formulario dentro del modal */
+#form-usuario {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Centra el formulario */
+  width: 90%;
+  max-width: 500px;
+  /* Asegura que el formulario no sea demasiado grande */
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 9999;
+  /* Asegura que el formulario esté por encima de otros elementos */
+  box-sizing: border-box;
+  display: none;
+  /* Inicialmente oculto */
+  overflow-y: auto;
+}
+
+/* Estilos de los campos de entrada */
+#form-usuario input[type="text"],
+#form-usuario input[type="password"],
+#form-usuario select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0 20px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+#form-usuario input[type="text"]:focus,
+#form-usuario input[type="password"]:focus,
+#form-usuario select:focus {
+  border-color: #4CAF50;
+  /* Resalta el borde en verde cuando el campo está enfocado */
+  outline: none;
+}
+
+/* Estilo de las etiquetas */
+#form-usuario label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Estilo de los botones */
+#form-usuario button {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 15px;
+  width: 48%;
+  display: inline-block;
+  text-align: center;
+}
+
+#btn-guardar-usuario {
+  background-color: #4CAF50;
+  /* Botón de guardar (verde) */
+  color: white;
+}
+
+#btn-cancelar {
+  background-color: #f44336;
+  /* Botón de cancelar (rojo) */
+  color: white;
+}
+
+/* Efecto hover para los botones */
+#form-usuario button:hover {
+  transform: scale(1.05);
+  /* Efecto de ampliación al pasar el ratón */
+}
+
+#btn-guardar-usuario:hover {
+  background-color: #45a049;
+  /* Color más oscuro en hover para el botón de guardar */
+}
+
+#btn-cancelar:hover {
+  background-color: #e53935;
+  /* Color más oscuro en hover para el botón de cancelar */
+}
+
+/* Estilo para el cierre del modal (botón de cerrar) */
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+  color: #f44336;
+  /* Color de cierre en hover */
+}
+
+
+
+
+
+
+
 
 
 :root {
@@ -1068,8 +1187,6 @@ h4 {
 }
 
 
-/*PANEL.HTML*/
-
 /* Estilo general para ambas tablas */
 #tabla-propiedades,
 #tabla-articulos,
@@ -1080,6 +1197,8 @@ h4 {
   font-family: 'Arial', sans-serif;
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  table-layout: auto;
+  /* Permite que las columnas se ajusten al contenido */
 }
 
 /* Estilo de las celdas de las tablas */
@@ -1127,6 +1246,55 @@ h4 {
   border-radius: 8px;
   overflow: hidden;
 }
+
+
+
+/* Estilo general para los botones */
+#crear-usuario-btn,
+.editar-btn,
+.eliminar-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 25px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Estilo para el botón de Crear */
+#crear-usuario-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#crear-usuario-btn:hover {
+  background-color: #45a049;
+  border-color: #4CAF50;
+}
+
+/* Estilo para el botón de Editar */
+.editar-btn {
+  background-color: #2196F3;
+  color: white;
+}
+
+.editar-btn:hover {
+  background-color: #1976D2;
+  border-color: #2196F3;
+}
+
+/* Estilo para el botón de Eliminar */
+.eliminar-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.eliminar-btn:hover {
+  background-color: #e53935;
+  border-color: #f44336;
+}
+
 
 
 @media (min-width: 768px) {

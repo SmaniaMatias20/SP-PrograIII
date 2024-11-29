@@ -40,11 +40,4 @@ const Usuario = sequelize.define('usuario', {
     timestamps: false // Cambia esto si decides usar timestamps
 });
 
-// Hook para encriptar la contraseña antes de guardar el usuario
-// Usuario.beforeSave(async (usuario) => {
-//     if (usuario.changed('password')) {
-//         usuario.password = await bcrypt.hash(usuario.password, 10);
-//     }
-// });
-
 module.exports = Usuario;

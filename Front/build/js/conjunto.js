@@ -95,8 +95,6 @@ function navbarRender() {
     window.location.href = 'index.html'; // Redirigir si no hay token
   }
 }
-
-
 //#region General
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -161,6 +159,23 @@ document.addEventListener('DOMContentLoaded', async function () {
       .catch(error => {
         console.error('Error al obtener los datos:', error);
       });
+
+
+    const formUsuario = document.getElementById('form-usuario');
+    const btnCancelar = document.getElementById('btn-cancelar');
+    const btnCrearUsuario = document.getElementById('crear-usuario-btn');
+
+    // Mostrar el formulario cuando se hace clic en "Crear Usuario"
+    btnCrearUsuario.addEventListener('click', function () {
+      formUsuario.style.display = 'block';
+    });
+
+    // Cerrar el formulario y resetear al hacer clic en "Cancelar"
+    btnCancelar.addEventListener('click', function () {
+      formUsuario.style.display = 'none'; // Ocultar el formulario
+      formUsuario.reset(); // Limpiar el formulario
+      document.getElementById('usuario-id').value = ''; // Resetear el campo oculto de ID
+    });
   }
 
 
