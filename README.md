@@ -55,13 +55,13 @@ El panel está protegido por autenticación, garantizando que solo los usuarios 
 ## Tecnologías Utilizadas
 
 ### Frontend
-![Axios](https://img.shields.io/badge/axios-%23232B34.svg?style=for-the-badge&logo=axios&logoColor=white) ![Zod](https://img.shields.io/badge/zod-%23000000.svg?style=for-the-badge&logoColor=white)
+![Axios](https://img.shields.io/badge/axios-%23232B34.svg?style=for-the-badge&logo=axios&logoColor=white) ![Zod](https://img.shields.io/badge/zod-%23000000.svg?style=for-the-badge&logoColor=white)![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
 - **Axios**: Biblioteca para realizar solicitudes HTTP.
 - **Zod**: Biblioteca para validaciones de datos y esquemas.
 
 ### Backend
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Express](https://img.shields.io/badge/express-%23404D59.svg?style=for-the-badge&logo=express&logoColor=white) ![Sequelize](https://img.shields.io/badge/sequelize-%23000000.svg?style=for-the-badge&logo=sequelize&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-%2321C7C1.svg?style=for-the-badge&logo=json-web-token&logoColor=white) ![Nodemailer](https://img.shields.io/badge/nodemailer-%23E5E5E5.svg?style=for-the-badge&logo=npm&logoColor=black) ![Puppeteer](https://img.shields.io/badge/puppeteer-%23000000.svg?style=for-the-badge&logo=googlechrome&logoColor=white)![Zod](https://img.shields.io/badge/zod-%23000000.svg?style=for-the-badge&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Express](https://img.shields.io/badge/express-%23404D59.svg?style=for-the-badge&logo=express&logoColor=white) ![Sequelize](https://img.shields.io/badge/sequelize-%23000000.svg?style=for-the-badge&logo=sequelize&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-%2321C7C1.svg?style=for-the-badge&logo=json-web-token&logoColor=white)![Zod](https://img.shields.io/badge/zod-%23000000.svg?style=for-the-badge&logoColor=white)
 
 - **Node.js**: Entorno de ejecución para JavaScript en el servidor.
 - **Express**: Framework para Node.js que simplifica la creación de aplicaciones web y APIs.
