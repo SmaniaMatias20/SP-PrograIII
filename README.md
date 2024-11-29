@@ -67,11 +67,11 @@ El panel está protegido por autenticación, garantizando que solo los usuarios 
 - **Bootstrap**: Framework CSS popular para crear sitios web y aplicaciones móviles responsivas y con un diseño atractivo sin mucho esfuerzo.
 
 ### Backend
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Express](https://img.shields.io/badge/express-%23404D59.svg?style=for-the-badge&logo=express&logoColor=white) ![Sequelize](https://img.shields.io/badge/sequelize-%23000000.svg?style=for-the-badge&logo=sequelize&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-%2321C7C1.svg?style=for-the-badge&logo=json-web-token&logoColor=white)![Zod](https://img.shields.io/badge/zod-%23000000.svg?style=for-the-badge&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![SQLite](https://img.shields.io/badge/sqlite-%2307405E.svg?style=for-the-badge&logo=sqlite&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Express](https://img.shields.io/badge/express-%23404D59.svg?style=for-the-badge&logo=express&logoColor=white) ![Sequelize](https://img.shields.io/badge/sequelize-%23000000.svg?style=for-the-badge&logo=sequelize&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-%2321C7C1.svg?style=for-the-badge&logo=json-web-token&logoColor=white) ![Zod](https://img.shields.io/badge/zod-%23000000.svg?style=for-the-badge&logoColor=white)
 
 - **Node.js**: Entorno de ejecución para JavaScript en el servidor.
 - **Express**: Framework para Node.js que simplifica la creación de aplicaciones web y APIs.
-- **PostgreSQL**: Sistema de gestión de bases de datos relacional.
+- **SQLite**: Sistema de gestión de bases de datos liviano, embebido y basado en archivos, ideal para aplicaciones pequeñas o para desarrollo.
 - **Sequelize**: ORM para Node.js que facilita la interacción con la base de datos.
 - **JWT (JSON Web Token)**: Método para la autenticación de usuarios.
 - **Zod**: Biblioteca para validaciones de datos y esquemas.
