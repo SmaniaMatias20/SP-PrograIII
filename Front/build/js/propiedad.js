@@ -108,6 +108,7 @@ async function obtenerPropiedadPorId(id) {
 
         // Obtener los datos de la respuesta
         const propiedad = response.data;
+        console.log(propiedad);
 
         // Retornar la propiedad obtenida
         return propiedad;
@@ -267,6 +268,8 @@ function resumirTexto(texto, longitudMaxima) {
 }
 
 function mostrarPropiedad(propiedad) {
+
+    console.log("propiedad", propiedad);
     // Obtener los elementos del DOM donde se mostrarán los detalles
     const tituloElement = document.querySelector('#titulo-propiedad');
     const descripcionElement = document.querySelector('#descripcion-propiedad');
