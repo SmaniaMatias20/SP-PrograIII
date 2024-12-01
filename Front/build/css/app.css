@@ -121,6 +121,29 @@
 
 
 
+.comprobante-item {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: var(--naranja);
+}
+
+.comprobante-item h3 {
+  margin-top: 0;
+}
+
+.comprobante-item p {
+  margin: 5px 0;
+}
+
+
+
+
+
+
+
+
+
 :root {
   --gris-oscuro: #3498db;
   --verde: #71b100;
