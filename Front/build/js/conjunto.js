@@ -106,9 +106,17 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   if (window.location.pathname.includes("blog.html")) {
     mostrarArticulos();
-  } else if (window.location.pathname.includes("inicio.html")) {
-    mostrarArticulos(2);
-    mostrarPropiedades(3);
+  }
+
+  if (window.location.pathname.includes("reservas.html")) {
+    const usuario = localStorage.getItem("usuario");
+    console.log(usuario);
+    await obtenerComprobantesPorNombreUsuario(usuario);
+  }
+
+  if (window.location.pathname.includes("inicio.html")) {
+    await mostrarArticulos(2);
+    await mostrarPropiedades(3);
   }
 
   if (isListaPropiedades && window.location.pathname.includes("anuncios.html")) {
@@ -117,9 +125,11 @@ document.addEventListener('DOMContentLoaded', async function () {
       const propiedades = await obtenerPropiedades();
       const propiedadesFiltradas = filtrarPropiedades(propiedades);
       paginaActual = 1; // Reiniciar a la primera
-      mostrarPropiedadesFiltradas(propiedadesFiltradas);
+      await mostrarPropiedadesFiltradas(propiedadesFiltradas);
     });
-  } else if (window.location.pathname.includes("propiedad.html")) {
+  }
+
+  if (window.location.pathname.includes("propiedad.html")) {
 
     navbarRender();
 
@@ -132,12 +142,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       if (propiedad) {
         // Llamar a la función para mostrar la propiedad en el HTML
-        mostrarPropiedad(propiedad);
+        await mostrarPropiedad(propiedad);
         document.getElementById('filtrar-btn').addEventListener('click', async () => {
           const propiedades = await obtenerPropiedades();
           const propiedadesFiltradas = filtrarPropiedades(propiedades);
           paginaActual = 1; // Reiniciar a la primera
-          mostrarPropiedadesFiltradas(propiedadesFiltradas);
+          await mostrarPropiedadesFiltradas(propiedadesFiltradas);
         });
       } else {
         console.error('No se pudo obtener la propiedad');

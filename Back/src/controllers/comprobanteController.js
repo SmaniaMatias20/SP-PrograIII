@@ -34,6 +34,26 @@ async function obtenerComprobantePorId(req, res) {
     }
 }
 
+async function obtenerComprobantesPorNombreUsuario(req, res) {
+    try {
+        const { nombre_usuario } = req.params; // Obtener el nombre_usuario de los parámetros de la ruta
+
+        console.log("hola");
+
+        const comprobantes = await Comprobante.findAll({
+            where: { nombre_usuario } // Filtrar por nombre_usuario
+        });
+
+        if (comprobantes.length === 0) {
+            return res.status(404).json({ mensaje: 'No se encontraron comprobantes para el usuario especificado' });
+        }
+
+        res.status(200).json(comprobantes);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al obtener los comprobantes', error: error.message });
+    }
+}
+
 // Eliminar un comprobante
 async function eliminarComprobante(req, res) {
     try {
@@ -53,5 +73,6 @@ module.exports = {
     crearComprobante,
     obtenerComprobantes,
     obtenerComprobantePorId,
+    obtenerComprobantesPorNombreUsuario,
     eliminarComprobante
 };
