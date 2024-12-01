@@ -32,7 +32,6 @@ const Comprobante = sequelize.define('comprobante', {
     nombre_usuario: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true, // Esto solo debe ser uno
         validate: {
             notEmpty: true,
         }

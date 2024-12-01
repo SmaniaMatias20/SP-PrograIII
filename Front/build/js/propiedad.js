@@ -35,6 +35,12 @@ function crearTablaPropiedades(propiedades) {
     propiedades.forEach(propiedad => {
         // Crear una nueva fila de la tabla
         const fila = document.createElement('tr');
+        let reservada = "";
+        if (propiedad.reservada) {
+            reservada = "reservada";
+        } else {
+            reservada = "disponible";
+        }
 
         // Insertar celdas con la información de cada propiedad
         fila.innerHTML = `
@@ -43,6 +49,7 @@ function crearTablaPropiedades(propiedades) {
         <td>${propiedad.sanitarios}</td>
         <td>${propiedad.estacionamiento}</td>
         <td>${propiedad.dormitorio}</td>
+        <td>${reservada}</td>
       `;
 
         // Agregar la fila a la tabla
@@ -338,8 +345,24 @@ document.querySelector('#btn-reserva').addEventListener('click', async () => {
         nombre_usuario: usuario,
     };
 
-    console.log("Datos para la reserva:", datosReserva);
+    propiedad.reservada = true;
 
+    try {
+        const respuestaActualizacion = await axios.put(
+            `http://localhost:3000/propiedades/actualizarPropiedad/${propiedad.id}`, // Incluye el ID en la URL
+            propiedad // El objeto propiedad se envía como el cuerpo de la petición
+        );
+
+        if (respuestaActualizacion.status !== 200) {
+            throw new Error('No se pudo actualizar el estado de la propiedad.');
+        }
+    } catch (error) {
+        console.error('Error al actualizar la propiedad:', error);
+        alert(
+            'Hubo un problema al actualizar la propiedad. Por favor, verifica los datos e intenta nuevamente.'
+        );
+        return;
+    }
 
     try {
         const response = await axios.post('http://localhost:3000/comprobantes/crearComprobante', datosReserva, {
