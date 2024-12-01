@@ -54,6 +54,16 @@ const testConnection = async () => {
 //     }
 // })();
 
+(async () => {
+    try {
+        const [resultados] = await sequelize.query('SELECT * FROM comprobante;');
+        console.log('Contenido de la tabla comprobante:', resultados);
+    } catch (error) {
+        console.error('Error al obtener los registros de la tabla comprobante:', error);
+    }
+})();
+
+
 // (async () => {
 //     try {
 //         const [results, metadata] = await sequelize.query(

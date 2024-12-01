@@ -13,7 +13,7 @@ router.get("/obtenerComprobantes", comprobanteControllers.obtenerComprobantes);
 router.get("/obtenerComprobante/:id", comprobanteControllers.obtenerComprobantePorId);
 
 // Ruta para obtener los comprobantes por nombre de usuario
-router.get("/obtenerComprobante/:nombre_usuario", comprobanteControllers.obtenerComprobantesPorNombreUsuario);
+router.get("/usuario/:nombre_usuario", comprobanteControllers.obtenerComprobantesPorNombreUsuario);
 
 // Ruta para eliminar una propiedad por ID
 router.delete("/eliminarComprobante/:id", comprobanteControllers.eliminarComprobante);

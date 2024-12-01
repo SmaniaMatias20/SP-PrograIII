@@ -36,9 +36,8 @@ async function obtenerComprobantePorId(req, res) {
 
 async function obtenerComprobantesPorNombreUsuario(req, res) {
     try {
-        const { nombre_usuario } = req.params; // Obtener el nombre_usuario de los parámetros de la ruta
-
         console.log("hola");
+        const { nombre_usuario } = req.params; // Obtener el nombre_usuario de los parámetros de la ruta
 
         const comprobantes = await Comprobante.findAll({
             where: { nombre_usuario } // Filtrar por nombre_usuario

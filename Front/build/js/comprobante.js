@@ -1,8 +1,10 @@
 async function obtenerComprobantesPorNombreUsuario(nombre_usuario) {
     try {
+        console.log("ffffffffffffffffffffffffff");
+        console.log(nombre_usuario);
         // Realizar la solicitud al backend
         const respuesta = await axios.get(
-            `http://localhost:3000/comprobantes/obtenerComprobante/${nombre_usuario}`
+            `http://localhost:3000/comprobantes/usuario/${nombre_usuario}`
         );
 
         // Manejar los datos obtenidos
