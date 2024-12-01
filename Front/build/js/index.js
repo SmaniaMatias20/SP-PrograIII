@@ -15,6 +15,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         if (response.data.success) {
             // Almacenar el token JWT en localStorage
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('usuario', usuario);
 
             // Mostrar mensaje de éxito
             message.style.color = 'green';

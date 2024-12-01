@@ -45,14 +45,14 @@ const testConnection = async () => {
     }
 };
 
-(async () => {
-    try {
-        await sequelize.query('DROP TABLE IF EXISTS propiedad_backup;');
-        console.log('Tabla de respaldo eliminada');
-    } catch (error) {
-        console.error('Error al eliminar la tabla de respaldo:', error);
-    }
-})();
+// (async () => {
+//     try {
+//         await sequelize.query('DROP TABLE IF EXISTS propiedad_backup;');
+//         console.log('Tabla de respaldo eliminada');
+//     } catch (error) {
+//         console.error('Error al eliminar la tabla de respaldo:', error);
+//     }
+// })();
 
 // Sincronizar modelos con la base de datos
 const syncDatabase = async () => {

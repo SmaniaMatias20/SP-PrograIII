@@ -108,7 +108,6 @@ async function obtenerPropiedadPorId(id) {
 
         // Obtener los datos de la respuesta
         const propiedad = response.data;
-        console.log(propiedad);
 
         // Retornar la propiedad obtenida
         return propiedad;
@@ -318,5 +317,52 @@ function mostrarPropiedad(propiedad) {
     });
 }
 
+document.querySelector('#btn-reserva').addEventListener('click', async () => {
+    // Obtener el ID de la propiedad desde la URL o almacenamiento local
+    const propiedadId = new URLSearchParams(window.location.search).get('id');
+
+    if (!propiedadId) {
+        console.error('No se encontró el ID de la propiedad');
+        return;
+    }
+
+    const propiedad = await obtenerPropiedadPorId(propiedadId);
+    const usuario = localStorage.getItem('usuario');
+
+    // Extraer la información relevante
+    const datosReserva = {
+        id_propiedad: propiedad.id,
+        titulo_propiedad: propiedad.titulo,
+        precio_propiedad: propiedad.precio,
+        fecha_reserva: formatearFecha(new Date()),
+        nombre_usuario: usuario,
+    };
+
+    console.log("Datos para la reserva:", datosReserva);
 
 
+    try {
+        const response = await axios.post('http://localhost:3000/comprobantes/crearComprobante', datosReserva, {
+        });
+
+        if (response.status === 201) {
+            alert('Reserva realizada con éxito');
+        } else {
+            console.error('Error al realizar la reserva:', response.data);
+        }
+    } catch (error) {
+        console.error('Error al procesar la reserva:', error);
+        alert('Hubo un problema al realizar la reserva. Inténtalo más tarde.');
+    }
+});
+
+function formatearFecha(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Meses van de 0 a 11
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+}

@@ -10,7 +10,7 @@ router.post("/crearComprobante", comprobanteControllers.crearComprobante);
 router.get("/obtenerComprobantes", comprobanteControllers.obtenerComprobantes);
 
 // Ruta para obtener una propiedad por ID
-router.get("/obtenerComprobante/:id", verificarToken, tokenAdmin, comprobanteControllers.obtenerComprobantePorId);
+router.get("/obtenerComprobante/:id", comprobanteControllers.obtenerComprobantePorId);
 
 // Ruta para eliminar una propiedad por ID
 router.delete("/eliminarComprobante/:id", verificarToken, tokenAdmin, comprobanteControllers.eliminarComprobante);
