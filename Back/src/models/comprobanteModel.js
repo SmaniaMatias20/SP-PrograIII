@@ -28,10 +28,6 @@ const Comprobante = sequelize.define('comprobante', {
             }
         }
     },
-    id_usuario: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
     nombre_usuario: {
         type: DataTypes.STRING,
         allowNull: false,
