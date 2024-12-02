@@ -56,7 +56,16 @@ const testConnection = async () => {
 
 (async () => {
     try {
-        const [resultados] = await sequelize.query('SELECT * FROM comprobante;');
+        const [resultados] = await sequelize.query('SELECT * FROM imagen_propiedad;');
+        console.log('Contenido de la tabla comprobante:', resultados);
+    } catch (error) {
+        console.error('Error al obtener los registros de la tabla comprobante:', error);
+    }
+})();
+
+(async () => {
+    try {
+        const [resultados] = await sequelize.query('SELECT * FROM imagen_articulo;');
         console.log('Contenido de la tabla comprobante:', resultados);
     } catch (error) {
         console.error('Error al obtener los registros de la tabla comprobante:', error);
