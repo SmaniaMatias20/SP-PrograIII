@@ -3,6 +3,9 @@ const router = express.Router();
 const usuariosControllers = require('../controllers/usuarioController');
 const { verificarToken, tokenAdmin } = require('../middlewares/authMiddleware');
 
+// Ruta para manejar contacto y enviar correos
+router.post("/contacto", usuariosControllers.manejarContacto);
+
 // Ruta para iniciar sesión
 router.post("/iniciarSesion", usuariosControllers.iniciarSesion);
 

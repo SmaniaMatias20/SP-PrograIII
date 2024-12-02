@@ -53,7 +53,6 @@ async function obtenerPropiedades(req, res) {
                 ...propiedad.toJSON(),
                 imagen: imagenPropiedad ? imagenPropiedad.url : null,
             });
-
             console.log(propiedadesConImagen);
         }
 

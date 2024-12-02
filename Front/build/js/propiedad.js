@@ -1,7 +1,8 @@
 
 async function obtenerPropiedades() {
     try {
-        const response = await axios.get('http://localhost:3000/propiedades/obtenerPropiedades', {
+        // Realizar la solicitud HTTP usando axios
+        const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedades', {
             // const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedades', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -86,7 +87,8 @@ function crearAnuncio(propiedad, key) {
 
 async function obtenerPropiedadPorId(id) {
     try {
-        const response = await axios.get(`http://localhost:3000/propiedades/obtenerPropiedad/${id}`, {
+        // Realizar la solicitud HTTP usando axios para obtener la propiedad por su ID
+        const response = await axios.get(`https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedad/${id}`, {
         });
         const propiedad = response.data;
         return propiedad;
@@ -329,15 +331,16 @@ async function reservarPropiedad(propiedad) {
     propiedad.reservada = true;
 
     try {
-        const respuesta = await axios.put(
-            `http://localhost:3000/propiedades/actualizarPropiedad/${propiedad.id}`,
-            propiedad
+        const respuestaActualizacion = await axios.put(
+            `https://sp-prograiii-fj7g.onrender.com/propiedades/actualizarPropiedad/${propiedad.id}`,
+            propiedad // El objeto propiedad se envía como el cuerpo de la petición
         );
 
-        if (respuesta.status === 200) {
+        // Cambiar respuesta a respuestaActualizacion aquí
+        if (respuestaActualizacion.status === 200) {
             return true;
         } else {
-            console.error('Error al actualizar la propiedad:', respuesta.data);
+            console.error('Error al actualizar la propiedad:', respuestaActualizacion.data);
             throw new Error('No se pudo actualizar el estado de la propiedad.');
         }
     } catch (error) {
@@ -349,17 +352,16 @@ async function reservarPropiedad(propiedad) {
     }
 }
 
+
 async function crearComprobante(datosReserva) {
     try {
-        const respuesta = await axios.post(
-            'http://localhost:3000/comprobantes/crearComprobante',
-            datosReserva
-        );
+        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/comprobantes/crearComprobante', datosReserva, {
+        });
 
-        if (respuesta.status === 201) {
+        if (response.status === 201) {
             return true;
         } else {
-            console.error('Error al crear el comprobante:', respuesta.data);
+            console.error('Error al crear el comprobante:', response.data);
             return false;
         }
     } catch (error) {
