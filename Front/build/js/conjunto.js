@@ -179,6 +179,40 @@ document.addEventListener('DOMContentLoaded', async function () {
   ScrollReveal().reveal('section', revealOptions);
 
   navbarRender();
+
+
+
+  const formulario = document.getElementById('formulario-contacto');
+
+  formulario.addEventListener('submit', async function (e) {
+    e.preventDefault(); // Evitar que el formulario recargue la página.
+
+    const formData = new FormData(formulario);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch('https://sp-prograiii-fj7g.onrender.com/usuarios/contacto', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        alert('¡Correo enviado correctamente!');
+        formulario.reset(); // Limpia el formulario después del envío.
+      } else {
+        alert('Hubo un error al enviar el correo. Por favor, intenta nuevamente.');
+      }
+    } catch (error) {
+      alert('Ocurrió un error inesperado. Por favor, revisa tu conexión.');
+      console.error(error);
+    }
+  });
+
+
+
 });
 
 //#region Cupones
