@@ -15,6 +15,7 @@ const app = express();
 app.use('/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
 
 
+
 // Puerto donde se va a correr el server
 const PORT = process.env.PORT || 3000;
 
@@ -43,6 +44,36 @@ const testConnection = async () => {
         console.error('No se pudo conectar a la base de datos:', error);
     }
 };
+
+// (async () => {
+//     try {
+//         await sequelize.query('DROP TABLE IF EXISTS comprobante;');
+//         console.log('Tabla de respaldo eliminada');
+//     } catch (error) {
+//         console.error('Error al eliminar la tabla de respaldo:', error);
+//     }
+// })();
+
+(async () => {
+    try {
+        const [resultados] = await sequelize.query('SELECT * FROM comprobante;');
+        console.log('Contenido de la tabla comprobante:', resultados);
+    } catch (error) {
+        console.error('Error al obtener los registros de la tabla comprobante:', error);
+    }
+})();
+
+
+// (async () => {
+//     try {
+//         const [results, metadata] = await sequelize.query(
+//             'UPDATE propiedad SET reservada = false;'
+//         );
+//         console.log('Registros actualizados:', metadata.rowCount || results.length);
+//     } catch (error) {
+//         console.error('Error al actualizar la columna "reservada":', error);
+//     }
+// })();
 
 // Sincronizar modelos con la base de datos
 const syncDatabase = async () => {

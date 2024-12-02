@@ -1,13 +1,18 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbConfig.js');
-// const bcrypt = require('bcrypt');
 
 // Define el modelo Usuario
 const Usuario = sequelize.define('usuario', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true, // Define como clave primaria
+        autoIncrement: true, // Habilita la auto-incrementación
+        allowNull: false
+    },
     usuario: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true, // Esto solo debe ser uno
+        unique: true, // Garantiza unicidad en el campo usuario
         validate: {
             notEmpty: true,
         }
@@ -32,19 +37,12 @@ const Usuario = sequelize.define('usuario', {
                     throw new Error('El campo password debe ser una cadena de texto.');
                 }
             }
-            // Podrías agregar validaciones adicionales para la contraseña aquí
+            // Agrega validaciones adicionales para la contraseña si es necesario
         }
     }
 }, {
-    tableName: 'usuario', // Asegúrate de que este nombre coincida con el de tu tabla en la base de datos
+    tableName: 'usuario', // Nombre de la tabla en la base de datos
     timestamps: false // Cambia esto si decides usar timestamps
 });
-
-// Hook para encriptar la contraseña antes de guardar el usuario
-// Usuario.beforeSave(async (usuario) => {
-//     if (usuario.changed('password')) {
-//         usuario.password = await bcrypt.hash(usuario.password, 10);
-//     }
-// });
 
 module.exports = Usuario;

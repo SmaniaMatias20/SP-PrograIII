@@ -3,6 +3,12 @@ const sequelize = require('../config/dbConfig');
 
 // Definición del modelo Propiedad
 const Propiedad = sequelize.define('propiedad', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true, // Define como clave primaria
+        autoIncrement: true, // Habilita la auto-incrementación
+        allowNull: false
+    },
     titulo: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -69,18 +75,6 @@ const Propiedad = sequelize.define('propiedad', {
         allowNull: false,
         defaultValue: false,
     },
-    usuario_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-            model: 'usuario', // Clave foránea a la tabla de usuarios
-            key: 'id'
-        },
-        validate: {
-            isInt: true,
-            min: 0
-        }
-    }
 }, {
     tableName: 'propiedad',
     timestamps: false

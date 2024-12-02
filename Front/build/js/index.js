@@ -8,13 +8,14 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
     try {
         // Enviar la solicitud POST al backend para verificar el usuario
-        // const response = await axios.post('http://localhost:3000/usuarios/iniciarSesion', { usuario, password });
-        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/iniciarSesion', { usuario, password });
+        const response = await axios.post('http://localhost:3000/usuarios/iniciarSesion', { usuario, password });
+        // const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/iniciarSesion', { usuario, password });
 
         // Si el inicio de sesión es exitoso
         if (response.data.success) {
             // Almacenar el token JWT en localStorage
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('usuario', usuario);
 
             // Mostrar mensaje de éxito
             message.style.color = 'green';
@@ -43,8 +44,8 @@ async function registerUser(usuario, password, role) {
             return;
         }
 
-        // const response = await axios.post('http://localhost:3000/usuarios/crearUsuario', {
-        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/crearUsuario', {
+        const response = await axios.post('http://localhost:3000/usuarios/crearUsuario', {
+            //const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/crearUsuario', {
             usuario,
             password,
             rol: role
@@ -56,7 +57,7 @@ async function registerUser(usuario, password, role) {
             registerMessage.textContent = 'Registro exitoso';
             registerMessage.style.color = 'green';
         } else {
-            registerMessage.textContent = response.data.mensaje || 'El usuario ya existe';
+            registerMessage.textContent = response.data.message || 'El usuario ya existe';
             registerMessage.style.color = 'red';
         }
 
@@ -64,13 +65,36 @@ async function registerUser(usuario, password, role) {
         document.getElementById('registerUsername').value = '';
         document.getElementById('registerPassword').value = '';
         document.getElementById('role').value = ''; // Reiniciar el rol
+
     } catch (error) {
         const registerMessage = document.getElementById('registerMessage');
-        registerMessage.textContent = 'Hubo un error en la solicitud';
-        registerMessage.style.color = 'red';
+
+        if (error.response) {
+            // Si el error tiene respuesta, significa que hubo un problema con la solicitud
+            if (error.response.data.mensaje === 'Error de validación') {
+                // Mostrar errores de validación específicos de Zod
+                let errorDetails = error.response.data.detalles.map(err => err.message).join(', ');
+                registerMessage.textContent = `Errores de validación: ${errorDetails}`;
+                registerMessage.style.color = 'red';
+            } else {
+                // Mostrar el mensaje de error general
+                registerMessage.textContent = error.response.data.message || 'Error al registrar el usuario';
+                registerMessage.style.color = 'red';
+            }
+        } else if (error.request) {
+            // Si no se recibe respuesta del servidor
+            registerMessage.textContent = 'No se recibió respuesta del servidor';
+            registerMessage.style.color = 'red';
+        } else {
+            // Error inesperado
+            registerMessage.textContent = 'Hubo un error al procesar la solicitud';
+            registerMessage.style.color = 'red';
+        }
+
         console.error(error);
     }
 }
+
 
 // Manejar el registro de nuevos usuarios
 document.getElementById('registerForm').addEventListener('submit', async function (event) {

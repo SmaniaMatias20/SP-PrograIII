@@ -2,8 +2,8 @@
 async function obtenerPropiedades() {
     try {
         // Realizar la solicitud HTTP usando axios
-        // const response = await axios.get('http://localhost:3000/propiedades/obtenerPropiedades', {
-        const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedades', {
+        const response = await axios.get('http://localhost:3000/propiedades/obtenerPropiedades', {
+            // const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedades', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token') // Agregar el token de autenticación si es necesario
             }
@@ -11,7 +11,6 @@ async function obtenerPropiedades() {
 
         // Obtener los datos de la respuesta
         const propiedades = response.data;
-        console.log(propiedades);
 
         // Retornar las propiedades obtenidas
         return propiedades;
@@ -36,6 +35,12 @@ function crearTablaPropiedades(propiedades) {
     propiedades.forEach(propiedad => {
         // Crear una nueva fila de la tabla
         const fila = document.createElement('tr');
+        let reservada = "";
+        if (propiedad.reservada) {
+            reservada = "reservada";
+        } else {
+            reservada = "disponible";
+        }
 
         // Insertar celdas con la información de cada propiedad
         fila.innerHTML = `
@@ -44,6 +49,7 @@ function crearTablaPropiedades(propiedades) {
         <td>${propiedad.sanitarios}</td>
         <td>${propiedad.estacionamiento}</td>
         <td>${propiedad.dormitorio}</td>
+        <td>${reservada}</td>
       `;
 
         // Agregar la fila a la tabla
@@ -52,15 +58,11 @@ function crearTablaPropiedades(propiedades) {
 }
 
 
-// Función para crear un anuncio con los datos de una propiedad
 function crearAnuncio(propiedad, key) {
     const anuncio = document.createElement('div');
     anuncio.classList.add('anuncio');
+    console.log("entramos en crear anuncio");
 
-    // <picture>
-    // <source srcset="${propiedad.imagen}" type="image/jpeg" />
-    // <img src="${propiedad.imagen}" alt="Imagen ${propiedad.titulo}" />
-    // </picture>
     anuncio.innerHTML = `
       <picture>
         <source srcset="${propiedad.imagen}" type="image/jpeg" />
@@ -68,7 +70,7 @@ function crearAnuncio(propiedad, key) {
       </picture>
       <div class="contenido-anuncios">
         <h3>${propiedad.titulo}</h3>
-        <p>${resumirTexto(propiedad.descripcion, 50)}</p>  <!-- Limitar la descripción a 50 caracteres -->
+        <p>${resumirTexto(propiedad.descripcion, 50)}</p>
         <p class="precio">$${propiedad.precio}</p>
         <ul class="iconos-caracteristicas">
           <li>
@@ -84,12 +86,47 @@ function crearAnuncio(propiedad, key) {
             <p>${propiedad.dormitorio}</p>
           </li>
         </ul>
-        <a href="propiedad.html?id=${key}" class="boton-amarillo-block">Ver Propiedad</a>
+        <a href="javascript:void(0);" class="boton-amarillo-block" data-id="${propiedad.id}">Ver Propiedad</a>
       </div>
     `;
 
+    // Añadir un event listener al enlace para guardar el ID
+    const botonVerPropiedad = anuncio.querySelector('a');
+
+    botonVerPropiedad.addEventListener('click', (event) => {
+        const propiedadId = event.target.getAttribute('data-id');
+        localStorage.setItem('propiedadId', propiedadId); // Guardar el ID en el almacenamiento local
+        // Redirigir a la página de detalles de la propiedad
+        window.location.href = `propiedad.html?id=${propiedadId}`;
+
+    });
+
+
     return anuncio;
 }
+
+
+// Función para obtener una propiedad por su ID
+async function obtenerPropiedadPorId(id) {
+    try {
+        // Realizar la solicitud HTTP usando axios para obtener la propiedad por su ID
+        const response = await axios.get(`http://localhost:3000/propiedades/obtenerPropiedad/${id}`, {
+        });
+
+        // Obtener los datos de la respuesta
+        const propiedad = response.data;
+
+        // Retornar la propiedad obtenida
+        return propiedad;
+
+    } catch (error) {
+        console.error('Error al obtener la propiedad por ID:', error);
+
+        // Si ocurre un error, retornar null o un objeto vacío dependiendo de lo que necesites
+        return null;
+    }
+}
+
 
 
 
@@ -131,6 +168,7 @@ async function mostrarPropiedades(cantidad = 7) {
         mostrarPaginacion(totalPaginas);
     }
 }
+
 function mostrarPropiedadesFiltradas(propiedades) {
     const contenedor = document.querySelector(".contenedor-anuncios");
     if (!contenedor) {
@@ -138,7 +176,7 @@ function mostrarPropiedadesFiltradas(propiedades) {
         return;
     }
 
-    contenedor.innerHTML = ""; 
+    contenedor.innerHTML = "";
 
     const totalPropiedades = propiedades.length;
     const totalPaginas = Math.ceil(totalPropiedades / itemsPorPagina);
@@ -227,16 +265,127 @@ function filtrarPropiedades(propiedades) {
     });
 }
 
-document.getElementById('filtrar-btn').addEventListener('click', async () => {
-    const propiedades = await obtenerPropiedades(); 
-    const propiedadesFiltradas = filtrarPropiedades(propiedades); 
-    paginaActual = 1; // Reiniciar a la primera
-    mostrarPropiedadesFiltradas(propiedadesFiltradas);
-});
 
 
 function resumirTexto(texto, longitudMaxima) {
     return texto.length > longitudMaxima
         ? texto.substring(0, longitudMaxima) + '...'
         : texto;
+}
+
+function mostrarPropiedad(propiedad) {
+
+    console.log("propiedad", propiedad);
+    // Obtener los elementos del DOM donde se mostrarán los detalles
+    const tituloElement = document.querySelector('#titulo-propiedad');
+    const descripcionElement = document.querySelector('#descripcion-propiedad');
+    const precioElement = document.querySelector('#precio-propiedad');
+    const sanitariosElement = document.querySelector('#sanitarios');
+    const estacionamientoElement = document.querySelector('#estacionamientos');
+    const dormitorioElement = document.querySelector('#dormitorios');
+    const carouselIndicators = document.querySelector('.carousel-indicators');
+    const carouselInner = document.querySelector('.carousel-inner');
+
+    // Rellenar los elementos con los datos de la propiedad
+    tituloElement.textContent = propiedad.titulo;
+    descripcionElement.textContent = propiedad.descripcion;
+    precioElement.textContent = `$${propiedad.precio}`;
+    sanitariosElement.textContent = propiedad.sanitarios;
+    estacionamientoElement.textContent = propiedad.estacionamiento;
+    dormitorioElement.textContent = propiedad.dormitorio;
+
+    // Limpiar los elementos del carrusel antes de agregar las nuevas imágenes
+    carouselIndicators.innerHTML = '';
+    carouselInner.innerHTML = '';
+
+    // Llenar el carrusel con las imágenes de la propiedad
+    propiedad.imagenes.forEach((imagen, index) => {
+        // Crear el indicador del carrusel
+        const indicator = document.createElement('button');
+        indicator.type = 'button';
+        indicator.setAttribute('data-bs-target', '#demo');
+        indicator.setAttribute('data-bs-slide-to', index);
+        indicator.classList.add('active');
+        if (index !== 0) indicator.classList.remove('active');
+        carouselIndicators.appendChild(indicator);
+
+        // Crear el elemento de la imagen en el carrusel
+        const carouselItem = document.createElement('div');
+        carouselItem.classList.add('carousel-item');
+        if (index === 0) carouselItem.classList.add('active'); // Primera imagen como activa
+
+        const imgElement = document.createElement('img');
+        imgElement.src = imagen;
+        imgElement.classList.add('d-block', 'w-100');
+        imgElement.alt = `Imagen de la propiedad ${propiedad.titulo}`;
+        carouselItem.appendChild(imgElement);
+
+        carouselInner.appendChild(carouselItem);
+    });
+}
+
+document.querySelector('#btn-reserva').addEventListener('click', async () => {
+    // Obtener el ID de la propiedad desde la URL o almacenamiento local
+    const propiedadId = new URLSearchParams(window.location.search).get('id');
+
+    if (!propiedadId) {
+        console.error('No se encontró el ID de la propiedad');
+        return;
+    }
+
+    const propiedad = await obtenerPropiedadPorId(propiedadId);
+    const usuario = localStorage.getItem('usuario');
+
+    // Extraer la información relevante
+    const datosReserva = {
+        id_propiedad: propiedad.id,
+        titulo_propiedad: propiedad.titulo,
+        precio_propiedad: propiedad.precio,
+        fecha_reserva: formatearFecha(new Date()),
+        nombre_usuario: usuario,
+    };
+
+    propiedad.reservada = true;
+
+    try {
+        const respuestaActualizacion = await axios.put(
+            `http://localhost:3000/propiedades/actualizarPropiedad/${propiedad.id}`, // Incluye el ID en la URL
+            propiedad // El objeto propiedad se envía como el cuerpo de la petición
+        );
+
+        if (respuestaActualizacion.status !== 200) {
+            throw new Error('No se pudo actualizar el estado de la propiedad.');
+        }
+    } catch (error) {
+        console.error('Error al actualizar la propiedad:', error);
+        alert(
+            'Hubo un problema al actualizar la propiedad. Por favor, verifica los datos e intenta nuevamente.'
+        );
+        return;
+    }
+
+    try {
+        const response = await axios.post('http://localhost:3000/comprobantes/crearComprobante', datosReserva, {
+        });
+
+        if (response.status === 201) {
+            alert('Reserva realizada con éxito');
+        } else {
+            console.error('Error al realizar la reserva:', response.data);
+        }
+    } catch (error) {
+        console.error('Error al procesar la reserva:', error);
+        alert('Hubo un problema al realizar la reserva. Inténtalo más tarde.');
+    }
+});
+
+function formatearFecha(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Meses van de 0 a 11
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 }

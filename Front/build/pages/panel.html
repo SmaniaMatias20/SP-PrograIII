@@ -43,6 +43,61 @@
     </header>
 
     <main class="contenedor seccion">
+        <h2>Usuarios</h2>
+        <!-- Formulario para CRUD de Usuarios -->
+        <form id="form-usuario" class="modal" style="display: none;">
+            <div class="modal-content">
+                <input type="hidden" id="usuario-id" />
+
+                <!-- Campo para el nombre de usuario -->
+                <div>
+                    <label for="usuario-nombre">Usuario:</label>
+                    <input type="text" id="usuario-nombre" required />
+                </div>
+
+                <!-- Campo para el rol del usuario -->
+                <div>
+                    <label for="usuario-rol">Rol:</label>
+                    <select id="usuario-rol" required>
+                        <option value="admin">Admin</option>
+                        <option value="usuario">Usuario</option>
+                    </select>
+                </div>
+
+                <!-- Campo para la contraseña -->
+                <div>
+                    <label for="usuario-contraseña">Contraseña:</label>
+                    <input type="password" id="usuario-contraseña" required />
+                </div>
+
+                <button type="submit" id="btn-guardar-usuario">Guardar</button>
+                <button type="button" id="btn-cancelar">Cancelar</button>
+            </div>
+        </form>
+
+        <!-- Tabla con CRUD para Usuarios -->
+        <button id="crear-usuario-btn">Crear Usuario</button>
+        <table id="tabla-usuarios">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas dinámicas generadas desde JavaScript -->
+                <tr>
+                    <td>
+                        <button class="editar-btn" data-id="1">Editar</button>
+                        <button class="eliminar-btn" data-id="1">Eliminar</button>
+                    </td>
+                </tr>
+                <!-- Otras filas aquí -->
+            </tbody>
+        </table>
+
         <h2>Propiedades Disponibles</h2>
         <table id="tabla-propiedades">
             <thead>
@@ -52,13 +107,15 @@
                     <th>Sanitarios</th>
                     <th>Estacionamientos</th>
                     <th>Dormitorios</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Las filas con las propiedades se generarán dinámicamente aquí -->
+                <!-- Contenido estático o cargado desde el backend -->
             </tbody>
         </table>
 
+        <h2>Articulos del blog</h2>
         <table id="tabla-articulos">
             <thead>
                 <tr>
@@ -69,15 +126,13 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Las filas se agregarán aquí dinámicamente -->
+                <!-- Contenido estático o cargado desde el backend -->
             </tbody>
         </table>
     </main>
 
-
     <footer class="footer seccion">
         <div class="contenedor contenedor-footer">
-
             <div class="ubicacion">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d52541.03595860431!2d-58.434280053100586!3d-34.60884568820924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sar!4v1726615310804!5m2!1ses-419!2sar"
@@ -103,7 +158,6 @@
             <p id="copyright" class="copyright">
                 @Todos los derechos reservados <span id="year">&copy;</span>
             </p>
-
         </div>
     </footer>
 
@@ -111,7 +165,7 @@
     <script src="../js/conjunto.js"></script>
     <script src="../js/propiedad.js"></script>
     <script src="../js/articulo.js"></script>
-
+    <script src="../js/usuario.js"></script>
 
 </body>
 
