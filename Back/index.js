@@ -81,16 +81,16 @@ const testConnection = async () => {
 // })();
 
 
-// (async () => {
-//     try {
-//         const [results, metadata] = await sequelize.query(
-//             'UPDATE propiedad SET reservada = false;'
-//         );
-//         console.log('Registros actualizados:', metadata.rowCount || results.length);
-//     } catch (error) {
-//         console.error('Error al actualizar la columna "reservada":', error);
-//     }
-// })();
+(async () => {
+    try {
+        const [results, metadata] = await sequelize.query(
+            'UPDATE propiedad SET reservada = false;'
+        );
+        console.log('Registros actualizados:', metadata.rowCount || results.length);
+    } catch (error) {
+        console.error('Error al actualizar la columna "reservada":', error);
+    }
+})();
 
 // Sincronizar modelos con la base de datos
 const syncDatabase = async () => {
