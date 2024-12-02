@@ -60,7 +60,6 @@ async function crearUsuario(req, res) {
         // Validar los datos de entrada utilizando el esquema Zod
         const datosUsuario = req.body;
 
-        console.log(datosUsuario);
         crearUsuarioSchema.parse(datosUsuario); // Lanzará un error si los datos no son válidos
 
         // Desestructurar los datos del usuario

@@ -1,17 +1,17 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbConfig');
 
-// Definición del modelo Imagen
-const Imagen = sequelize.define('Imagen', {
+// Definición del modelo ImagenArticulo
+const ImagenArticulo = sequelize.define('imagen_articulo', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true, // Define como clave primaria
         autoIncrement: true, // Habilita la auto-incrementación
-        allowNull: false
+        allowNull: false,
     },
-    id_propiedad: {
+    id_articulo: {
         type: DataTypes.INTEGER,
-        allowNull: false, // Es obligatorio asociar la imagen a una propiedad
+        allowNull: false, // Es obligatorio asociar la imagen a un artículo
     },
     url: {
         type: DataTypes.STRING,
@@ -21,10 +21,10 @@ const Imagen = sequelize.define('Imagen', {
         type: DataTypes.STRING,
         allowNull: true, // Puede no ser obligatorio
         defaultValue: 'principal', // Puede ser "principal", "secundaria", etc.
-    }
+    },
 }, {
-    tableName: 'imagen', // Nombre de la tabla en la base de datos
-    timestamps: false // No necesitas campos de fecha
+    tableName: 'imagen_articulo', // Nombre de la tabla en la base de datos
+    timestamps: false, // No necesitas campos de fecha
 });
 
-module.exports = Imagen;
+module.exports = ImagenArticulo;

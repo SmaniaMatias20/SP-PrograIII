@@ -15,7 +15,6 @@ const app = express();
 app.use('/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
 
 
-
 // Puerto donde se va a correr el server
 const PORT = process.env.PORT || 3000;
 
@@ -66,6 +65,15 @@ const testConnection = async () => {
 // (async () => {
 //     try {
 //         const [resultados] = await sequelize.query('SELECT * FROM imagen_articulo;');
+//         console.log('Contenido de la tabla comprobante:', resultados);
+//     } catch (error) {
+//         console.error('Error al obtener los registros de la tabla comprobante:', error);
+//     }
+// })();
+
+// (async () => {
+//     try {
+//         const [resultados] = await sequelize.query('SELECT * FROM imagen;');
 //         console.log('Contenido de la tabla comprobante:', resultados);
 //     } catch (error) {
 //         console.error('Error al obtener los registros de la tabla comprobante:', error);

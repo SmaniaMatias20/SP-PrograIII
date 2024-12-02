@@ -1,4 +1,4 @@
-// Función para manejar el inicio de sesión con Axios
+
 document.getElementById('loginForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -11,17 +11,11 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/iniciarSesion', { usuario, password });
         // const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/iniciarSesion', { usuario, password });
 
-        // Si el inicio de sesión es exitoso
         if (response.data.success) {
-            // Almacenar el token JWT en localStorage
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('usuario', usuario);
-
-            // Mostrar mensaje de éxito
             message.style.color = 'green';
             message.textContent = 'Inicio de sesión exitoso';
-
-            // Redirigir a otra página
             window.location.href = 'build/pages/inicio.html';
         } else {
             message.style.color = 'red';
@@ -34,11 +28,8 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     }
 });
 
-
-// Función para manejar el registro de nuevos usuarios con Axios
 async function registerUser(usuario, password, role) {
     try {
-        // Verificar si los campos están completos antes de enviarlos
         if (!usuario || !password || !role) {
             alert('Por favor completa todos los campos');
             return;
@@ -50,8 +41,6 @@ async function registerUser(usuario, password, role) {
             password,
             rol: role
         });
-
-        // Verificar si el registro fue exitoso
         const registerMessage = document.getElementById('registerMessage');
         if (response.data.mensaje === 'Usuario creado exitosamente') {
             registerMessage.textContent = 'Registro exitoso';
@@ -61,32 +50,26 @@ async function registerUser(usuario, password, role) {
             registerMessage.style.color = 'red';
         }
 
-        // Limpiar los campos
         document.getElementById('registerUsername').value = '';
         document.getElementById('registerPassword').value = '';
-        document.getElementById('role').value = ''; // Reiniciar el rol
+        document.getElementById('role').value = '';
 
     } catch (error) {
         const registerMessage = document.getElementById('registerMessage');
 
         if (error.response) {
-            // Si el error tiene respuesta, significa que hubo un problema con la solicitud
             if (error.response.data.mensaje === 'Error de validación') {
-                // Mostrar errores de validación específicos de Zod
                 let errorDetails = error.response.data.detalles.map(err => err.message).join(', ');
                 registerMessage.textContent = `Errores de validación: ${errorDetails}`;
                 registerMessage.style.color = 'red';
             } else {
-                // Mostrar el mensaje de error general
                 registerMessage.textContent = error.response.data.message || 'Error al registrar el usuario';
                 registerMessage.style.color = 'red';
             }
         } else if (error.request) {
-            // Si no se recibe respuesta del servidor
             registerMessage.textContent = 'No se recibió respuesta del servidor';
             registerMessage.style.color = 'red';
         } else {
-            // Error inesperado
             registerMessage.textContent = 'Hubo un error al procesar la solicitud';
             registerMessage.style.color = 'red';
         }
@@ -95,20 +78,14 @@ async function registerUser(usuario, password, role) {
     }
 }
 
-
-// Manejar el registro de nuevos usuarios
 document.getElementById('registerForm').addEventListener('submit', async function (event) {
     event.preventDefault();
-
     const username = document.getElementById('registerUsername').value;
     const password = document.getElementById('registerPassword').value;
-    const role = document.getElementById('role').value; // Obtener el rol seleccionado
-
-    // Llamar a la función para registrar el usuario
+    const role = document.getElementById('role').value;
     await registerUser(username, password, role);
 });
 
-// Mostrar/Ocultar formularios
 document.getElementById('showRegister').addEventListener('click', function (event) {
     event.preventDefault();
     document.querySelector('.login-container').style.display = 'none';
