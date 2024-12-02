@@ -2,7 +2,7 @@
 async function obtenerPropiedades() {
     try {
         // Realizar la solicitud HTTP usando axios
-        const response = await axios.get('http://localhost:3000/propiedades/obtenerPropiedades', {
+        const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedades', {
             // const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedades', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token') // Agregar el token de autenticación si es necesario
@@ -110,7 +110,7 @@ function crearAnuncio(propiedad, key) {
 async function obtenerPropiedadPorId(id) {
     try {
         // Realizar la solicitud HTTP usando axios para obtener la propiedad por su ID
-        const response = await axios.get(`http://localhost:3000/propiedades/obtenerPropiedad/${id}`, {
+        const response = await axios.get(`https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedad/${id}`, {
         });
 
         // Obtener los datos de la respuesta
@@ -349,7 +349,7 @@ document.querySelector('#btn-reserva').addEventListener('click', async () => {
 
     try {
         const respuestaActualizacion = await axios.put(
-            `http://localhost:3000/propiedades/actualizarPropiedad/${propiedad.id}`, // Incluye el ID en la URL
+            `https://sp-prograiii-fj7g.onrender.com/propiedades/actualizarPropiedad/${propiedad.id}`, // Incluye el ID en la URL
             propiedad // El objeto propiedad se envía como el cuerpo de la petición
         );
 
@@ -365,7 +365,7 @@ document.querySelector('#btn-reserva').addEventListener('click', async () => {
     }
 
     try {
-        const response = await axios.post('http://localhost:3000/comprobantes/crearComprobante', datosReserva, {
+        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/comprobantes/crearComprobante', datosReserva, {
         });
 
         if (response.status === 201) {

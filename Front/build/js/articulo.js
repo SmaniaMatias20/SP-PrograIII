@@ -2,7 +2,7 @@
 async function obtenerArticulos() {
     try {
         // Realizar la solicitud HTTP usando axios
-        const response = await axios.get('http://localhost:3000/articulos/obtenerArticulos', {
+        const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/articulos/obtenerArticulos', {
             //const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/articulos/obtenerArticulos', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token') // Agregar el token de autenticación si es necesario

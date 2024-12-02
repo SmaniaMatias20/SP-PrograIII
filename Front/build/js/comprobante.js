@@ -4,7 +4,7 @@ async function obtenerComprobantesPorNombreUsuario(nombre_usuario) {
 
         // Realizar la solicitud al backend
         const respuesta = await axios.get(
-            `http://localhost:3000/comprobantes/usuario/${nombre_usuario}`
+            `https://sp-prograiii-fj7g.onrender.com/comprobantes/usuario/${nombre_usuario}`
         );
 
         // Manejar los datos obtenidos
