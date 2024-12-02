@@ -4,9 +4,60 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { z } = require('zod');
 const { crearUsuarioSchema } = require('../schemas/validacion');
+require('dotenv').config();
+
+// Configuración de Nodemailer
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
 
 // Clave secreta para firmar el token
 const JWT_SECRET = process.env.JWT_SECRET || 'mi_clave_secreta';
+
+// Función para enviar correo
+async function enviarCorreo(opciones) {
+    console.log('intenta enviar');
+    try {
+        const info = await transporter.sendMail(opciones);
+        return { success: true, info };
+    } catch (error) {
+        return { success: false, error };
+    }
+}
+
+// Función para manejar solicitudes de contacto
+async function manejarContacto(req, res) {
+    console.log('entra a armar el mail');
+    const { nombre, email, telefono, mensaje } = req.body;
+    const mailOptions = {
+        from: email,
+        to: 'enzo.ep@hotmail.com',
+        subject: `Nuevo mensaje de contacto de ${nombre}`,
+        text: `
+        Nombre: ${nombre}
+        Correo: ${email}
+        Teléfono: ${telefono}
+        Mensaje:
+        ${mensaje}
+        `
+    };
+
+    const resultado = await enviarCorreo(mailOptions);
+
+    if (!resultado.success) {
+        console.error(resultado.error);
+        return res.status(500).json({ message: 'Error al enviar el correo' });
+    }
+
+    res.status(200).json({ message: 'Correo enviado correctamente' });
+}
+
 
 async function iniciarSesion(req, res) {
     try {
@@ -152,6 +203,7 @@ async function eliminarUsuario(req, res) {
 
 // Exporta las funciones en el formato solicitado
 module.exports = {
+    manejarContacto,
     iniciarSesion,
     crearUsuario,
     obtenerUsuarios,
