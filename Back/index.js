@@ -15,7 +15,6 @@ const app = express();
 app.use('/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
 
 
-
 // Puerto donde se va a correr el server
 const PORT = process.env.PORT || 3000;
 
@@ -45,23 +44,23 @@ const testConnection = async () => {
     }
 };
 
-// (async () => {
-//     try {
-//         await sequelize.query('DROP TABLE IF EXISTS comprobante;');
-//         console.log('Tabla de respaldo eliminada');
-//     } catch (error) {
-//         console.error('Error al eliminar la tabla de respaldo:', error);
-//     }
-// })();
-
 (async () => {
     try {
-        const [resultados] = await sequelize.query('SELECT * FROM comprobante;');
-        console.log('Contenido de la tabla comprobante:', resultados);
+        await sequelize.query('DROP TABLE IF EXISTS propiedad_backup;');
+        console.log('Tabla de respaldo eliminada');
     } catch (error) {
-        console.error('Error al obtener los registros de la tabla comprobante:', error);
+        console.error('Error al eliminar la tabla de respaldo:', error);
     }
 })();
+
+// (async () => {
+//     try {
+//         const [resultados] = await sequelize.query('SELECT * FROM imagen;');
+//         console.log('Contenido de la tabla comprobante:', resultados);
+//     } catch (error) {
+//         console.error('Error al obtener los registros de la tabla comprobante:', error);
+//     }
+// })();
 
 
 // (async () => {

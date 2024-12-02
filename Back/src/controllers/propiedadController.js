@@ -1,5 +1,5 @@
 const Propiedad = require('../models/propiedadModel'); // Asegúrate de que esta ruta coincida con la ubicación de tu modelo
-const Imagen = require('../models/imagenModel');
+const ImagenPropiedad = require('../models/imagenPropiedadModel');
 const { Sequelize } = require('sequelize');
 
 require('dotenv').config();
@@ -28,19 +28,21 @@ async function obtenerPropiedades(req, res) {
 
         for (const propiedad of propiedades) {
             // Encontrar las imágenes relacionadas con la propiedad
-            const imagenes = await Imagen.findAll({
+            const imagenes = await ImagenPropiedad.findAll({
                 where: { id_propiedad: propiedad.id },
                 attributes: ['url'],
             });
 
+
             // Ajustar las rutas de las imágenes
             const imagenesConRutaCorregida = imagenes.map(imagen => {
-                // Corrige las barras y reemplaza la ruta base
+                // Normalizar las barras y corregir la ruta base
                 const rutaPublica = imagen.url
-                    .replace(/\\\\/g, '/') // Corrige las barras invertidas
-                    .replace(/^.*?Back\/public\//, `${BASE_URL}/`); // Ajusta la ruta a producción
+                    .replace(/\\\\|\\/g, '/') // Reemplaza cualquier combinación de \ o \\ por /
+                    .replace(/\/{2,}/g, '/') // Elimina barras repetidas //
+                    .replace(/^.*?Back\/public\//, `${BASE_URL}/`); // Ajusta la ruta base a la URL pública
 
-                return { ...imagen, url: rutaPublica };
+                return { ...imagen.toJSON(), url: rutaPublica }; // Asegurarse de devolver un objeto JSON
             });
 
             // Filtrar solo la imagen 'propiedad.jpg'
@@ -51,6 +53,8 @@ async function obtenerPropiedades(req, res) {
                 ...propiedad.toJSON(),
                 imagen: imagenPropiedad ? imagenPropiedad.url : null,
             });
+
+            console.log(propiedadesConImagen);
         }
 
         res.status(200).json(propiedadesConImagen);
@@ -75,7 +79,7 @@ async function obtenerPropiedadPorId(req, res) {
         const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com'; // Cambia a tu dominio en producción
 
         // Obtener las imágenes relacionadas con la propiedad
-        const imagenes = await Imagen.findAll({
+        const imagenes = await ImagenPropiedad.findAll({
             where: {
                 id_propiedad: propiedad.id,
                 url: {
