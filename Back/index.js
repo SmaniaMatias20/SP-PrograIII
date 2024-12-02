@@ -54,6 +54,24 @@ const testConnection = async () => {
     }
 })();
 
+(async () => {
+    try {
+        await sequelize.query('DROP TABLE IF EXISTS articulo_backup;');
+        console.log('Tabla de respaldo eliminada');
+    } catch (error) {
+        console.error('Error al eliminar la tabla de respaldo:', error);
+    }
+})();
+(async () => {
+    try {
+        await sequelize.query('DROP TABLE IF EXISTS imagen;');
+        console.log('Tabla de respaldo eliminada');
+    } catch (error) {
+        console.error('Error al eliminar la tabla de respaldo:', error);
+    }
+})();
+
+
 // (async () => {
 //     try {
 //         const [resultados] = await sequelize.query('SELECT * FROM imagen;');
