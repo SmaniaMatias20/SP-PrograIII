@@ -13,6 +13,7 @@ const app = express();
 // app.use('/images/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
 // app.use('/images/articulos', express.static(path.join(__dirname, 'public', 'articulos')));
 app.use('/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
+app.use('/articulos', express.static(path.join(__dirname, 'public', 'articulos')));
 
 
 // Puerto donde se va a correr el server
