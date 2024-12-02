@@ -10,10 +10,10 @@ router.post("/crearPropiedad", verificarToken, tokenAdmin, propiedadesController
 router.get("/obtenerPropiedades", propiedadesControllers.obtenerPropiedades);
 
 // Ruta para obtener una propiedad por ID
-router.get("/obtenerPropiedad/:id", verificarToken, tokenAdmin, propiedadesControllers.obtenerPropiedadPorId);
+router.get("/obtenerPropiedad/:id", propiedadesControllers.obtenerPropiedadPorId);
 
 // Ruta para actualizar una propiedad por ID
-router.put("/actualizarPropiedad/:id", verificarToken, tokenAdmin, propiedadesControllers.actualizarPropiedad);
+router.put("/actualizarPropiedad/:id", propiedadesControllers.actualizarPropiedad);
 
 // Ruta para eliminar una propiedad por ID
 router.delete("/eliminarPropiedad/:id", verificarToken, tokenAdmin, propiedadesControllers.eliminarPropiedad);
