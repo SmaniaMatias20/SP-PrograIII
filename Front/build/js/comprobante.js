@@ -65,7 +65,7 @@ async function cancelarReserva(id_comprobante, id_propiedad) {
         const confirmacion = confirm('¿Estás seguro de que deseas cancelar esta reserva?');
         if (!confirmacion) return;
 
-        const respuesta = await axios.delete(`http://localhost:3000/comprobantes/eliminarComprobante/${id_comprobante}`);
+        const respuesta = await axios.delete(`https://sp-prograiii-fj7g.onrender.com/comprobantes/eliminarComprobante/${id_comprobante}`);
         if (respuesta.status !== 200) {
             throw new Error('Error al eliminar el comprobante.');
         }
@@ -75,7 +75,7 @@ async function cancelarReserva(id_comprobante, id_propiedad) {
         }
         propiedad.reservada = false;
         const respuestaActualizacion = await axios.put(
-            `http://localhost:3000/propiedades/actualizarPropiedad/${id_propiedad}`,
+            `https://sp-prograiii-fj7g.onrender.com/propiedades/actualizarPropiedad/${id_propiedad}`,
             propiedad
         );
         if (respuestaActualizacion.status !== 200) {
