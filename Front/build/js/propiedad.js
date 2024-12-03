@@ -30,8 +30,8 @@ function crearTablaPropiedades(propiedades) {
             reservada = "disponible";
         }
         fila.innerHTML = `
-            < td > ${propiedad.titulo}</td >
-        <td>$${propiedad.precio}</td>
+        <td>${propiedad.titulo}</td>
+        <td>${propiedad.precio}</td>
         <td>${propiedad.sanitarios}</td>
         <td>${propiedad.estacionamiento}</td>
         <td>${propiedad.dormitorio}</td>
@@ -238,7 +238,6 @@ async function mostrarPropiedad(propiedad) {
     const dormitorioElement = document.querySelector('#dormitorios');
     const carouselIndicators = document.querySelector('.carousel-indicators');
     const carouselInner = document.querySelector('.carousel-inner');
-    console.log(propiedad.descripcion);
     tituloElement.textContent = propiedad.titulo;
     descripcionElement.textContent = propiedad.descripcion;
     precioElement.textContent = `$${propiedad.precio} `;
