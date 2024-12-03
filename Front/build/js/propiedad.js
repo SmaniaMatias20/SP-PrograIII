@@ -274,7 +274,7 @@ async function mostrarPropiedad(propiedad) {
     });
 
     try {
-        console.log(propiedad.ubicacion);
+        console.log('Ubicación de la propiedad:', propiedad.ubicacion);
         await inicializarMapa(propiedad.ubicacion);
     } catch (error) {
         console.error("Error al inicializar el mapa:", error);
@@ -283,11 +283,11 @@ async function mostrarPropiedad(propiedad) {
 }
 
 function inicializarMapa(location) {
-    console.log(location);
+    const locationParsed = JSON.parse(location);
     return new Promise((resolve, reject) => {
-        if (typeof google !== 'undefined' && google.maps) {
+        if (google.maps) {
             const map = new google.maps.Map(document.getElementById("map"), {
-                center: location,
+                center: locationParsed,
                 zoom: 15,
             });
             resolve(map);
@@ -307,7 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function gestionarReserva() {
     const propiedadId = obtenerPropiedadId();
-    console.log(propiedadId);
 
     if (!propiedadId) {
         console.error('No se encontró el ID de la propiedad');
@@ -350,7 +349,6 @@ function obtenerPropiedadId() {
     searchParams = searchParams.replace(/\s+/g, '');
     const urlParams = new URLSearchParams(searchParams);
     const id = urlParams.get('id');
-    console.log('id encontrado:', id);
     return id ? id.trim() : null;
 }
 
