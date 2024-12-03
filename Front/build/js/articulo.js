@@ -90,7 +90,10 @@ async function mostrarArticulos(cantidad = 4) {
     articulosMostrar.slice(primerIndice, ultimoIndice).forEach((articulo) => {
         const article = document.createElement('article');
         article.classList.add('entrada-blog');
-        const contenidoTexto = resumirTexto(articulo.contenido, 30);
+        let contenidoTexto = articulo.contenido;
+        if (cantidad == 2) {
+            contenidoTexto = resumirTexto(articulo.contenido, 30);
+        }
 
         article.innerHTML = `
             <div class="imagen">
