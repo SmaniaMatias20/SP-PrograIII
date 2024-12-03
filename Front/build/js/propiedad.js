@@ -238,7 +238,7 @@ async function mostrarPropiedad(propiedad) {
     const dormitorioElement = document.querySelector('#dormitorios');
     const carouselIndicators = document.querySelector('.carousel-indicators');
     const carouselInner = document.querySelector('.carousel-inner');
-
+    console.log(propiedad.descripcion);
     tituloElement.textContent = propiedad.titulo;
     descripcionElement.textContent = propiedad.descripcion;
     precioElement.textContent = `$${propiedad.precio} `;
