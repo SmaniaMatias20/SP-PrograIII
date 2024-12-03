@@ -2,7 +2,7 @@
 async function obtenerPropiedades() {
     try {
         // Realizar la solicitud HTTP usando axios
-        const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedades', {
+        const response = await axios.get(`${BASE_URL}/propiedades/obtenerPropiedades`, {
             // const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedades', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -30,7 +30,7 @@ function crearTablaPropiedades(propiedades) {
             reservada = "disponible";
         }
         fila.innerHTML = `
-        <td>${propiedad.titulo}</td>
+            < td > ${propiedad.titulo}</td >
         <td>$${propiedad.precio}</td>
         <td>${propiedad.sanitarios}</td>
         <td>${propiedad.estacionamiento}</td>
@@ -47,37 +47,37 @@ function crearAnuncio(propiedad, key) {
     anuncio.classList.add('anuncio');
 
     anuncio.innerHTML = `
-      <picture>
+            < picture >
         <source srcset="${propiedad.imagen}" type="image/jpeg" />
         <img src="${propiedad.imagen}" alt="Imagen de la propiedad ${propiedad.titulo}" />
-      </picture>
-      <div class="contenido-anuncios">
-        <h3>${propiedad.titulo}</h3>
-        <p>${resumirTexto(propiedad.descripcion, 50)}</p>
-        <p class="precio">$${propiedad.precio}</p>
-        <ul class="iconos-caracteristicas">
-          <li>
-            <img class="icono" loading="lazy" src="../src/iconos/icono_wc.svg" alt="icono_wc" />
-            <p>${propiedad.sanitarios}</p>
-          </li>
-          <li>
-            <img class="icono" loading="lazy" src="../src/iconos/icono_estacionamiento.svg" alt="icono_estacionamiento" />
-            <p>${propiedad.estacionamiento}</p>
-          </li>
-          <li>
-            <img class="icono" loading="lazy" src="../src/iconos/icono_dormitorio.svg" alt="icono_dormitorio" />
-            <p>${propiedad.dormitorio}</p>
-          </li>
-        </ul>
-        <a href="javascript:void(0);" class="boton-amarillo-block" data-id="${propiedad.id}">Ver Propiedad</a>
-      </div>
-    `;
+      </picture >
+            <div class="contenido-anuncios">
+                <h3>${propiedad.titulo}</h3>
+                <p>${resumirTexto(propiedad.descripcion, 50)}</p>
+                <p class="precio">$${propiedad.precio}</p>
+                <ul class="iconos-caracteristicas">
+                    <li>
+                        <img class="icono" loading="lazy" src="../src/iconos/icono_wc.svg" alt="icono_wc" />
+                        <p>${propiedad.sanitarios}</p>
+                    </li>
+                    <li>
+                        <img class="icono" loading="lazy" src="../src/iconos/icono_estacionamiento.svg" alt="icono_estacionamiento" />
+                        <p>${propiedad.estacionamiento}</p>
+                    </li>
+                    <li>
+                        <img class="icono" loading="lazy" src="../src/iconos/icono_dormitorio.svg" alt="icono_dormitorio" />
+                        <p>${propiedad.dormitorio}</p>
+                    </li>
+                </ul>
+                <a href="javascript:void(0);" class="boton-amarillo-block" data-id="${propiedad.id}">Ver Propiedad</a>
+            </div>
+        `;
     const botonVerPropiedad = anuncio.querySelector('a');
 
     botonVerPropiedad.addEventListener('click', (event) => {
         const propiedadId = event.target.getAttribute('data-id');
         localStorage.setItem('propiedadId', propiedadId);
-        window.location.href = `propiedad.html?id=${propiedadId}`;
+        window.location.href = `propiedad.html ? id = ${propiedadId} `;
 
     });
 
@@ -88,7 +88,7 @@ function crearAnuncio(propiedad, key) {
 async function obtenerPropiedadPorId(id) {
     try {
         // Realizar la solicitud HTTP usando axios para obtener la propiedad por su ID
-        const response = await axios.get(`https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedad/${id}`, {
+        const response = await axios.get(`${BASE_URL}/propiedades/obtenerPropiedad/${id}`, {
         });
         const propiedad = response.data;
         return propiedad;
@@ -241,7 +241,7 @@ function mostrarPropiedad(propiedad) {
 
     tituloElement.textContent = propiedad.titulo;
     descripcionElement.textContent = propiedad.descripcion;
-    precioElement.textContent = `$${propiedad.precio}`;
+    precioElement.textContent = `$${propiedad.precio} `;
     sanitariosElement.textContent = propiedad.sanitarios;
     estacionamientoElement.textContent = propiedad.estacionamiento;
     dormitorioElement.textContent = propiedad.dormitorio;
@@ -268,7 +268,7 @@ function mostrarPropiedad(propiedad) {
         const imgElement = document.createElement('img');
         imgElement.src = imagen;
         imgElement.classList.add('d-block', 'w-100');
-        imgElement.alt = `Imagen de la propiedad ${propiedad.titulo}`;
+        imgElement.alt = `Imagen de la propiedad ${propiedad.titulo} `;
         carouselItem.appendChild(imgElement);
 
         carouselInner.appendChild(carouselItem);
@@ -277,11 +277,14 @@ function mostrarPropiedad(propiedad) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const btnReserva = document.querySelector('#btn-reserva');
-    btnReserva.addEventListener('click', gestionarReserva);
+    if (btnReserva) {
+        btnReserva.addEventListener('click', gestionarReserva);
+    }
 });
 
 async function gestionarReserva() {
     const propiedadId = obtenerPropiedadId();
+    console.log(propiedadId);
 
     if (!propiedadId) {
         console.error('No se encontró el ID de la propiedad');
@@ -313,7 +316,12 @@ async function gestionarReserva() {
 }
 
 function obtenerPropiedadId() {
-    return new URLSearchParams(window.location.search).get('id');
+    let searchParams = decodeURIComponent(window.location.search);
+    searchParams = searchParams.replace(/\s+/g, '');
+    const urlParams = new URLSearchParams(searchParams);
+    const id = urlParams.get('id');
+    console.log('id encontrado:', id);
+    return id ? id.trim() : null;
 }
 
 function prepararDatosReserva(propiedad, usuario) {
@@ -332,7 +340,7 @@ async function reservarPropiedad(propiedad) {
 
     try {
         const respuestaActualizacion = await axios.put(
-            `https://sp-prograiii-fj7g.onrender.com/propiedades/actualizarPropiedad/${propiedad.id}`,
+            `${BASE_URL}/propiedades/actualizarPropiedad/${propiedad.id}`,
             propiedad // El objeto propiedad se envía como el cuerpo de la petición
         );
 
@@ -355,7 +363,7 @@ async function reservarPropiedad(propiedad) {
 
 async function crearComprobante(datosReserva) {
     try {
-        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/comprobantes/crearComprobante', datosReserva, {
+        const response = await axios.post(`${BASE_URL}/comprobantes/crearComprobante`, datosReserva, {
         });
 
         if (response.status === 201) {
@@ -380,5 +388,5 @@ function formatearFecha(date) {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
 
-    return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    return `${year} /${month}/${day} ${hours}:${minutes}:${seconds} `;
 }

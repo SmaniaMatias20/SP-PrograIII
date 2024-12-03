@@ -1,14 +1,13 @@
 async function obtenerArticulos() {
     try {
         // Realizar la solicitud HTTP usando axios
-        const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/articulos/obtenerArticulos', {
+        const response = await axios.get(`${BASE_URL}/articulos/obtenerArticulos`, {
             //const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/articulos/obtenerArticulos', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         });
         const articulos = response.data;
-        console.log(articulos);
         return articulos;
     } catch (error) {
         console.error('Error al obtener los artículos:', error);

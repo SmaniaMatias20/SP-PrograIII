@@ -1,11 +1,10 @@
-const ImagenArticulo = require('../models/imagenArticuloModel'); // Modelo ImagenArticulo
+const ImagenArticulo = require('../models/imagenArticuloModel');
 
-// 1. Obtener todas las imágenes de un artículo
+
 const obtenerImagenesPorArticulo = async (req, res) => {
     const { id_articulo } = req.params;
 
     try {
-        // Buscar todas las imágenes asociadas al artículo
         const imagenes = await ImagenArticulo.findAll({
             where: { id_articulo: id_articulo },
         });

@@ -6,7 +6,6 @@ const { z } = require('zod');
 const { crearUsuarioSchema } = require('../schemas/validacion');
 require('dotenv').config();
 
-// Configuración de Nodemailer
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -17,10 +16,9 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-// Clave secreta para firmar el token
+
 const JWT_SECRET = process.env.JWT_SECRET || 'mi_clave_secreta';
 
-// Función para enviar correo
 async function enviarCorreo(opciones) {
     console.log('intenta enviar');
     try {
@@ -31,7 +29,6 @@ async function enviarCorreo(opciones) {
     }
 }
 
-// Función para manejar solicitudes de contacto
 async function manejarContacto(req, res) {
     console.log('entra a armar el mail');
     const { nombre, email, telefono, mensaje } = req.body;
@@ -62,94 +59,67 @@ async function manejarContacto(req, res) {
 async function iniciarSesion(req, res) {
     try {
         const { usuario, password } = req.body;
-
-        // Validar que se envíen ambos datos
         if (!usuario || !password) {
             return res.status(400).json({ success: false, mensaje: 'Faltan datos requeridos' });
         }
 
-        // Buscar el usuario en la base de datos
         const usuarioExistente = await Usuario.findOne({ where: { usuario } });
 
-        // Si no existe el usuario, retornar un error
         if (!usuarioExistente) {
             return res.status(400).json({ success: false, mensaje: 'Usuario no encontrado' });
         }
-
-        // Verificar la contraseña usando bcrypt
         const isMatch = await bcrypt.compare(password, usuarioExistente.password);
 
-        // Si las contraseñas no coinciden, retornar un error
         if (!isMatch) {
             return res.status(401).json({ success: false, mensaje: 'Contraseña incorrecta' });
         }
 
-        // Crear el payload para el JWT, incluyendo el rol
         const payload = {
             usuario: usuarioExistente.usuario,
             rol: usuarioExistente.rol
         };
 
-        // Firmar el JWT y enviarlo al usuario
-        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // El token expira en 1 hora
-
-        // Retornar el token al cliente
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
         res.status(200).json({
             success: true,
             mensaje: 'Inicio de sesión exitoso',
-            token: token // Se envía el token al cliente
+            token: token
         });
     } catch (error) {
-        // Manejar errores
         res.status(400).json({ success: false, mensaje: 'Error al iniciar sesión', error: error.message });
     }
 }
 
-// Crear un nuevo usuario
 async function crearUsuario(req, res) {
     try {
-        // Validar los datos de entrada utilizando el esquema Zod
         const datosUsuario = req.body;
-
-        crearUsuarioSchema.parse(datosUsuario); // Lanzará un error si los datos no son válidos
-
-        // Desestructurar los datos del usuario
+        crearUsuarioSchema.parse(datosUsuario);
         const { usuario, rol, password } = datosUsuario;
-
-        // Aquí podrías verificar si el usuario ya existe
         const usuarioExistente = await Usuario.findOne({ where: { usuario } });
         if (usuarioExistente) {
             return res.status(400).json({ mensaje: 'El usuario ya existe' });
         }
 
-        // Encriptar la contraseña antes de guardarla
         const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Crear el usuario en la base de datos
         const nuevoUsuario = await Usuario.create({
             usuario,
             rol,
-            password: hashedPassword, // Almacenar la contraseña cifrada
+            password: hashedPassword,
         });
 
-        // Devolver respuesta exitosa
         res.status(201).json({ mensaje: 'Usuario creado exitosamente', nuevoUsuario });
     } catch (error) {
-
-        // Si es un error de Zod (validación), enviar un mensaje específico
         if (error instanceof z.ZodError) {
             return res.status(400).json({
                 mensaje: 'Error de validación',
-                detalles: error.errors, // Los detalles del error de validación de Zod
+                detalles: error.errors,
             });
         }
 
-        // Si es otro error, devolver un mensaje genérico
         res.status(400).json({ mensaje: 'Error al crear el usuario', error: error.message });
     }
 }
 
-// Obtener todos los usuarios
 async function obtenerUsuarios(req, res) {
     try {
         const usuarios = await Usuario.findAll();
@@ -159,7 +129,6 @@ async function obtenerUsuarios(req, res) {
     }
 }
 
-// Obtener un usuario por ID
 async function obtenerUsuarioPorId(req, res) {
     try {
         const usuario = await Usuario.findByPk(req.params.id);
@@ -172,7 +141,6 @@ async function obtenerUsuarioPorId(req, res) {
     }
 }
 
-// Actualizar un usuario
 async function actualizarUsuario(req, res) {
     try {
         const usuario = await Usuario.findByPk(req.params.id);
@@ -200,8 +168,6 @@ async function eliminarUsuario(req, res) {
     }
 }
 
-
-// Exporta las funciones en el formato solicitado
 module.exports = {
     manejarContacto,
     iniciarSesion,

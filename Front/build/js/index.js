@@ -1,3 +1,5 @@
+const BASE_URL = 'http://localhost:3000'
+
 
 document.getElementById('loginForm').addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -8,7 +10,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
     try {
         // Enviar la solicitud POST al backend para verificar el usuario
-        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/iniciarSesion', { usuario, password });
+        const response = await axios.post(`${BASE_URL}/usuarios/iniciarSesion`, { usuario, password });
         // const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/iniciarSesion', { usuario, password });
 
         if (response.data.success) {
@@ -35,7 +37,7 @@ async function registerUser(usuario, password, role) {
             return;
         }
 
-        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/crearUsuario', {
+        const response = await axios.post(`${BASE_URL}/usuarios/crearUsuario`, {
             //const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/crearUsuario', {
             usuario,
             password,

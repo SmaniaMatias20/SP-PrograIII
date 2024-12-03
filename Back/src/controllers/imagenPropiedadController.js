@@ -1,11 +1,9 @@
-const ImagenPropiedad = require('../models/imagenPropiedadModel'); // Modelo Imagen
+const ImagenPropiedad = require('../models/imagenPropiedadModel');
 
-// 1. Obtener todas las imágenes de una propiedad
 const obtenerImagenesPorPropiedad = async (req, res) => {
     const { id_propiedad } = req.params;
 
     try {
-        // Buscar todas las imágenes asociadas a la propiedad
         const imagenes = await ImagenPropiedad.findAll({
             where: { id_propiedad: id_propiedad }
         });

@@ -1,3 +1,5 @@
+const BASE_URL = "http://localhost:3000"
+
 /// <summary>
 /// Calcula el año actual y lo muestra en el elemento con id "year".
 /// </summary>
@@ -126,12 +128,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       if (propiedad) {
         await mostrarPropiedad(propiedad);
-        document.getElementById('filtrar-btn').addEventListener('click', async () => {
-          const propiedades = await obtenerPropiedades();
-          const propiedadesFiltradas = filtrarPropiedades(propiedades);
-          paginaActual = 1;
-          await mostrarPropiedadesFiltradas(propiedadesFiltradas);
-        });
       } else {
         console.error('No se pudo obtener la propiedad');
       }
@@ -181,35 +177,36 @@ document.addEventListener('DOMContentLoaded', async function () {
   navbarRender();
 
 
+  if (window.location.pathname.includes("contacto.html")) {
+    const formulario = document.getElementById('formulario-contacto');
 
-  const formulario = document.getElementById('formulario-contacto');
+    formulario.addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-  formulario.addEventListener('submit', async function (e) {
-    e.preventDefault(); // Evitar que el formulario recargue la página.
+      const formData = new FormData(formulario);
+      const data = Object.fromEntries(formData.entries());
 
-    const formData = new FormData(formulario);
-    const data = Object.fromEntries(formData.entries());
+      try {
+        const response = await fetch(`${BASE_URL}/usuarios/contacto`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
 
-    try {
-      const response = await fetch('https://sp-prograiii-fj7g.onrender.com/usuarios/contacto', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        alert('¡Correo enviado correctamente!');
-        formulario.reset(); // Limpia el formulario después del envío.
-      } else {
-        alert('Hubo un error al enviar el correo. Por favor, intenta nuevamente.');
+        if (response.ok) {
+          alert('¡Correo enviado correctamente!');
+          formulario.reset(); // Limpia el formulario después del envío.
+        } else {
+          alert('Hubo un error al enviar el correo. Por favor, intenta nuevamente.');
+        }
+      } catch (error) {
+        alert('Ocurrió un error inesperado. Por favor, revisa tu conexión.');
+        console.error(error);
       }
-    } catch (error) {
-      alert('Ocurrió un error inesperado. Por favor, revisa tu conexión.');
-      console.error(error);
-    }
-  });
+    });
+  }
 
 
 
