@@ -228,7 +228,7 @@ function resumirTexto(texto, longitudMaxima) {
         : texto;
 }
 
-function mostrarPropiedad(propiedad) {
+async function mostrarPropiedad(propiedad) {
 
     const tituloElement = document.querySelector('#titulo-propiedad');
     const descripcionElement = document.querySelector('#descripcion-propiedad');
@@ -273,7 +273,31 @@ function mostrarPropiedad(propiedad) {
 
         carouselInner.appendChild(carouselItem);
     });
+
+    try {
+        console.log(propiedad.ubicacion);
+        await inicializarMapa(propiedad.ubicacion);
+    } catch (error) {
+        console.error("Error al inicializar el mapa:", error);
+        document.body.innerHTML = "<h1 class='text-center'>Error al cargar el mapa</h1>";
+    }
 }
+
+function inicializarMapa(location) {
+    console.log(location);
+    return new Promise((resolve, reject) => {
+        if (typeof google !== 'undefined' && google.maps) {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: location,
+                zoom: 15,
+            });
+            resolve(map);
+        } else {
+            reject(new Error("Google Maps API is not loaded"));
+        }
+    });
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const btnReserva = document.querySelector('#btn-reserva');
@@ -303,6 +327,12 @@ async function gestionarReserva() {
         return;
     }
 
+    // Preguntar al usuario si está seguro de realizar la reserva
+    const confirmacion = confirm('¿Estás seguro de que deseas realizar esta reserva?');
+    if (!confirmacion) {
+        return; // Si el usuario cancela, no se realiza la reserva
+    }
+
     const usuario = localStorage.getItem('usuario');
     const datosReserva = prepararDatosReserva(propiedad, usuario);
 
@@ -312,6 +342,7 @@ async function gestionarReserva() {
     const reservaExitosa = await crearComprobante(datosReserva);
     if (reservaExitosa) {
         alert('Reserva realizada con éxito');
+        window.location.href = 'reservas.html';
     }
 }
 
@@ -390,3 +421,4 @@ function formatearFecha(date) {
 
     return `${year} /${month}/${day} ${hours}:${minutes}:${seconds} `;
 }
+

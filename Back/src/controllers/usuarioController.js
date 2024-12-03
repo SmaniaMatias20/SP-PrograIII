@@ -20,7 +20,6 @@ const transporter = nodemailer.createTransport({
 const JWT_SECRET = process.env.JWT_SECRET || 'mi_clave_secreta';
 
 async function enviarCorreo(opciones) {
-    console.log('intenta enviar');
     try {
         const info = await transporter.sendMail(opciones);
         return { success: true, info };
@@ -30,7 +29,7 @@ async function enviarCorreo(opciones) {
 }
 
 async function manejarContacto(req, res) {
-    console.log('entra a armar el mail');
+
     const { nombre, email, telefono, mensaje } = req.body;
     const mailOptions = {
         from: email,

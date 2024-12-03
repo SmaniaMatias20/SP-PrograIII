@@ -62,7 +62,7 @@ async function registerUser(usuario, password, role) {
         if (error.response) {
             if (error.response.data.mensaje === 'Error de validación') {
                 let errorDetails = error.response.data.detalles.map(err => err.message).join(', ');
-                registerMessage.textContent = `Errores de validación: ${errorDetails}`;
+                registerMessage.textContent = `${errorDetails}`;
                 registerMessage.style.color = 'red';
             } else {
                 registerMessage.textContent = error.response.data.message || 'Error al registrar el usuario';
