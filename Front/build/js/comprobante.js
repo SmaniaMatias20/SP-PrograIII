@@ -43,12 +43,35 @@ function mostrarComprobantes(comprobantes) {
             <p><strong>Fecha de Reserva:</strong> ${new Date(fecha_reserva).toLocaleString()}</p>
             <p><strong>Precio:</strong> $${precio_propiedad.toLocaleString()}</p>
             <p><strong>Usuario:</strong> ${nombre_usuario}</p>
+            <button class="btn-descargar">Descargar comprobante</button>
             <button class="btn-cancelar" data-id="${id}" id-propiedad=${id_propiedad}>Cancelar Reserva</button>
             <hr />
         `;
 
         listaReservas.appendChild(comprobanteDiv);
+
+        comprobanteDiv.querySelector(".btn-descargar").addEventListener("click", () => {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+    
+            // Agregar contenido al PDF
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(18);
+            pdf.text(`Comprobante de Reserva`, 10, 10);
+    
+            pdf.setFontSize(12);
+            pdf.setFont("helvetica", "normal");
+            pdf.text(`Propiedad: ${titulo_propiedad}`, 10, 30);
+            pdf.text(`Fecha de Reserva: ${new Date(fecha_reserva).toLocaleString()}`, 10, 40);
+            pdf.text(`Precio: $${precio_propiedad.toLocaleString()}`, 10, 50);
+            pdf.text(`Usuario: ${nombre_usuario}`, 10, 60);
+    
+            // Descargar el PDF
+            pdf.save(`comprobante_reserva_${id}.pdf`);
+        });
+        
     });
+
 
     const botonesCancelar = document.querySelectorAll('.btn-cancelar');
     botonesCancelar.forEach(boton => {
