@@ -1,7 +1,7 @@
 const Articulo = require('../models/articuloModel');
 const ImagenArticulo = require('../models/imagenArticuloModel');
 
-// Crear un nuevo artículo
+
 async function crearArticulo(req, res) {
     try {
         const articulo = await Articulo.create(req.body);
@@ -11,46 +11,32 @@ async function crearArticulo(req, res) {
     }
 }
 
-// Obtener todos los artículos
 async function obtenerArticulos(req, res) {
     try {
-        // Base URL para producción
-        const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com'; // Cambia a tu dominio en producción
-
-        // Obtener todos los artículos
+        const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com';
         const articulos = await Articulo.findAll();
-
-        // Obtener las imágenes relacionadas para cada artículo
         const articulosConImagen = [];
 
         for (const articulo of articulos) {
-            // Encontrar las imágenes relacionadas con el artículo
             const imagenes = await ImagenArticulo.findAll({
                 where: { id_articulo: articulo.id },
                 attributes: ['url'],
             });
-
-            // Ajustar las rutas de las imágenes
             const imagenesConRutaCorregida = imagenes.map(imagen => {
-                // Normalizar las barras y corregir la ruta base
                 const rutaPublica = imagen.url
-                    .replace(/\\\\|\\/g, '/') // Reemplaza cualquier combinación de \ o \\ por /
-                    .replace(/\/{2,}/g, '/') // Elimina barras repetidas //
-                    .replace(/^.*?Back\/public\//, `${BASE_URL}/`); // Ajusta la ruta base a la URL pública
+                    .replace(/\\\\|\\/g, '/')
+                    .replace(/\/{2,}/g, '/')
+                    .replace(/^.*?Back\/public\//, `${BASE_URL}/`);
 
-                return { ...imagen.toJSON(), url: rutaPublica }; // Asegurarse de devolver un objeto JSON
+                return { ...imagen.toJSON(), url: rutaPublica };
             });
 
-            // Filtrar solo la imagen principal o asignar null si no hay imágenes
             const imagenPrincipal = imagenesConRutaCorregida.length > 0 ? imagenesConRutaCorregida[0].url : null;
-
-            // Agregar el artículo con la imagen asociada
             articulosConImagen.push({
                 ...articulo.toJSON(),
                 imagen: imagenPrincipal,
             });
 
-            console.log(articulosConImagen);
         }
 
         res.status(200).json(articulosConImagen);
@@ -88,7 +74,7 @@ async function actualizarArticulo(req, res) {
     }
 }
 
-// Eliminar un artículo
+
 async function eliminarArticulo(req, res) {
     try {
         const articulo = await Articulo.findByPk(req.params.id);
@@ -102,7 +88,7 @@ async function eliminarArticulo(req, res) {
     }
 }
 
-// Exporta las funciones en el formato solicitado
+
 module.exports = {
     crearArticulo,
     obtenerArticulos,

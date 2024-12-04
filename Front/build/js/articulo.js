@@ -1,14 +1,13 @@
 async function obtenerArticulos() {
     try {
         // Realizar la solicitud HTTP usando axios
-        const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/articulos/obtenerArticulos', {
+        const response = await axios.get(`${BASE_URL}/articulos/obtenerArticulos`, {
             //const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/articulos/obtenerArticulos', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         });
         const articulos = response.data;
-        console.log(articulos);
         return articulos;
     } catch (error) {
         console.error('Error al obtener los artículos:', error);
@@ -91,7 +90,10 @@ async function mostrarArticulos(cantidad = 4) {
     articulosMostrar.slice(primerIndice, ultimoIndice).forEach((articulo) => {
         const article = document.createElement('article');
         article.classList.add('entrada-blog');
-        const contenidoTexto = resumirTexto(articulo.contenido, 30);
+        let contenidoTexto = articulo.contenido;
+        if (cantidad == 2) {
+            contenidoTexto = resumirTexto(articulo.contenido, 30);
+        }
 
         article.innerHTML = `
             <div class="imagen">

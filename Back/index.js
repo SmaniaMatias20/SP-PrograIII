@@ -45,53 +45,25 @@ const testConnection = async () => {
     }
 };
 
-// (async () => {
-//     try {
-//         await sequelize.query('DROP TABLE IF EXISTS comprobante;');
-//         console.log('Tabla de respaldo eliminada');
-//     } catch (error) {
-//         console.error('Error al eliminar la tabla de respaldo:', error);
-//     }
-// })();
-
-// (async () => {
-//     try {
-//         const [resultados] = await sequelize.query('SELECT * FROM imagen_propiedad;');
-//         console.log('Contenido de la tabla comprobante:', resultados);
-//     } catch (error) {
-//         console.error('Error al obtener los registros de la tabla comprobante:', error);
-//     }
-// })();
-
-// (async () => {
-//     try {
-//         const [resultados] = await sequelize.query('SELECT * FROM imagen_articulo;');
-//         console.log('Contenido de la tabla comprobante:', resultados);
-//     } catch (error) {
-//         console.error('Error al obtener los registros de la tabla comprobante:', error);
-//     }
-// })();
-
-// (async () => {
-//     try {
-//         const [resultados] = await sequelize.query('SELECT * FROM imagen;');
-//         console.log('Contenido de la tabla comprobante:', resultados);
-//     } catch (error) {
-//         console.error('Error al obtener los registros de la tabla comprobante:', error);
-//     }
-// })();
-
+(async () => {
+    try {
+        await sequelize.query('DROP TABLE IF EXISTS propiedad_backup;');
+        console.log('Tabla de respaldo eliminada');
+    } catch (error) {
+        console.error('Error al eliminar la tabla de respaldo:', error);
+    }
+})();
 
 (async () => {
     try {
-        const [results, metadata] = await sequelize.query(
-            'UPDATE propiedad SET reservada = false;'
-        );
-        console.log('Registros actualizados:', metadata.rowCount || results.length);
+        await sequelize.query('DROP TABLE IF EXISTS articulo_backup;');
+        console.log('Tabla de respaldo eliminada');
     } catch (error) {
-        console.error('Error al actualizar la columna "reservada":', error);
+        console.error('Error al eliminar la tabla de respaldo:', error);
     }
 })();
+
+
 
 // Sincronizar modelos con la base de datos
 const syncDatabase = async () => {

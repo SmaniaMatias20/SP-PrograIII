@@ -1,6 +1,8 @@
+
+
 async function obtenerUsuarios() {
     try {
-        const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/usuarios/obtenerUsuarios', {
+        const response = await axios.get(`${BASE_URL}/usuarios/obtenerUsuarios`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -44,7 +46,7 @@ function crearTablaUsuarios(usuarios) {
 
 async function crearUsuario(datosUsuario) {
     try {
-        const response = await axios.post('https://sp-prograiii-fj7g.onrender.com/usuarios/crearUsuario', datosUsuario, {
+        const response = await axios.post(`${BASE_URL}/usuarios/crearUsuario`, datosUsuario, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
@@ -62,7 +64,7 @@ async function crearUsuario(datosUsuario) {
 
 async function actualizarUsuario(id, datosUsuario) {
     try {
-        const response = await axios.put(`https://sp-prograiii-fj7g.onrender.com/usuarios/actualizarUsuario/${id}`, datosUsuario, {
+        const response = await axios.put(`${BASE_URL}/usuarios/actualizarUsuario/${id}`, datosUsuario, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
@@ -80,7 +82,7 @@ async function actualizarUsuario(id, datosUsuario) {
 
 async function eliminarUsuario(id) {
     try {
-        const response = await axios.delete(`https://sp-prograiii-fj7g.onrender.com/usuarios/eliminarUsuario/${id}`, {
+        const response = await axios.delete(`${BASE_URL}/usuarios/eliminarUsuario/${id}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
@@ -105,7 +107,7 @@ function editarUsuario(id) {
     formulario.style.display = 'block';
 
     // Obtener los detalles del usuario desde el backend
-    axios.get(`https://sp-prograiii-fj7g.onrender.com/usuarios/obtenerUsuario/${id}`, {
+    axios.get(`${BASE_URL}/usuarios/obtenerUsuario/${id}`, {
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
         }

@@ -1,7 +1,7 @@
 async function obtenerComprobantesPorNombreUsuario(nombre_usuario) {
     try {
         const respuesta = await axios.get(
-            `https://sp-prograiii-fj7g.onrender.com/comprobantes/usuario/${nombre_usuario}`
+            `${BASE_URL}/comprobantes/usuario/${nombre_usuario}`
         );
 
         const comprobantes = respuesta.data;
@@ -65,7 +65,7 @@ async function cancelarReserva(id_comprobante, id_propiedad) {
         const confirmacion = confirm('¿Estás seguro de que deseas cancelar esta reserva?');
         if (!confirmacion) return;
 
-        const respuesta = await axios.delete(`https://sp-prograiii-fj7g.onrender.com/comprobantes/eliminarComprobante/${id_comprobante}`);
+        const respuesta = await axios.delete(`${BASE_URL}/comprobantes/eliminarComprobante/${id_comprobante}`);
         if (respuesta.status !== 200) {
             throw new Error('Error al eliminar el comprobante.');
         }
@@ -75,7 +75,7 @@ async function cancelarReserva(id_comprobante, id_propiedad) {
         }
         propiedad.reservada = false;
         const respuestaActualizacion = await axios.put(
-            `https://sp-prograiii-fj7g.onrender.com/propiedades/actualizarPropiedad/${id_propiedad}`,
+            `${BASE_URL}/propiedades/actualizarPropiedad/${id_propiedad}`,
             propiedad
         );
         if (respuestaActualizacion.status !== 200) {

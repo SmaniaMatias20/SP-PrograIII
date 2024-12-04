@@ -1,7 +1,7 @@
-const Comprobante = require('../models/comprobanteModel'); // Asegúrate de que esta ruta coincida con la ubicación de tu modelo
+const Comprobante = require('../models/comprobanteModel');
 require('dotenv').config();
 
-// Crear un nuevo comprobante
+
 async function crearComprobante(req, res) {
     try {
         const comprobante = await Comprobante.create(req.body);
@@ -11,7 +11,7 @@ async function crearComprobante(req, res) {
     }
 }
 
-// Obtener todos los comprobantes
+
 async function obtenerComprobantes(req, res) {
     try {
         const comprobantes = await Comprobante.findAll();
@@ -21,7 +21,6 @@ async function obtenerComprobantes(req, res) {
     }
 }
 
-// Obtener un comprobante por ID
 async function obtenerComprobantePorId(req, res) {
     try {
         const comprobante = await Comprobante.findByPk(req.params.id);
@@ -36,10 +35,10 @@ async function obtenerComprobantePorId(req, res) {
 
 async function obtenerComprobantesPorNombreUsuario(req, res) {
     try {
-        const { nombre_usuario } = req.params; // Obtener el nombre_usuario de los parámetros de la ruta
+        const { nombre_usuario } = req.params;
 
         const comprobantes = await Comprobante.findAll({
-            where: { nombre_usuario } // Filtrar por nombre_usuario
+            where: { nombre_usuario }
         });
 
         res.status(200).json(comprobantes);
@@ -48,7 +47,7 @@ async function obtenerComprobantesPorNombreUsuario(req, res) {
     }
 }
 
-// Eliminar un comprobante
+
 async function eliminarComprobante(req, res) {
     try {
         const comprobante = await Comprobante.findByPk(req.params.id);
@@ -62,7 +61,7 @@ async function eliminarComprobante(req, res) {
     }
 }
 
-// Exporta las funciones en el formato solicitado
+
 module.exports = {
     crearComprobante,
     obtenerComprobantes,

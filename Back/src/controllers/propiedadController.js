@@ -53,7 +53,6 @@ async function obtenerPropiedades(req, res) {
                 ...propiedad.toJSON(),
                 imagen: imagenPropiedad ? imagenPropiedad.url : null,
             });
-            console.log(propiedadesConImagen);
         }
 
         res.status(200).json(propiedadesConImagen);
@@ -100,19 +99,6 @@ async function obtenerPropiedadPorId(req, res) {
                 .replace(/^.*?Back\/public\//, `${BASE_URL}/`); // Ajusta la ruta a producción
             return rutaPublica; // Retornamos solo la URL de la imagen
         });
-
-
-
-        // // Ajustar las rutas de las imágenes
-        // const imagenesConRutaCorregida = imagenes.map(imagen => {
-        //     // Normalizar las barras y corregir la ruta base
-        //     const rutaPublica = imagen.url
-        //         .replace(/\\\\|\\/g, '/') // Reemplaza cualquier combinación de \ o \\ por /
-        //         .replace(/\/{2,}/g, '/') // Elimina barras repetidas //
-        //         .replace(/^.*?Back\/public\//, `${BASE_URL}/`); // Ajusta la ruta base a la URL pública
-
-        //     return { ...imagen.toJSON(), url: rutaPublica }; // Asegurarse de devolver un objeto JSON
-        // });
 
         // Responder con la propiedad, los nuevos atributos y las imágenes dentro del objeto propiedad
         res.status(200).json({
