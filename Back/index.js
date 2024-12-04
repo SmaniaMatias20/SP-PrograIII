@@ -63,7 +63,15 @@ const testConnection = async () => {
     }
 })();
 
-
+//al levantar el proyecto dejo todas las propiedades disponibles
+(async () => {
+    try {
+        await sequelize.query('UPDATE propiedad SET reservada = false;');
+        console.log('Todas las propiedades han sido marcadas como no reservadas');
+    } catch (error) {
+        console.error('Error al actualizar las propiedades:', error);
+    }
+})();
 
 // Sincronizar modelos con la base de datos
 const syncDatabase = async () => {

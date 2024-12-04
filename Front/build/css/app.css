@@ -75,10 +75,18 @@
   color: white;
 }
 
-#btn-cancelar {
-  background-color: #f44336;
+.btn-cancelar {
+  background-color: #ff3737;
   /* Botón de cancelar (rojo) */
-  color: white;
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
+}
+
+.btn-descargar {
+  background-color: #2c9ce7;
+  /* Botón de cancelar (rojo) */
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
 }
 
 /* Efecto hover para los botones */
@@ -121,6 +129,7 @@
   padding: 20px;
   margin-bottom: 20px;
   background-color: var(--naranja);
+  border-radius: 10px;
 }
 
 .comprobante-item h3 {
