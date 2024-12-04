@@ -85,7 +85,7 @@ El panel está protegido por autenticación, garantizando que solo los usuarios 
 - **DBeaver**: Herramienta de administración de bases de datos para gestionar y consultar PostgreSQL.
 
 ## Diseño conceptual de la DB
-![Base]() 
+![Base](https://github.com/SmaniaMatias20/SP-PrograIII/blob/master/Front/build/src/readme/db.png) 
 
 ## Conclusión
 El desarrollo del sitio web de bienes raíces fue un proceso enfocado en crear una experiencia de usuario intuitiva y funcional. La selección de elementos de diseño y las funcionalidades implementadas se basaron en las necesidades de los usuarios, garantizando que el sitio no solo sea atractivo, sino también útil y accesible.
