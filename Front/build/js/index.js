@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3000'
+const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com'
 
 
 document.getElementById('loginForm').addEventListener('submit', async function (event) {
