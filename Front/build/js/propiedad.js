@@ -3,7 +3,6 @@ async function obtenerPropiedades() {
     try {
         // Realizar la solicitud HTTP usando axios
         const response = await axios.get(`${BASE_URL}/propiedades/obtenerPropiedades`, {
-            // const response = await axios.get('https://sp-prograiii-fj7g.onrender.com/propiedades/obtenerPropiedades', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -274,7 +273,6 @@ async function mostrarPropiedad(propiedad) {
     });
 
     try {
-        console.log('Ubicación de la propiedad:', propiedad.ubicacion);
         await inicializarMapa(propiedad.ubicacion);
     } catch (error) {
         console.error("Error al inicializar el mapa:", error);
@@ -307,16 +305,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function gestionarReserva() {
     const propiedadId = obtenerPropiedadId();
+    const rol = localStorage.getItem('rol');
+
+    if (rol === 'admin') {
+        alert("Solo los usuarios pueden reservar propiedades");
+        return;
+    }
 
     if (!propiedadId) {
-        console.error('No se encontró el ID de la propiedad');
+        alert("No se encontro el id de la propiedad a reservar");
         return;
     }
 
     const propiedad = await obtenerPropiedadPorId(propiedadId);
 
     if (!propiedad) {
-        console.error('No se encontró la propiedad');
+        alert('No se encontró la propiedad');
         return;
     }
 

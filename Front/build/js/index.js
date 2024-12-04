@@ -16,6 +16,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         if (response.data.success) {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('usuario', usuario);
+            localStorage.setItem('rol', response.data.rol);
             message.style.color = 'green';
             message.textContent = 'Inicio de sesión exitoso';
             window.location.href = 'build/pages/inicio.html';

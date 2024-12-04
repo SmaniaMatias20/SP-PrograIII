@@ -82,7 +82,8 @@ async function iniciarSesion(req, res) {
         res.status(200).json({
             success: true,
             mensaje: 'Inicio de sesión exitoso',
-            token: token
+            token: token,
+            rol: usuarioExistente.rol
         });
     } catch (error) {
         res.status(400).json({ success: false, mensaje: 'Error al iniciar sesión', error: error.message });
