@@ -84,6 +84,9 @@ El panel está protegido por autenticación, garantizando que solo los usuarios 
 - **Postman**: Herramienta para probar y documentar APIs.
 - **DBeaver**: Herramienta de administración de bases de datos para gestionar y consultar PostgreSQL.
 
+## Diseño conceptual de la DB
+![Base]() 
+
 ## Conclusión
 El desarrollo del sitio web de bienes raíces fue un proceso enfocado en crear una experiencia de usuario intuitiva y funcional. La selección de elementos de diseño y las funcionalidades implementadas se basaron en las necesidades de los usuarios, garantizando que el sitio no solo sea atractivo, sino también útil y accesible.
 
