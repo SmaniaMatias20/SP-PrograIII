@@ -1,7 +1,6 @@
 
 async function obtenerPropiedades() {
     try {
-        // Realizar la solicitud HTTP usando axios
         const response = await axios.get(`${BASE_URL}/propiedades/obtenerPropiedades`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -86,7 +85,6 @@ function crearAnuncio(propiedad, key) {
 
 async function obtenerPropiedadPorId(id) {
     try {
-        // Realizar la solicitud HTTP usando axios para obtener la propiedad por su ID
         const response = await axios.get(`${BASE_URL}/propiedades/obtenerPropiedad/${id}`, {
         });
         const propiedad = response.data;
