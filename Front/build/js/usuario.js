@@ -36,8 +36,8 @@ function crearTablaUsuarios(usuarios) {
             <td>${usuario.usuario}</td>
             <td>${usuario.rol}</td>
             <td>
-                <button onclick="editarUsuario(${usuario.id})">Editar</button>
-                <button onclick="eliminarUsuario(${usuario.id})">Eliminar</button>
+                <button onclick="editarUsuario(${usuario.id})" class="editar-btn">Editar</button>
+                <button onclick="eliminarUsuario(${usuario.id})" class="eliminar-btn">Eliminar</button>
             </td>
         `;
         tbody.appendChild(fila);
