@@ -9,9 +9,6 @@ const sequelize = require('./src/config/dbConfig');
 const app = express();
 
 // Middleware para servir imágenes desde la carpeta 'public'
-// Configurar la ruta para servir imágenes desde 'public/anuncios' y 'public/articulos'
-// app.use('/images/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
-// app.use('/images/articulos', express.static(path.join(__dirname, 'public', 'articulos')));
 app.use('/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
 app.use('/articulos', express.static(path.join(__dirname, 'public', 'articulos')));
 
@@ -71,7 +68,6 @@ const testConnection = async () => {
         console.error('Error al actualizar las propiedades:', error);
     }
 })();
-
 
 
 // Sincronizar modelos con la base de datos

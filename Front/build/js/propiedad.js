@@ -45,7 +45,6 @@ function crearAnuncio(propiedad, key) {
     anuncio.classList.add('anuncio');
 
     anuncio.innerHTML = `
-            < picture >
         <source srcset="${propiedad.imagen}" type="image/jpeg" />
         <img src="${propiedad.imagen}" alt="Imagen de la propiedad ${propiedad.titulo}" />
       </picture >
