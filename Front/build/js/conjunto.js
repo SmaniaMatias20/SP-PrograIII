@@ -219,6 +219,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 document.querySelectorAll('.generar-cupon').forEach(boton => {
   boton.addEventListener('click', function () {
     const cupon = 'CUPON-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+    localStorage.setItem('codigoCupon', cupon);
     this.nextElementSibling.textContent = 'Tu código de cupón: ' + cupon;
     alert('Cupón generado: ' + cupon);
   });
