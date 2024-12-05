@@ -3,6 +3,9 @@ const router = express.Router();
 const usuariosControllers = require('../controllers/usuarioController');
 const { verificarToken, tokenAdmin } = require('../middlewares/authMiddleware');
 
+// Ruta para manejar contacto y enviar correos
+router.post("/contacto", usuariosControllers.manejarContacto);
+
 // Ruta para iniciar sesión
 router.post("/iniciarSesion", usuariosControllers.iniciarSesion);
 
@@ -10,7 +13,7 @@ router.post("/iniciarSesion", usuariosControllers.iniciarSesion);
 router.post("/crearUsuario", usuariosControllers.crearUsuario);
 
 // Ruta para listar todos los usuarios (solo admin)
-router.get("/obtenerUsuarios", usuariosControllers.obtenerUsuarios);
+router.get("/obtenerUsuarios", verificarToken, tokenAdmin, usuariosControllers.obtenerUsuarios);
 
 // Ruta para obtener un usuario por ID (solo admin puede hacerlo)
 router.get("/obtenerUsuario/:id", usuariosControllers.obtenerUsuarioPorId);

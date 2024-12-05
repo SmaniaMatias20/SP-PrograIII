@@ -8,12 +8,13 @@ const Comprobante = sequelize.define('comprobante', {
         autoIncrement: true,
         allowNull: false
     },
-    fechaReserva: {
+    fecha_reserva: {
         type: DataTypes.DATE,
         allowNull: false
     },
     id_propiedad: {
         type: DataTypes.INTEGER,
+        unique: true,
         allowNull: false,
     },
     titulo_propiedad: {
@@ -31,12 +32,11 @@ const Comprobante = sequelize.define('comprobante', {
     nombre_usuario: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true, // Esto solo debe ser uno
         validate: {
             notEmpty: true,
         }
     },
-    precio: {
+    precio_propiedad: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     }

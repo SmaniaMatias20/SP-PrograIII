@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:300,400,700,900");
 
+
+
 /* Estilos para el formulario dentro del modal */
 #form-usuario {
   position: fixed;
@@ -73,10 +75,18 @@
   color: white;
 }
 
-#btn-cancelar {
-  background-color: #f44336;
+.btn-cancelar {
+  background-color: #ff3737;
   /* Botón de cancelar (rojo) */
-  color: white;
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
+}
+
+.btn-descargar {
+  background-color: #2c9ce7;
+  /* Botón de cancelar (rojo) */
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
 }
 
 /* Efecto hover para los botones */
@@ -111,6 +121,23 @@
 .modal-close:hover {
   color: #f44336;
   /* Color de cierre en hover */
+}
+
+
+.comprobante-item {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: var(--naranja);
+  border-radius: 10px;
+}
+
+.comprobante-item h3 {
+  margin-top: 0;
+}
+
+.comprobante-item p {
+  margin: 5px 0;
 }
 
 
@@ -649,7 +676,7 @@ h4 {
 }
 
 
-/*********************************************************************************************************************************************************************/
+/***************************************************************************************************************************************************************/
 
 /******************************************************************FOOTER**************************************************************************************/
 .footer {
@@ -1304,8 +1331,89 @@ h4 {
   border-color: #f44336;
 }
 
+/******************************************************************ANUNCIOS**************************************************************************************/
+
+/* Contenedor del formulario */
+.filtros {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  max-width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Etiquetas y selects */
+.filtros label {
+  font-size: 1.2rem;
+  color: #333;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.filtros select {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  color: #555;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  appearance: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.2s ease;
+}
+
+.filtros select:focus {
+  border-color: #6c63ff;
+  outline: none;
+}
+
+/* Botón */
+#filtrar-btn {
+  padding: 0.7rem 1.5rem;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: var(--naranja);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: auto;
+}
+
+#filtrar-btn:hover {
+  background-color: #5753d4;
+}
+
+#filtrar-btn:focus {
+  outline: 2px solid #5753d4;
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filtros {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  #filtrar-btn {
+    margin-left: 0;
+    width: 100%;
+    /* Botón ocupa el ancho completo en pantallas pequeñas */
+  }
+}
 
 
+
+
+/****************************************************************************************************************************************************************/
 @media (min-width: 768px) {
   .derecha {
     align-items: flex-end;

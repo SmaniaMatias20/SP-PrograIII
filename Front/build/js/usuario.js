@@ -1,24 +1,20 @@
-// Función para obtener usuarios desde el backend y devolverlos
+
+
 async function obtenerUsuarios() {
     try {
-        const response = await axios.get('http://localhost:3000/usuarios/obtenerUsuarios', {
+        const response = await axios.get(`${BASE_URL}/usuarios/obtenerUsuarios`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         });
-
-        // Obtener los datos de la respuesta
         const usuarios = response.data;
-
         return usuarios;
-
     } catch (error) {
         console.error('Error al obtener los usuarios:', error);
-        return []; // Retornar un arreglo vacío si hay un error
+        return [];
     }
 }
 
-// Función para crear la tabla con los usuarios
 function crearTablaUsuarios(usuarios) {
     const tablaUsuarios = document.getElementById('tabla-usuarios');
     if (!tablaUsuarios) {
@@ -32,10 +28,7 @@ function crearTablaUsuarios(usuarios) {
         return;
     }
 
-    // Limpiar la tabla antes de llenarla con nuevos datos
     tbody.innerHTML = '';
-
-    // Agregar filas para cada usuario
     usuarios.forEach(usuario => {
         const fila = document.createElement('tr');
         fila.innerHTML = `
@@ -43,26 +36,23 @@ function crearTablaUsuarios(usuarios) {
             <td>${usuario.usuario}</td>
             <td>${usuario.rol}</td>
             <td>
-                <button onclick="editarUsuario(${usuario.id})">Editar</button>
-                <button onclick="eliminarUsuario(${usuario.id})">Eliminar</button>
+                <button onclick="editarUsuario(${usuario.id})" class="editar-btn">Editar</button>
+                <button onclick="eliminarUsuario(${usuario.id})" class="eliminar-btn">Eliminar</button>
             </td>
         `;
         tbody.appendChild(fila);
     });
 }
 
-// Función para crear un nuevo usuario
 async function crearUsuario(datosUsuario) {
     try {
-        const response = await axios.post('http://localhost:3000/usuarios/crearUsuario', datosUsuario, {
+        const response = await axios.post(`${BASE_URL}/usuarios/crearUsuario`, datosUsuario, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
         });
 
         alert('Usuario creado exitosamente');
-
-        // Volver a cargar la tabla de usuarios después de crear uno
         const usuarios = await obtenerUsuarios();
         crearTablaUsuarios(usuarios);
 
@@ -72,18 +62,15 @@ async function crearUsuario(datosUsuario) {
     }
 }
 
-// Función para actualizar un usuario
 async function actualizarUsuario(id, datosUsuario) {
     try {
-        const response = await axios.put(`http://localhost:3000/usuarios/actualizarUsuario/${id}`, datosUsuario, {
+        const response = await axios.put(`${BASE_URL}/usuarios/actualizarUsuario/${id}`, datosUsuario, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
         });
 
         alert('Usuario actualizado exitosamente');
-
-        // Volver a cargar la tabla de usuarios después de actualizar uno
         const usuarios = await obtenerUsuarios();
         crearTablaUsuarios(usuarios);
 
@@ -93,18 +80,15 @@ async function actualizarUsuario(id, datosUsuario) {
     }
 }
 
-// Función para eliminar un usuario
 async function eliminarUsuario(id) {
     try {
-        const response = await axios.delete(`http://localhost:3000/usuarios/eliminarUsuario/${id}`, {
+        const response = await axios.delete(`${BASE_URL}/usuarios/eliminarUsuario/${id}`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
         });
 
         alert('Usuario eliminado exitosamente');
-
-        // Volver a cargar la tabla de usuarios después de eliminar uno
         const usuarios = await obtenerUsuarios();
         crearTablaUsuarios(usuarios);
 
@@ -114,18 +98,16 @@ async function eliminarUsuario(id) {
     }
 }
 
-// Función para cargar un usuario en el formulario de edición
 function editarUsuario(id) {
     const formulario = document.getElementById('form-usuario');
     const usuarioIdInput = document.getElementById('usuario-id');
     const usuarioNombreInput = document.getElementById('usuario-nombre');
     const usuarioRolInput = document.getElementById('usuario-rol');
 
-    // Mostrar el formulario
     formulario.style.display = 'block';
 
     // Obtener los detalles del usuario desde el backend
-    axios.get(`http://localhost:3000/usuarios/obtenerUsuario/${id}`, {
+    axios.get(`${BASE_URL}/usuarios/obtenerUsuario/${id}`, {
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
         }
@@ -135,7 +117,7 @@ function editarUsuario(id) {
             usuarioIdInput.value = usuario.id;
             usuarioNombreInput.value = usuario.usuario;
             usuarioRolInput.value = usuario.rol;
-            formulario.querySelector('button').textContent = 'Actualizar Usuario'; // Cambiar el texto del botón a "Actualizar"
+            formulario.querySelector('button').textContent = 'Actualizar Usuario';
         })
         .catch(error => {
             console.error('Error al obtener el usuario:', error);
@@ -143,9 +125,8 @@ function editarUsuario(id) {
         });
 }
 
-// Función para manejar el envío del formulario de usuario
 document.getElementById('form-usuario').addEventListener('submit', function (event) {
-    event.preventDefault(); // Evitar el comportamiento por defecto del formulario
+    event.preventDefault();
 
     const usuarioId = document.getElementById('usuario-id').value;
     const usuarioNombre = document.getElementById('usuario-nombre').value;
@@ -158,28 +139,20 @@ document.getElementById('form-usuario').addEventListener('submit', function (eve
         password: usuarioPassword
     };
 
-
     if (usuarioId) {
-        // Si hay un ID, actualizar el usuario
         actualizarUsuario(usuarioId, datosUsuario);
     } else {
-        // Si no hay ID, crear un nuevo usuario
         crearUsuario(datosUsuario);
     }
-
-    // Limpiar el formulario después de enviar
     document.getElementById('form-usuario').reset();
-    document.getElementById('usuario-id').value = ''; // Resetear el campo oculto de ID
-
-    // Ocultar el formulario
+    document.getElementById('usuario-id').value = '';
     document.getElementById('form-usuario').style.display = 'none';
 });
 
-// Función para mostrar el formulario de creación de usuario
 document.getElementById('nuevo-usuario').addEventListener('click', function () {
     const formulario = document.getElementById('form-usuario');
-    formulario.style.display = 'block'; // Mostrar el formulario para crear usuario
-    document.getElementById('form-usuario').reset(); // Limpiar el formulario
-    document.getElementById('usuario-id').value = ''; // Resetear el campo oculto de ID
-    document.querySelector('#form-usuario button').textContent = 'Crear Usuario'; // Cambiar el texto del botón
+    formulario.style.display = 'block';
+    document.getElementById('form-usuario').reset();
+    document.getElementById('usuario-id').value = '';
+    document.querySelector('#form-usuario button').textContent = 'Crear Usuario';
 });

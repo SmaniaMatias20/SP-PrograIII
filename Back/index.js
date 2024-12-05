@@ -9,11 +9,8 @@ const sequelize = require('./src/config/dbConfig');
 const app = express();
 
 // Middleware para servir imágenes desde la carpeta 'public'
-// Configurar la ruta para servir imágenes desde 'public/anuncios' y 'public/articulos'
-// app.use('/images/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
-// app.use('/images/articulos', express.static(path.join(__dirname, 'public', 'articulos')));
 app.use('/anuncios', express.static(path.join(__dirname, 'public', 'anuncios')));
-
+app.use('/articulos', express.static(path.join(__dirname, 'public', 'articulos')));
 
 
 // Puerto donde se va a correr el server
@@ -53,6 +50,25 @@ const testConnection = async () => {
         console.error('Error al eliminar la tabla de respaldo:', error);
     }
 })();
+
+(async () => {
+    try {
+        await sequelize.query('DROP TABLE IF EXISTS articulo_backup;');
+        console.log('Tabla de respaldo eliminada');
+    } catch (error) {
+        console.error('Error al eliminar la tabla de respaldo:', error);
+    }
+})();
+
+(async () => {
+    try {
+        await sequelize.query('UPDATE propiedad SET reservada = false;');
+        console.log('Todas las propiedades han sido marcadas como no reservadas');
+    } catch (error) {
+        console.error('Error al actualizar las propiedades:', error);
+    }
+})();
+
 
 // Sincronizar modelos con la base de datos
 const syncDatabase = async () => {
