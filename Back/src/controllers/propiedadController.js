@@ -1,11 +1,15 @@
-const Propiedad = require('../models/propiedadModel'); // Asegúrate de que esta ruta coincida con la ubicación de tu modelo
+const Propiedad = require('../models/propiedadModel');
 const ImagenPropiedad = require('../models/imagenPropiedadModel');
 const { Sequelize } = require('sequelize');
-
 require('dotenv').config();
 
-
-// Crear una nueva propiedad
+/// <summary>
+/// Crea una nueva propiedad con la información proporcionada.
+/// </summary>
+/// <param name="req">El objeto de solicitud que contiene los datos de la propiedad.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar el resultado de la operación.</param>
+/// <returns>Un objeto JSON con un mensaje de éxito y la propiedad creada, o un mensaje de error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al crear la propiedad.</exception>
 async function crearPropiedad(req, res) {
     try {
         const propiedad = await Propiedad.create(req.body);
@@ -15,68 +19,58 @@ async function crearPropiedad(req, res) {
     }
 }
 
+/// <summary>
+/// Obtiene una lista de todas las propiedades con sus imágenes asociadas.
+/// </summary>
+/// <param name="req">El objeto de solicitud.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar las propiedades obtenidas con imágenes o un mensaje de error.</param>
+/// <returns>Un objeto JSON con la lista de propiedades junto con la imagen principal, o un mensaje de error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al obtener las propiedades o sus imágenes.</exception>
 async function obtenerPropiedades(req, res) {
     try {
-        // Base URL para producción
-        const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com'; // Cambia a tu dominio en producción
-
-        // Obtener todas las propiedades
+        const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com';
         const propiedades = await Propiedad.findAll();
-
-        // Obtener las imágenes relacionadas (por id_propiedad) para cada propiedad
         const propiedadesConImagen = [];
 
         for (const propiedad of propiedades) {
-            // Encontrar las imágenes relacionadas con la propiedad
             const imagenes = await ImagenPropiedad.findAll({
                 where: { id_propiedad: propiedad.id },
                 attributes: ['url'],
             });
-
-
-            // Ajustar las rutas de las imágenes
             const imagenesConRutaCorregida = imagenes.map(imagen => {
-                // Normalizar las barras y corregir la ruta base
                 const rutaPublica = imagen.url
-                    .replace(/\\\\|\\/g, '/') // Reemplaza cualquier combinación de \ o \\ por /
-                    .replace(/\/{2,}/g, '/') // Elimina barras repetidas //
-                    .replace(/^.*?Back\/public\//, `${BASE_URL}/`); // Ajusta la ruta base a la URL pública
+                    .replace(/\\\\|\\/g, '/')
+                    .replace(/\/{2,}/g, '/')
+                    .replace(/^.*?Back\/public\//, `${BASE_URL}/`);
 
-                return { ...imagen.toJSON(), url: rutaPublica }; // Asegurarse de devolver un objeto JSON
+                return { ...imagen.toJSON(), url: rutaPublica };
             });
-
-            // Filtrar solo la imagen 'propiedad.jpg'
             const imagenPropiedad = imagenesConRutaCorregida.find(imagen => imagen.url.includes('propiedad.jpg'));
-
-            // Agregar la propiedad con la imagen asociada
             propiedadesConImagen.push({
                 ...propiedad.toJSON(),
                 imagen: imagenPropiedad ? imagenPropiedad.url : null,
             });
         }
-
         res.status(200).json(propiedadesConImagen);
     } catch (error) {
         res.status(500).json({ mensaje: 'Error al obtener las propiedades', error: error.message });
     }
 }
 
-
-
-
-// Obtener una propiedad por ID
+/// <summary>
+/// Obtiene una propiedad específica por su ID, junto con las imágenes asociadas (de baño, cocina y dormitorio).
+/// </summary>
+/// <param name="req">El objeto de solicitud que contiene el ID de la propiedad en los parámetros.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar la propiedad obtenida junto con las imágenes o un mensaje de error.</param>
+/// <returns>Un objeto JSON con los detalles de la propiedad y sus imágenes asociadas, o un mensaje de error si no se encuentra la propiedad o si ocurre un error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al obtener la propiedad o sus imágenes.</exception>
 async function obtenerPropiedadPorId(req, res) {
     try {
-        // Obtener la propiedad por ID
         const propiedad = await Propiedad.findByPk(req.params.id);
         if (!propiedad) {
             return res.status(404).json({ mensaje: 'Propiedad no encontrada' });
         }
-
-        // Base URL para producción
-        const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com'; // Cambia a tu dominio en producción
-
-        // Obtener las imágenes relacionadas con la propiedad
+        const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com';
         const imagenes = await ImagenPropiedad.findAll({
             where: {
                 id_propiedad: propiedad.id,
@@ -91,32 +85,34 @@ async function obtenerPropiedadPorId(req, res) {
             attributes: ['url']
         });
 
-        // Crear un array con las rutas corregidas de las imágenes
         const imagenesUrls = imagenes.map(imagen => {
             const rutaPublica = imagen.url
-                .replace(/\\\\/g, '/') // Corrige las barras invertidas
-                .replace(/\/{2,}/g, '/') // Elimina barras repetidas //
-                .replace(/^.*?Back\/public\//, `${BASE_URL}/`); // Ajusta la ruta a producción
-            return rutaPublica; // Retornamos solo la URL de la imagen
+                .replace(/\\\\/g, '/')
+                .replace(/\/{2,}/g, '/')
+                .replace(/^.*?Back\/public\//, `${BASE_URL}/`);
+            return rutaPublica;
         });
 
-        // Responder con la propiedad, los nuevos atributos y las imágenes dentro del objeto propiedad
         res.status(200).json({
             ...propiedad.toJSON(),
-            sanitarios: propiedad.sanitarios,   // Asegúrate de que este atributo exista en la base de datos
-            estacionamiento: propiedad.estacionamiento, // Asegúrate de que este atributo exista en la base de datos
-            dormitorio: propiedad.dormitorio, // Asegúrate de que este atributo exista en la base de datos
-            reservada: propiedad.reservada,  // Asegúrate de que este atributo exista en la base de datos
-            imagenes: imagenesUrls // Aquí incluimos las imágenes dentro de la propiedad
+            sanitarios: propiedad.sanitarios,
+            estacionamiento: propiedad.estacionamiento,
+            dormitorio: propiedad.dormitorio,
+            reservada: propiedad.reservada,
+            imagenes: imagenesUrls
         });
     } catch (error) {
         res.status(500).json({ mensaje: 'Error al obtener la propiedad', error: error.message });
     }
 }
 
-
-
-// Actualizar una propiedad
+/// <summary>
+/// Actualiza los detalles de una propiedad específica por su ID.
+/// </summary>
+/// <param name="req">El objeto de solicitud que contiene los datos de la propiedad a actualizar y el ID en los parámetros.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar el resultado de la operación.</param>
+/// <returns>Un objeto JSON con un mensaje de éxito y la propiedad actualizada, o un mensaje de error si no se encuentra la propiedad o si ocurre un error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al actualizar la propiedad.</exception>
 async function actualizarPropiedad(req, res) {
     try {
         const propiedad = await Propiedad.findByPk(req.params.id);
@@ -130,7 +126,13 @@ async function actualizarPropiedad(req, res) {
     }
 }
 
-// Eliminar una propiedad
+/// <summary>
+/// Elimina una propiedad específica por su ID.
+/// </summary>
+/// <param name="req">El objeto de solicitud que contiene el ID de la propiedad a eliminar en los parámetros.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar el resultado de la operación.</param>
+/// <returns>Un objeto JSON con un mensaje de éxito, o un mensaje de error si no se encuentra la propiedad o si ocurre un error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al eliminar la propiedad.</exception>
 async function eliminarPropiedad(req, res) {
     try {
         const propiedad = await Propiedad.findByPk(req.params.id);
@@ -144,7 +146,6 @@ async function eliminarPropiedad(req, res) {
     }
 }
 
-// Exporta las funciones en el formato solicitado
 module.exports = {
     crearPropiedad,
     obtenerPropiedades,

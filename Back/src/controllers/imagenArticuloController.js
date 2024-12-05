@@ -1,6 +1,12 @@
 const ImagenArticulo = require('../models/imagenArticuloModel');
 
-
+/// <summary>
+/// Obtiene una lista de imágenes asociadas a un artículo específico por su ID.
+/// </summary>
+/// <param name="req">El objeto de solicitud que contiene el ID del artículo en los parámetros.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar las imágenes obtenidas o un mensaje de error.</param>
+/// <returns>Un objeto JSON con las imágenes asociadas al artículo, o un mensaje de error si no se encuentran imágenes o si ocurre un error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al obtener las imágenes.</exception>
 const obtenerImagenesPorArticulo = async (req, res) => {
     const { id_articulo } = req.params;
 

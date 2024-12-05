@@ -1,5 +1,13 @@
 const ImagenPropiedad = require('../models/imagenPropiedadModel');
 
+
+/// <summary>
+/// Obtiene una lista de imágenes asociadas a una propiedad específica por su ID.
+/// </summary>
+/// <param name="req">El objeto de solicitud que contiene el ID de la propiedad en los parámetros.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar las imágenes obtenidas o un mensaje de error.</param>
+/// <returns>Un objeto JSON con las imágenes asociadas a la propiedad, o un mensaje de error si no se encuentran imágenes o si ocurre un error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al obtener las imágenes.</exception>
 const obtenerImagenesPorPropiedad = async (req, res) => {
     const { id_propiedad } = req.params;
 

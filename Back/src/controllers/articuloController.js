@@ -1,7 +1,13 @@
 const Articulo = require('../models/articuloModel');
 const ImagenArticulo = require('../models/imagenArticuloModel');
 
-
+/// <summary>
+/// Crea un nuevo artículo con la información proporcionada.
+/// </summary>
+/// <param name="req">El objeto de solicitud que contiene los datos del artículo.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar el resultado de la operación.</param>
+/// <returns>Un objeto JSON con un mensaje de éxito y el artículo creado, o un mensaje de error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al crear el artículo.</exception>
 async function crearArticulo(req, res) {
     try {
         const articulo = await Articulo.create(req.body);
@@ -11,6 +17,13 @@ async function crearArticulo(req, res) {
     }
 }
 
+/// <summary>
+/// Obtiene una lista de artículos, incluyendo sus imágenes con rutas corregidas.
+/// </summary>
+/// <param name="req">El objeto de solicitud.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar los artículos obtenidos.</param>
+/// <returns>Un objeto JSON con una lista de artículos y sus imágenes asociadas, o un mensaje de error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al obtener los artículos o procesar sus imágenes.</exception>
 async function obtenerArticulos(req, res) {
     try {
         const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com';
@@ -46,8 +59,13 @@ async function obtenerArticulos(req, res) {
     }
 }
 
-
-// Obtener un artículo por ID
+/// <summary>
+/// Obtiene un artículo específico por su ID.
+/// </summary>
+/// <param name="req">El objeto de solicitud que contiene el ID del artículo en los parámetros.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar el artículo obtenido o un mensaje de error.</param>
+/// <returns>Un objeto JSON con el artículo solicitado, o un mensaje indicando que no fue encontrado o hubo un error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al buscar el artículo.</exception>
 async function obtenerArticuloPorId(req, res) {
     try {
         const articulo = await Articulo.findByPk(req.params.id);
@@ -60,7 +78,15 @@ async function obtenerArticuloPorId(req, res) {
     }
 }
 
-// Actualizar un artículo
+
+
+/// <summary>
+/// Obtiene un artículo específico por su ID.
+/// </summary>
+/// <param name="req">El objeto de solicitud que contiene el ID del artículo en los parámetros.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar el artículo obtenido o un mensaje de error.</param>
+/// <returns>Un objeto JSON con el artículo solicitado, o un mensaje indicando que no fue encontrado o hubo un error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al buscar el artículo.</exception>
 async function actualizarArticulo(req, res) {
     try {
         const articulo = await Articulo.findByPk(req.params.id);
@@ -74,7 +100,13 @@ async function actualizarArticulo(req, res) {
     }
 }
 
-
+/// <summary>
+/// Elimina un artículo específico por su ID.
+/// </summary>
+/// <param name="req">El objeto de solicitud que contiene el ID del artículo en los parámetros.</param>
+/// <param name="res">El objeto de respuesta utilizado para enviar el resultado de la operación.</param>
+/// <returns>Un objeto JSON con un mensaje de éxito si el artículo se elimina correctamente, o un mensaje de error.</returns>
+/// <exception cref="Exception">Lanzada si ocurre un error al buscar o eliminar el artículo.</exception>
 async function eliminarArticulo(req, res) {
     try {
         const articulo = await Articulo.findByPk(req.params.id);
@@ -87,7 +119,6 @@ async function eliminarArticulo(req, res) {
         res.status(500).json({ mensaje: 'Error al eliminar el artículo', error: error.message });
     }
 }
-
 
 module.exports = {
     crearArticulo,
