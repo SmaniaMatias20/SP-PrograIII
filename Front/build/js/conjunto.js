@@ -1,4 +1,4 @@
-const BASE_URL = "https://sp-prograiii-fj7g.onrender.com"
+const BASE_URL = "http://localhost:3000"
 
 /// <summary>
 /// Calcula el año actual y lo muestra en el elemento con id "year".
@@ -219,6 +219,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 document.querySelectorAll('.generar-cupon').forEach(boton => {
   boton.addEventListener('click', function () {
     const cupon = 'CUPON-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+    localStorage.setItem('codigoCupon', cupon);
     this.nextElementSibling.textContent = 'Tu código de cupón: ' + cupon;
     alert('Cupón generado: ' + cupon);
   });

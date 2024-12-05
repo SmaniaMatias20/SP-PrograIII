@@ -41,11 +41,13 @@ function mostrarComprobantes(comprobantes) {
             <h3>Comprobante de Reserva - ${titulo_propiedad}</h3>
             <p><strong>Propiedad:</strong> ${titulo_propiedad}</p>
             <p><strong>Fecha de Reserva:</strong> ${new Date(fecha_reserva).toLocaleString()}</p>
-            <p><strong>Precio:</strong> $${precio_propiedad.toLocaleString()}</p>
+            <p id="precio-original"><strong>Precio:</strong> $${precio_propiedad.toLocaleString()}</p>
             <p><strong>Usuario:</strong> ${nombre_usuario}</p>
             <button class="btn-descargar">Descargar comprobante</button>
             <button class="btn-cancelar" data-id="${id}" id-propiedad=${id_propiedad}>Cancelar Reserva</button>
+            <a href="../pages/contacto.html" class="boton-verde">Contactar para finalizar la compra</a>
             <hr />
+            
         `;
 
         listaReservas.appendChild(comprobanteDiv);
@@ -54,20 +56,40 @@ function mostrarComprobantes(comprobantes) {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
     
+            pdf.setLineWidth(1); // Grosor del borde
+            pdf.setDrawColor(0, 0, 0); // Color negro para el borde
+            pdf.rect(5, 5, 200, 287); // Coordenadas (x, y) y tamaño (ancho, alto)
+
             // Agregar contenido al PDF
             pdf.setFont("helvetica", "bold");
             pdf.setFontSize(18);
-            pdf.text(`Comprobante de Reserva`, 10, 10);
-    
+            pdf.text(`Comprobante de Reserva`, 10, 15);
+            pdf.text(`----------------------------------------------`, 10, 20);
             pdf.setFontSize(12);
             pdf.setFont("helvetica", "normal");
             pdf.text(`Propiedad: ${titulo_propiedad}`, 10, 30);
             pdf.text(`Fecha de Reserva: ${new Date(fecha_reserva).toLocaleString()}`, 10, 40);
-            pdf.text(`Precio: $${precio_propiedad.toLocaleString()}`, 10, 50);
+            pdf.text(`Precio Original: $${precio_propiedad.toLocaleString()}`, 10, 50);
             pdf.text(`Usuario: ${nombre_usuario}`, 10, 60);
     
             // Descargar el PDF
             pdf.save(`comprobante_reserva_${id}.pdf`);
+        });
+
+        document.getElementById('btn-aplicar-cupon').addEventListener('click', () => {
+            const codigoCuponIngresado = document.getElementById('codigo-cupon').value.trim();
+            const codigoCuponGuardado = localStorage.getItem('codigoCupon'); 
+            const descuento = 0.1; //10% de descuento
+        
+            if (codigoCuponIngresado === codigoCuponGuardado) {
+                const precioConDescuento = (precio_propiedad * (1 - descuento)).toFixed(2);
+                comprobanteDiv.querySelector('#precio-original').innerHTML = 
+                `<strong>Precio con descuento de cupón:</strong> $${Number(precioConDescuento).toLocaleString()}`;
+            }
+            else 
+            {
+                alert("El código de cupón no es válido o ha expirado.");
+            }
         });
         
     });
@@ -82,6 +104,8 @@ function mostrarComprobantes(comprobantes) {
         });
     });
 }
+
+
 
 async function cancelarReserva(id_comprobante, id_propiedad) {
     try {

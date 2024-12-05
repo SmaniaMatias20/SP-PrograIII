@@ -1,4 +1,4 @@
-const BASE_URL = 'https://sp-prograiii-fj7g.onrender.com'
+const BASE_URL = 'http://localhost:3000'
 
 
 document.getElementById('loginForm').addEventListener('submit', async function (event) {
@@ -47,6 +47,10 @@ async function registerUser(usuario, password, role) {
         if (response.data.mensaje === 'Usuario creado exitosamente') {
             registerMessage.textContent = 'Registro exitoso';
             registerMessage.style.color = 'green';
+            setTimeout(() => {
+                document.querySelector('.login-container').style.display = 'block';
+                document.querySelector('.register-container').style.display = 'none';
+            }, 1500);
         } else {
             registerMessage.textContent = response.data.message || 'El usuario ya existe';
             registerMessage.style.color = 'red';
