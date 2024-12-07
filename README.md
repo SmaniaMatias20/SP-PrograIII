@@ -94,4 +94,18 @@ Cabe aclarar que existe una **versión alternativa del proyecto** realizada util
 
 En resumen, con SQLite, el sitio web puede ser utilizado directamente desde el enlace proporcionado, sin complicaciones adicionales para los usuarios finales.
 
+## Inicio sesión / Registro
+
+Para iniciar sesión como admin...
+
+usuario: matias
+contraseña: 123456789
+
+Para iniciar sesión como usuario...
+
+usuario: usuario
+contraseña: 123456789
+
+Cuenta con la posibilidad de registrarse si necesita.
+
 
